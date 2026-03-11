@@ -21,6 +21,9 @@ Goal: support implementations of "CSAF 2.0 to CSAF 2.1 Converter"
 Tests come from
 [CSAF v2.1 draft - development version - 9.1.18 Conformance Clause 18](https://github.com/oasis-tcs/csaf/blob/master/csaf_2.1/prose/share/csaf-v2.1-draft.md#conformance-clause-18-csaf-2-0-to-csaf-2-1-converter)
 
+Running `prototype_runtests.py` will execute some hardcoded things
+to experiment which data structure and interfaces are necessary.
+
 ### considerations
 
 A typical run imagined:
