@@ -33,6 +33,8 @@ def next_major_revision(last_revision_number: str) -> str:
     '4'
     >>> next_major_revision('1.12.3')
     '2.12.3'
+    >>> next_major_revision('0.0.100-pre10+build2')
+    '1.0.100-pre10+build2'
     """
     if VERSION_INT_REGEXP.fullmatch(last_revision_number):
         return str(int(last_revision_number) + 1)
@@ -68,8 +70,10 @@ def main(filename_str):
         "namespace": "https://github.com/csaf-testsuite/csaf-2.0-to-csaf-2.1",
         }
 
+    # prefix for new id
     id_prefix = "testcase-" + datetime.datetime.utcnow().strftime(
-            "%Y%m%d-%H%M%S-")
+            #"%Y%m%d-%H%M%S-")
+            "%Y%m%d-%H%M-")
 
     # tracking section: bump version and put old publisher in revision summary
     dt = d["tracking"]
