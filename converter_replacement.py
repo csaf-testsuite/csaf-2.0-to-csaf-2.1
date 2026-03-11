@@ -34,10 +34,13 @@ def main(input_filename, output_filename):
     warnings = []
     errors = []
 
-    additional_property_name = "x_test"
+    # 9.1.18 Conformance Clause 18: CSAF 2.0 to CSAF 2.1 Converter
+    # toplevel requirement
+    additional_property_name = "x_test_q7VQf"
     if additional_property_name in d:
         warnings.append(
-            f"found the additional property `{additional_property_name}`"
+            f"found an additional property `{additional_property_name}`"
+            " which will be not converted."
             )
         del d[additional_property_name]
 

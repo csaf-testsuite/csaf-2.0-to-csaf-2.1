@@ -23,13 +23,13 @@
             {
                 "category": "self",
                 "summary": "plausible looking links to this specific run",
-                "url": "https://github.com/csaf-testsuite/csaf-2.0-to-csaf-2.1/tmp/testcase-20260310-1501-isduba-2026-001"
+                "url": "https://github.com/csaf-testsuite/csaf-2.0-to-csaf-2.1/tmp/testcase-20260311-1512-isduba-2026-001"
             }
         ],
         "title": "does not integrate Ivanti Endpoint Manager Mobile (EPMM)",
         "tracking": {
-            "current_release_date": "2026-03-10T15:01:53Z",
-            "id": "testcase-20260310-1501-isduba-2026-001",
+            "current_release_date": "2026-03-11T15:12:17Z",
+            "id": "testcase-20260311-1512-isduba-2026-001",
             "initial_release_date": "2026-02-12T14:42:00.000Z",
             "revision_history": [
                 {
@@ -38,7 +38,7 @@
                     "summary": "Initial revision"
                 },
                 {
-                    "date": "2026-03-10T15:01:53Z",
+                    "date": "2026-03-11T15:12:17Z",
                     "number": "2.0.0",
                     "summary": "created a test version from isduba-2026-001 from publisher: {\"category\": \"vendor\", \"contact_details\": \"See contact points at https://github.com/ISDuBA\", \"name\": \"ISDuBA Dev team\", \"namespace\": \"https://github.com/ISDuBA\"}"
                 }
@@ -46,7 +46,7 @@
             "status": "final",
             "version": "2.0.0"
         },
-        "x_test": true
+        "x_test_q7VQf": true
     },
     "product_tree": {
         "branches": [

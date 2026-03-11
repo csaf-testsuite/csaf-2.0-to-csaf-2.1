@@ -112,7 +112,7 @@ def main(filename_str):
 
     # do modification
     print(f"adding an _additional property_")
-    d["x_test"] = True
+    d["x_test_q7VQf"] = True
 
     print(f"writing {new_filename}")
     with open(new_filename, "wt",  encoding="utf-8") as file:
