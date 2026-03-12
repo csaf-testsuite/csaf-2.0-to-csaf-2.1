@@ -16,6 +16,7 @@ SPDX-License-Identifier: Apache-2.0
 SPDX-FileCopyrightText: 2026 German Federal Office for Information Security (BSI) <https://www.bsi.bund.de>
 Software-Engineering: 2026 Intevation GmbH <https://intevation.de>
 """
+from copy import deepcopy
 import datetime
 import json
 from pathlib import Path
@@ -48,13 +49,11 @@ def rfc3339now():
     return datetime.datetime.utcnow().isoformat(timespec='seconds') + "Z"
 
 
-def main(filename_str):
-    filename = Path(filename_str)
-    print(f"reading {filename}")
+def modify1(csaf_doc: dict, filename: str, test_no:int) -> (dict, str):
+    """Modifies a csaf document (as python dict) and calculates new id.
 
-    with open(filename, "rt", encoding="utf-8") as file:
-        csaf_doc = json.load(file)
-
+    Returns (pointer) to the old and dict and new filename.
+    """
     # for easier access
     d = csaf_doc["document"]
     p = csaf_doc.get("product_tree", None)  # optional
@@ -71,9 +70,8 @@ def main(filename_str):
         }
 
     # prefix for new id
-    id_prefix = "testcase-" + datetime.datetime.utcnow().strftime(
-            #"%Y%m%d-%H%M%S-")
-            "%Y%m%d-%H%M-")
+    id_prefix = f"testcase-{test_no}-" \
+                + datetime.datetime.utcnow().strftime("%Y%m%d-%H%M-")
 
     # tracking section: bump version and put old publisher in revision summary
     dt = d["tracking"]
@@ -81,7 +79,6 @@ def main(filename_str):
     new_id = id_prefix + old_id
 
     new_version = next_major_revision(dt["version"])
-
 
     dt["current_release_date"] = now
     dt["id"] = new_id
@@ -102,7 +99,7 @@ def main(filename_str):
 
     d["references"].append({
         "category": "self",
-        "summary": "plausible looking links to this specific run",
+        "summary": "plausible looking link to this specific run",
         "url": "https://github.com/csaf-testsuite/csaf-2.0-to-csaf-2.1/tmp/" \
                 + new_id,
         })
@@ -110,13 +107,39 @@ def main(filename_str):
     new_filename = Path(filename).parent / \
                    Path(id_prefix + Path(filename).name)
 
-    # do modification
+
+    return csaf_doc, new_filename
+
+
+def main(filename_str):
+    filename = Path(filename_str)
+    print(f"reading {filename}")
+
+    with open(filename, "rt", encoding="utf-8") as file:
+        csaf_doc = json.load(file)
+
+    # test 1 additional property
+    new_csaf_doc, new_filename = modify1(deepcopy(csaf_doc), filename, 1)
+
     print(f"adding an _additional property_")
-    d["x_test_q7VQf"] = True
+    new_csaf_doc["document"]["x_test_q7VQf"] = True
 
     print(f"writing {new_filename}")
     with open(new_filename, "wt",  encoding="utf-8") as file:
-        json.dump(csaf_doc, file, indent=4, sort_keys=True)
+        json.dump(new_csaf_doc, file, indent=4, sort_keys=True)
+        file.write("\n")  # write final line termination character
+
+    # test 2 leap second
+    new_csaf_doc, new_filename = modify1(deepcopy(csaf_doc), filename, 2)
+
+    rh=new_csaf_doc["document"]["tracking"]["revision_history"]
+    rh[0]["date"] = "2016-12-31T23:59:60Z" # a valid leap second
+    if len(rh) > 2:
+        rh[1]["date"] = "2026-12-31T23:59:60Z" # an invalid
+
+    print(f"writing {new_filename}")
+    with open(new_filename, "wt",  encoding="utf-8") as file:
+        json.dump(new_csaf_doc, file, indent=4, sort_keys=True)
         file.write("\n")  # write final line termination character
 
 if __name__ == "__main__":
