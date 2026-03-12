@@ -40,12 +40,22 @@ def check_testcase1(csaf_doc, returncode, messages) -> bool:
 
 def check_testcase2(csaf_doc, returncode, messages) -> bool:
     rh = csaf_doc["document"]["tracking"]["revision_history"]
+
+    if returncode > 0:
+        return False
+
     for rev in rh:
         if rev["date"].endswith(":60Z"):
             return False
 
-    if rev[0]["date"].endswith(":59.999999Z"):
-        return True
+    if not rh[0]["date"].endswith(":59.999999Z"):
+        return False
+
+    if "warnings" in messages:
+        for w in messages["warnings"]:
+            if w.find("valid leap second") and w.find("prohibited") \
+                    and w.find("replaced"):
+                return True
 
     return False
 

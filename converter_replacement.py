@@ -47,6 +47,22 @@ def main(input_filename, output_filename):
     #errors.append("could not create a valid products tree "
     #              "with _invalid path_, _original_ and _new value:")
 
+
+    rh = d["tracking"]["revision_history"]
+
+    for rev in rh:
+        if rev["date"].endswith("T23:59:60Z"):
+            status = "valid"
+            if rev["date"] != "2016-12-31T23:59:60Z":
+                status = "invalid"
+
+            warnings.append(
+                    f"Found {status} leap second date-time {rev['date']}, "
+                    "replaced it, because leap seconds are probited "
+                    "in CSAF 2.1."
+                )
+            rev["date"] = rev["date"][:-3] + "59.999999Z"
+
     messages = {}
     if len(errors) > 0:
         messages["errors"] = errors
