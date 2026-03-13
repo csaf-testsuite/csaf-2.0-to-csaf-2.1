@@ -101,7 +101,7 @@ def modify1(csaf_doc: dict, filename: str, test_no:int) -> (dict, str):
         "category": "self",
         "summary": "plausible looking link to this specific run",
         "url": "https://github.com/csaf-testsuite/csaf-2.0-to-csaf-2.1/tmp/" \
-                + new_id,
+                + new_id + ".json",
         })
 
     new_filename = Path(filename).parent / \
@@ -109,6 +109,15 @@ def modify1(csaf_doc: dict, filename: str, test_no:int) -> (dict, str):
 
 
     return csaf_doc, new_filename
+
+
+def _write_csaf_doc(filename, csaf_doc):
+    print(f"writing {filename}")
+    with open(filename, "wt",  encoding="utf-8") as file:
+        json.dump(csaf_doc, file, indent=4, sort_keys=True)
+        # write final line termination character, which json.dump does not,
+        # but which is necessary to be a text file according to POSIX.
+        file.write("\n")
 
 
 def main(filename_str):
@@ -120,27 +129,50 @@ def main(filename_str):
 
     # test 1 additional property
     new_csaf_doc, new_filename = modify1(deepcopy(csaf_doc), filename, 1)
-
-    print(f"adding an _additional property_")
     new_csaf_doc["document"]["x_test_q7VQf"] = True
-
-    print(f"writing {new_filename}")
-    with open(new_filename, "wt",  encoding="utf-8") as file:
-        json.dump(new_csaf_doc, file, indent=4, sort_keys=True)
-        file.write("\n")  # write final line termination character
+    _write_csaf_doc(new_filename, new_csaf_doc)
 
     # test 2 leap second
     new_csaf_doc, new_filename = modify1(deepcopy(csaf_doc), filename, 2)
-
-    rh=new_csaf_doc["document"]["tracking"]["revision_history"]
+    rh = new_csaf_doc["document"]["tracking"]["revision_history"]
     rh[0]["date"] = "2016-12-31T23:59:60Z" # a valid leap second
     if len(rh) > 2:
         rh[1]["date"] = "2026-12-31T23:59:60Z" # an invalid
+    _write_csaf_doc(new_filename, new_csaf_doc)
 
-    print(f"writing {new_filename}")
-    with open(new_filename, "wt",  encoding="utf-8") as file:
-        json.dump(new_csaf_doc, file, indent=4, sort_keys=True)
-        file.write("\n")  # write final line termination character
+    # test 3 branch category "legacy"
+    new_csaf_doc, new_filename = modify1(deepcopy(csaf_doc), filename, 3)
+    pb = new_csaf_doc["product_tree"]["branches"]
+    pb.append({
+        "category": "legacy",
+        "name": "the attic for OurProduct",
+        "branches": [{
+            "category": "product_version",
+            "name": "0.23.0",
+            "product": {
+                "name": "OurProduct outdated",
+                "product_id": "ourproduct_old",
+                },
+            }],
+        })
+
+    # attempt to reference the old product
+    if "vulnerabilities" in new_csaf_doc \
+            and len(new_csaf_doc["vulnerabilities"]) > 0:
+        vul1 = new_csaf_doc["vulnerabilities"][0]
+        print(vul1)
+        if "flags" in vul1 and len(vul1["flags"]) > 0:
+            flags1 = vul1["flags"][0]
+            if "product_ids" in flags1:
+                flags1["product_ids"].append("ourproduct_old")
+
+        if "product_status" in vul1:
+            ps =  vul1["product_status"]
+            if "known_not_affected" in ps:
+                ps["known_not_affected"].append("ourproduct_old")
+
+    _write_csaf_doc(new_filename, new_csaf_doc)
+
 
 if __name__ == "__main__":
     main(sys.argv[1])
