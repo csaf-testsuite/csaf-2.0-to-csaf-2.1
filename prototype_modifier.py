@@ -160,7 +160,6 @@ def main(filename_str):
     if "vulnerabilities" in new_csaf_doc \
             and len(new_csaf_doc["vulnerabilities"]) > 0:
         vul1 = new_csaf_doc["vulnerabilities"][0]
-        print(vul1)
         if "flags" in vul1 and len(vul1["flags"]) > 0:
             flags1 = vul1["flags"][0]
             if "product_ids" in flags1:

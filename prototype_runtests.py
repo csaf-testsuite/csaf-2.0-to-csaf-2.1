@@ -15,6 +15,7 @@ import tempfile
 
 _tests = ["input/testcase-1-20260311-1512-isduba-2026-001.json",
           "input/testcase-2-20260312-1651-isduba-2025-01.json",
+          "input/testcase-3-20260313-1429-isduba-2026-001.json",
           ]
 
 _CONV_BINARY = "./converter_replacement.py"
@@ -60,6 +61,50 @@ def check_testcase2(csaf_doc, returncode, messages) -> bool:
     return False
 
 
+def find_descendants(csaf_object, key) -> list:
+    """Search dicts and lists based object tree like from json.load() for key.
+
+    Return list of values.
+
+    Works recursively
+
+    >>> o = { "c": "l", "b": [{"c":2,"d":3},{"e":4,"c":5}]}
+    >>> find_descendants(o, "c")
+    ['l', 2, 5]
+    """
+    found = []
+    if type(csaf_object) == dict:
+        if key in csaf_object:
+            found.append(csaf_object[key])
+        for v in csaf_object.values():
+            if type(v) in [dict,list]:
+                found.extend(find_descendants(v, key))
+    elif type(csaf_object) == list:
+        for v in csaf_object:
+            if type(v) in [dict,list]:
+                found.extend(find_descendants(v, key))
+    return found
+
+
+def check_testcase3(csaf_doc, returncode, messages) -> bool:
+    if returncode > 0:
+        return False
+
+    p = csaf_doc["product_tree"]
+    category_values = find_descendants(p, "category")
+
+    if "legacy" in category_values:
+        return False
+
+    #TODO check if changed to category is product_name
+
+    if "warnings" in messages:
+        for w in messages["warnings"]:
+            if w.find("replaced") and w.find("legacy") \
+                    and w.find("product_name"):
+                return True
+
+
 def run_test(test, resultdir_name) -> bool:
     output_filename = resultdir_name + "/tmp-out.json"
     completed_process = run([_CONV_BINARY, test, output_filename],
@@ -80,6 +125,9 @@ def run_test(test, resultdir_name) -> bool:
                                 messages)
     if "testcase-2" in test:
          return check_testcase2(output_csaf_doc, completed_process.returncode,
+                                messages)
+    if "testcase-3" in test:
+         return check_testcase3(output_csaf_doc, completed_process.returncode,
                                 messages)
 
     return False
