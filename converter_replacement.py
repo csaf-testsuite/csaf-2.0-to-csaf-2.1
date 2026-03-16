@@ -27,13 +27,14 @@ def main(input_filename, output_filename):
 
     # for easier access
     d = csaf_doc["document"]
+    p = csaf_doc["product_tree"]
 
     d["csaf_version"] = "2.1"
-
 
     warnings = []
     errors = []
 
+    ## transformation 1
     # 9.1.18 Conformance Clause 18: CSAF 2.0 to CSAF 2.1 Converter
     # toplevel requirement
     additional_property_name = "x_test_q7VQf"
@@ -48,6 +49,10 @@ def main(input_filename, output_filename):
     #              "with _invalid path_, _original_ and _new value:")
 
 
+    ## transformation 2
+    # 9.1.18 Conformance Clause 18: CSAF 2.0 to CSAF 2.1 Converter
+    # "Secondly" requirement: leap seconds
+    # Out test case only has them in the revision history
     rh = d["tracking"]["revision_history"]
 
     for rev in rh:
@@ -63,6 +68,21 @@ def main(input_filename, output_filename):
                 )
             rev["date"] = rev["date"][:-3] + "59.999999Z"
 
+    ## transformation 3
+    #  "Secondly" requirement: product_tree branch category legacy
+
+    # our testcase-3 has it in the first list
+    for n,b in enumerate(p["branches"]):
+        if b["category"] == "legacy":
+             b["category"] = "product_name"
+             warnings.append(
+                     "found `legacy` as "
+                     f"`$.product_tree.branches[{n}].category` "
+                     "and replaced it with `product_name`."
+                     " Manually check that this the correct category."
+                     )
+
+    ## prepare diagnostic messages
     messages = {}
     if len(errors) > 0:
         messages["errors"] = errors
@@ -73,7 +93,7 @@ def main(input_filename, output_filename):
     sys.stderr.write("\n")  # write final line termination character
 
     if len(errors) > 0:
-        print("aborting because of error")
+        print("aborting because of errors")
         sys.exit(1)
 
     with open(output_filename, "wt",  encoding="utf-8") as file:

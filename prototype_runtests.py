@@ -96,13 +96,20 @@ def check_testcase3(csaf_doc, returncode, messages) -> bool:
     if "legacy" in category_values:
         return False
 
-    #TODO check if changed to category is product_name
+    #check if changed to category is product_name
+    found_transformed = False
+    for b in p["branches"]:
+        if b["name"] == "the attic for OurProduct" \
+                and b["category"] == "product_name":
+            found_transformed = True
 
-    if "warnings" in messages:
+    if found_transformed and "warnings" in messages:
         for w in messages["warnings"]:
             if w.find("replaced") and w.find("legacy") \
                     and w.find("product_name"):
                 return True
+
+    return False
 
 
 def run_test(test, resultdir_name) -> bool:
