@@ -173,5 +173,23 @@ def main(filename_str):
     _write_csaf_doc(new_filename, new_csaf_doc)
 
 
+    # test 4 branches_t category appears multiple times along a path
+    new_csaf_doc, new_filename = modify1(deepcopy(csaf_doc), filename, 4)
+    pb = new_csaf_doc["product_tree"]["branches"]
+
+    for i in range(len(pb)):
+        org_branch = pb[i]
+        if org_branch["category"] != 'product_family':
+            new_branch = {
+                 "category": org_branch["category"],
+                 "name":  "super "+ org_branch["name"],
+                 "branches": [org_branch],
+                 }
+            pb[i] = new_branch
+            break
+
+    _write_csaf_doc(new_filename, new_csaf_doc)
+
+
 if __name__ == "__main__":
     main(sys.argv[1])
