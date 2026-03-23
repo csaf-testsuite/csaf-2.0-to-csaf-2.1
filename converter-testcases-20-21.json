@@ -1,0 +1,21 @@
+{
+    "input_csaf_revision": "2.0-errata01",
+    "output_csaf_revision": "2.1-cs02-20260314",
+    "converter_tests" : [
+        { "input": "testcase-4-20260323-1146-isduba-2025-01.json",
+          "asserts": [
+              { "type": "error",
+                "substring_matches" : [
+                    "category", "vendor", "invalid product tree",
+                    "detected", "stacked branch", "detected"
+                    ],
+                "comment": "must mention category `vendor` in error message"
+              },
+              { "type": "success",
+                "value" : false
+              },
+          "desc": "Converter cannot create a valid product tree by itself."
+          ]
+        }
+    ]
+}
