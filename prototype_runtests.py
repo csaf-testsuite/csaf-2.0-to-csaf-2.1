@@ -112,9 +112,72 @@ def check_testcase3(csaf_doc, returncode, messages) -> bool:
     return False
 
 
+def check_all_substrs_in(substrs: list, msgs: list) -> bool:
+    """Check if all substrings are in one of the list of messages.
+
+    Both lists must have at least one entry.
+
+    >>> check_all_substrs_in(None, ["abc"])
+    False
+    >>> check_all_substrs_in([],["abc"])
+    False
+    >>> check_all_substrs_in(["a"],[])
+    False
+    >>> check_all_substrs_in(["a"],None)
+    False
+    >>> check_all_substrs_in(["b"],["abc"])
+    True
+    >>> check_all_substrs_in(["a","b"],["def","abc"])
+    True
+    """
+    if not substrs or not msgs:
+        return False
+
+    for msg in msgs:
+        missed_a_substring = False
+        for substr in substrs:
+            if substr not in msg:
+                missed_a_substring = True
+        if not missed_a_substring:
+            return True
+
+    return False
+
+
+def check_json_test(test: dict, csaf_doc, returncode: int, messages) -> bool:
+    """Check test result specified in converter-testcases-20-21 format.
+    """
+
+    for condition in test["asserts"]:
+        if condition["type"] == "errormsg":
+            if "substring_matches" in condition:
+                result = check_all_substrs_in(
+                            condition.get("substring_matches"),
+                            messages.get("errors"))
+
+                if not result:
+                    return False
+
+        if condition["type"] == "success":
+            return condition["value"] == (returncode == 0)
+
+        raise RuntimeError(
+            f'condition["type"] == {condition["type"]} not implemented')
+
+
 def run_test(test, resultdir_name) -> bool:
+
+    test_from_json =  type(test) == dict
+
+
+    if test_from_json:
+        input_filename = test["input"]
+    else:
+        input_filename = test
+
+
     output_filename = resultdir_name + "/tmp-out.json"
-    completed_process = run([_CONV_BINARY, test, output_filename],
+    completed_process = run([_CONV_BINARY, input_filename, output_filename],
                             capture_output=True, universal_newlines=True)
 
     print(completed_process)
@@ -127,25 +190,34 @@ def run_test(test, resultdir_name) -> bool:
     with open(output_filename, "rt", encoding="utf-8") as file:
         output_csaf_doc = json.load(file)
 
-    if "testcase-1" in test:
-         return check_testcase1(output_csaf_doc, completed_process.returncode,
-                                messages)
-    if "testcase-2" in test:
-         return check_testcase2(output_csaf_doc, completed_process.returncode,
-                                messages)
-    if "testcase-3" in test:
-         return check_testcase3(output_csaf_doc, completed_process.returncode,
-                                messages)
+    if not test_from_json:
+        if "testcase-1" in test:
+            return check_testcase1(
+                output_csaf_doc, completed_process.returncode, messages)
+        if "testcase-2" in test:
+            return check_testcase2(
+                output_csaf_doc, completed_process.returncode, messages)
+        if "testcase-3" in test:
+            return check_testcase3(
+                output_csaf_doc, completed_process.returncode, messages)
+    else:
+        return check_json_test(
+            test, output_csaf_doc, completed_process.returncode, messages)
 
     return False
 
 
-def main():
-    results = []
+def load_tests(filename):
+    with open(filename, "rt",  encoding="utf-8") as file:
+        return json.load(file)
 
+def main():
+    tests = load_tests("./converter-testcases-20-21.json")
+
+    results = []
     # using a result directory that is automatically removed
     with tempfile.TemporaryDirectory() as resultdir_name:
-        for test in _tests:
+        for test in _tests + tests["converter_tests"]:
             results.append(run_test(test, resultdir_name))
 
     print(f"Run {len(results)} test(s)...")
