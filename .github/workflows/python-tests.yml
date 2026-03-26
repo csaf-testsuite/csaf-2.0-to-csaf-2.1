@@ -18,7 +18,7 @@ jobs:
           python -m pip install .
       - name: Run doctests
         # will fail if any doctest fails
-        run: python -m doctests *.py
+        run: python -m doctest *.py
       - name: Run prototype_runtests.py
         # will fail with python runtime or syntax error or exit code >0
         run: ./prototype_runtests.py
