@@ -202,7 +202,7 @@ def run_test(test, resultdir_name) -> bool:
     test_from_json =  type(test) == dict
 
     if test_from_json:
-        input_filename = test["input"]
+        input_filename = "input/" + test["input"]
     else:
         input_filename = test
 

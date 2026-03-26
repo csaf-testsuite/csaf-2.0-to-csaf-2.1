@@ -2,7 +2,7 @@
     "input_csaf_revision": "2.0-errata01",
     "output_csaf_revision": "2.1-cs02",
     "converter_tests" : [
-        { "input": "input/testcase-1-20260311-1512-isduba-2026-001.json",
+        { "input": "testcase-1-20260311-1512-isduba-2026-001.json",
           "desc": "testing the removal of an additional property",
           "asserts" : [
               { "type": "warningmsg",
