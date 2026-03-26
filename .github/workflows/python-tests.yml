@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 German Federal Office for Information Security (BSI) <https://www.bsi.bund.de>
+#Software-Engineering: 2026 Intevation GmbH <https://intevation.de>
+
+name: Python tools run and test
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+      - run: |
+          python -m pip install --upgrade pip
+          python -m pip install .
+      - name: Run doctests
+        # will fail if any doctest fails
+        run: python -m doctests *.py
+      - name: Run prototype_runtests.py
+        # will fail with python runtime or syntax error or exit code >0
+        run: ./prototype_runtests.py
+
