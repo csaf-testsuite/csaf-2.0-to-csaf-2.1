@@ -177,8 +177,12 @@ def check_json_test(test: dict, csaf_doc, returncode: int, messages) -> bool:
                     return False
 
         elif condition["type"] == "jsonpath":
-            print(f"jp.match('{condition['query']}', csaf_doc):{jp.match(condition['query'], csaf_doc)}")
-            if jp.match(condition["query"], csaf_doc) != condition["expected_result"]:
+            jsonpath_expr = jp.parse(condition["query"])
+            print(f"jsonpath_expr = {jsonpath_expr}; "
+                  "jsonpath_expr.find(csaf_doc) = "
+                  f"{jsonpath_expr.find(csaf_doc)}")
+
+            if jsonpath_expr.find(csaf_doc) != condition["expected_result"]:
                 return False
 
 
