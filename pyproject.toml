@@ -3,9 +3,24 @@
 #Software-Engineering: 2026 Intevation GmbH <https://intevation.de>
 
 [project]
+name = "csaf-20-to-21-converter-test-tools"
+dynamic = ["version"]
 dependencies = [
   # needed for prototype_runtests.py
   "jsonpath_ng>=1.7.0"
   # the predecssor jsonpath_rw_ext is tried alternatively, however there does
   # not seem to be an obvious way to give it as alternative dependency
 ]
+
+# we do not really want to build and distribute something for this repo
+# (but still declare dependencies in a most useful way for automation,
+#  in a way that does not introduce further dependencies)
+# so we use pip as it is in python and comes with python itself
+# and until https://github.com/pypa/pip/issues/11440 (Add --only-deps [..])
+# is solved, we disable the discovery for the build step
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = []
