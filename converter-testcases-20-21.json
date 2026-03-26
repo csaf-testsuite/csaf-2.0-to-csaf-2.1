@@ -2,10 +2,27 @@
     "input_csaf_revision": "2.0-errata01",
     "output_csaf_revision": "2.1-cs02",
     "converter_tests" : [
+        { "input": "input/testcase-1-20260311-1512-isduba-2026-001.json",
+          "desc": "testing the removal of an additional property",
+          "asserts" : [
+              { "type": "warningmsg",
+                "substring_matches": ["additional property", "not converted"]
+              },
+              { "type": "jsonpath",
+                "query": "$.document.x_test_q7VQf",
+                "expected_result": []
+              },
+              { "type": "success",
+                "value" : true
+              }
+          ]
+        },
+
         { "input": "testcase-4-20260323-1146-isduba-2025-01.json",
+          "desc": "Converter cannot create a valid product tree by itself.",
           "asserts": [
               { "type": "errormsg",
-                "substring_matches" : [
+                "substring_matches": [
                     "category", "vendor", "invalid product tree",
                     "detected", "stacked branch", "detected"
                     ],
@@ -14,8 +31,7 @@
               { "type": "success",
                 "value" : false
               }
-          ],
-          "desc": "Converter cannot create a valid product tree by itself."
+          ]
         }
     ]
 }

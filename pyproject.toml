@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 German Federal Office for Information Security (BSI) <https://www.bsi.bund.de>
+#Software-Engineering: 2026 Intevation GmbH <https://intevation.de>
+
+[project]
+dependencies = [
+  # needed for prototype_runtests.py
+  "jsonpath_ng>=1.7.0"
+  # the predecssor jsonpath_rw_ext is tried alternatively, however there does
+  # not seem to be an obvious way to give it as alternative dependency
+]

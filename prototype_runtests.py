@@ -13,6 +13,11 @@ from subprocess import run
 import sys
 import tempfile
 
+try:
+    import jsonpath_ng.ext as jp
+except ImportError:
+    import jsonpath_rw_ext as jp
+
 _tests = ["input/testcase-1-20260311-1512-isduba-2026-001.json",
           "input/testcase-2-20260312-1651-isduba-2025-01.json",
           "input/testcase-3-20260313-1429-isduba-2026-001.json",
@@ -113,7 +118,14 @@ def check_testcase3(csaf_doc, returncode, messages) -> bool:
 
 
 def check_all_substrs_in(substrs: list, msgs: list) -> bool:
-    """Check if all substrings are in one of the list of messages.
+    """Check if all substrings are in one of the messages.
+
+    >>> check_all_substrs_in(["b"],["abc"])
+    True
+    >>> check_all_substrs_in(["f","d"],["abc","def"])
+    True
+    >>> check_all_substrs_in(["a","d"],["abc","def"])
+    False
 
     Both lists must have at least one entry.
 
@@ -125,10 +137,6 @@ def check_all_substrs_in(substrs: list, msgs: list) -> bool:
     False
     >>> check_all_substrs_in(["a"],None)
     False
-    >>> check_all_substrs_in(["b"],["abc"])
-    True
-    >>> check_all_substrs_in(["a","b"],["def","abc"])
-    True
     """
     if not substrs or not msgs:
         return False
@@ -148,6 +156,7 @@ def check_json_test(test: dict, csaf_doc, returncode: int, messages) -> bool:
     """Check test result specified in converter-testcases-20-21 format.
     """
 
+    # once a single check fails we can directly return False
     for condition in test["asserts"]:
         if condition["type"] == "errormsg":
             if "substring_matches" in condition:
@@ -158,17 +167,35 @@ def check_json_test(test: dict, csaf_doc, returncode: int, messages) -> bool:
                 if not result:
                     return False
 
-        if condition["type"] == "success":
-            return condition["value"] == (returncode == 0)
+        elif condition["type"] == "warningmsg":
+            if "substring_matches" in condition:
+                result = check_all_substrs_in(
+                            condition.get("substring_matches"),
+                            messages.get("warnings"))
 
-        raise RuntimeError(
-            f'condition["type"] == {condition["type"]} not implemented')
+                if not result:
+                    return False
+
+        elif condition["type"] == "jsonpath":
+            print(f"jp.match('{condition['query']}', csaf_doc):{jp.match(condition['query'], csaf_doc)}")
+            if jp.match(condition["query"], csaf_doc) != condition["expected_result"]:
+                return False
+
+
+        elif condition["type"] == "success":
+            if not condition["value"] == (returncode == 0):
+                return False
+
+        else:
+            raise RuntimeError(
+                f'condition["type"] == {condition["type"]} not implemented')
+
+    # all checks were good
+    return True
 
 
 def run_test(test, resultdir_name) -> bool:
-
     test_from_json =  type(test) == dict
-
 
     if test_from_json:
         input_filename = test["input"]
@@ -219,6 +246,7 @@ def main():
     with tempfile.TemporaryDirectory() as resultdir_name:
         for test in _tests + tests["converter_tests"]:
             results.append(run_test(test, resultdir_name))
+            print()
 
     print(f"Run {len(results)} test(s)...")
     print("Results:", repr(results))
