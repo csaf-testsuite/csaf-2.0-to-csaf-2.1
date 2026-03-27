@@ -63,7 +63,7 @@ def main(input_filename, output_filename):
 
             warnings.append(
                     f"Found {status} leap second date-time {rev['date']}, "
-                    "replaced it, because leap seconds are probited "
+                    "replaced it, because leap seconds are prohibited "
                     "in CSAF 2.1."
                 )
             rev["date"] = rev["date"][:-3] + "59.999999Z"
