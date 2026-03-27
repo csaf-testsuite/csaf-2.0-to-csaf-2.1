@@ -18,6 +18,22 @@
           ]
         },
 
+        { "input": "testcase-2-20260312-1651-isduba-2025-01.json",
+          "asserts" : [
+              { "type": "warningmsg",
+                "substring_matches": [
+                    "valid leap second", "prohibited", "replaced"]
+              },
+              { "type": "jsonpath",
+                "query": "$..[?search(@.date, ':60Z$')].date",
+                "expected_result": []
+              },
+              { "type": "success",
+                "value" : true
+              }
+          ]
+        },
+
         { "input": "testcase-4-20260323-1146-isduba-2025-01.json",
           "desc": "Converter cannot create a valid product tree by itself.",
           "asserts": [

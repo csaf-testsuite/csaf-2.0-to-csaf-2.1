@@ -7,16 +7,13 @@ Software-Engineering: 2026 Intevation GmbH <https://intevation.de>
 """
 import datetime
 import json
+import jsonpath_rfc9535
 from pathlib import Path
 import re
 from subprocess import run
 import sys
 import tempfile
 
-try:
-    import jsonpath_ng.ext as jp
-except ImportError:
-    import jsonpath_rw_ext as jp
 
 _tests = ["input/testcase-1-20260311-1512-isduba-2026-001.json",
           "input/testcase-2-20260312-1651-isduba-2025-01.json",
@@ -178,12 +175,12 @@ def check_json_test(test: dict, csaf_doc, returncode: int, messages) -> bool:
                     return False
 
         elif condition["type"] == "jsonpath":
-            jsonpath_expr = jp.parse(condition["query"])
-            print(f"jsonpath_expr = {jsonpath_expr}; "
-                  "jsonpath_expr.find(csaf_doc) = "
-                  f"{jsonpath_expr.find(csaf_doc)}")
 
-            if jsonpath_expr.find(csaf_doc) != condition["expected_result"]:
+            nodes = jsonpath_rfc9535.find(condition['query'], csaf_doc)
+            print(f"jsonpath_rfc9535.find({condition['query']}, csaf_doc) == "
+                  f"{nodes}")
+
+            if nodes != condition["expected_result"]:
                 return False
 
 

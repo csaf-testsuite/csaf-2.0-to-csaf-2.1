@@ -7,9 +7,7 @@ name = "csaf-20-to-21-converter-test-tools"
 dynamic = ["version"]
 dependencies = [
   # needed for prototype_runtests.py
-  "jsonpath_ng>=1.7.0"
-  # the predecssor jsonpath_rw_ext is tried alternatively, however there does
-  # not seem to be an obvious way to give it as alternative dependency
+  "jsonpath-rfc9535>=1.0.0"
 ]
 
 # we do not really want to build and distribute something for this repo
