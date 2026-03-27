@@ -34,6 +34,27 @@
           ]
         },
 
+        { "input": "testcase-3-20260313-1429-isduba-2026-001.json",
+          "desc": "replace product category legacy",
+          "asserts" : [
+              { "type": "warningmsg",
+                "substring_matches": [
+                    "replaced", "legacy", "product_name"]
+              },
+              { "type": "jsonpath",
+                "query": "$.product_tree.branches..[?(@.category=='legacy')]",
+                "expected_result": []
+              },
+              { "type": "jsonpath",
+                "query": "$.product_tree.branches..[?(@.name=='the attic for OurProduct')].category",
+                "expected_result": ["product_name"]
+              },
+              { "type": "success",
+                "value" : true
+              }
+          ]
+        },
+
         { "input": "testcase-4-20260323-1146-isduba-2025-01.json",
           "desc": "Converter cannot create a valid product tree by itself.",
           "asserts": [

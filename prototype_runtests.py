@@ -180,7 +180,7 @@ def check_json_test(test: dict, csaf_doc, returncode: int, messages) -> bool:
             print(f"jsonpath_rfc9535.find({condition['query']}, csaf_doc) == "
                   f"{nodes}")
 
-            if nodes != condition["expected_result"]:
+            if nodes.values() != condition["expected_result"]:
                 return False
 
 
