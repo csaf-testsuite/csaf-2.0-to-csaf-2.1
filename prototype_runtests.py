@@ -38,7 +38,8 @@ def check_testcase1(csaf_doc, returncode, messages) -> bool:
     # toplevel requirement
     if returncode == 0 and "warnings" in messages:
         for w in messages["warnings"]:
-            if w.find("additional property") >= 0 and w.find("not converted") >=0:
+            if w.find("additional property") >= 0 and \
+                    w.find("not converted") >=0:
                 return True
 
     return False
@@ -59,8 +60,8 @@ def check_testcase2(csaf_doc, returncode, messages) -> bool:
 
     if "warnings" in messages:
         for w in messages["warnings"]:
-            if w.find("valid leap second") and w.find("prohibited") \
-                    and w.find("replaced"):
+            if w.find("valid leap second") >=0 and w.find("prohibited") >=0 \
+                    and w.find("replaced") >=0:
                 return True
 
     return False
@@ -110,8 +111,8 @@ def check_testcase3(csaf_doc, returncode, messages) -> bool:
 
     if found_transformed and "warnings" in messages:
         for w in messages["warnings"]:
-            if w.find("replaced") and w.find("legacy") \
-                    and w.find("product_name"):
+            if w.find("replaced") >=0  and w.find("legacy") >=0 \
+                    and w.find("product_name") >=0:
                 return True
 
     return False
