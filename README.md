@@ -25,7 +25,7 @@ Running `prototype_runtests.py` will execute some hardcoded things
 to experiment which data structures and interfaces are necessary.
 
 
-### 'input/'
+### `input/`
 .. has CSAF 2.0 files.
 
 There is one original file `isduba-2026-001.json`.
@@ -74,7 +74,14 @@ A typical run of testing a converter imagined:
    (by using external CSAF validators).
    If the validators fail the mandatory tests, the converter failed.
 
+
 ### format of `converter-testcases-20-21.json`
 
-**TODO**
+JSONPath [RFC 9535](https://www.rfc-editor.org/rfc/rfc9535) is used
+as _query language_ to give the expected results.
 
+The test runner implementation therefor needs an RFC 9535 compliant library.
+(Spoiler: python3-jsonpatch-ng is _not_. When in doubt, there is a
+[compliance test suite](https://github.com/jsonpath-standard/jsonpath-compliance-test-suite).)
+
+**TODO**
