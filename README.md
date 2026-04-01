@@ -30,7 +30,7 @@ to experiment which data structures and interfaces are necessary.
 
 There is one original file `isduba-2026-001.json`.
 
-The testcases were created
+Most other testcases were created
 by runing `prototype_modifier.py` on this or other original files.
 
 Each time the original is linked as
@@ -74,14 +74,36 @@ A typical run of testing a converter imagined:
    (by using external CSAF validators).
    If the validators fail the mandatory tests, the converter failed.
 
+### discovered invariants
+
+A number of invariants could be tested on all converter results.
+They are given by a JSONPath pattern and expected output. Examples:
+
+```json
+{ "type": "jsonpath",
+   "query": "$..[?search(@.date, ':60[Z+-]')].date",
+   "expected_result": [],
+   "comment": "The I-Regular expression given in the JSONPath will match all leap seconds that can appear related to software, according to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones (checked 2026-03-31), as Dublin Mean Time (UTC−00:25:21) was abolished 1916."
+}
+```
+
+```json
+{ "type": "jsonpath",
+  "query": "$.product_tree.branches..[?(@.category=='legacy')]",
+  "expected_result": []
+}
+```
+
+
 
 ### format of `converter-testcases-20-21.json`
 
 JSONPath [RFC 9535](https://www.rfc-editor.org/rfc/rfc9535) is used
-as _query language_ to give the expected results.
+as _query language_ to give the expected results for the `"type": "jsonpath"`
+asserts.
 
 The test runner implementation therefor needs an RFC 9535 compliant library.
-(Spoiler: python3-jsonpatch-ng is _not_. When in doubt, there is a
+(Spoiler: python3-jsonpatch-ng is _not_ on of those. When in doubt, there is a
 [compliance test suite](https://github.com/jsonpath-standard/jsonpath-compliance-test-suite).)
 
 **TODO**

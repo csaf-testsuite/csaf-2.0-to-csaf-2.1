@@ -25,8 +25,9 @@
                     "valid leap second", "prohibited", "replaced"]
               },
               { "type": "jsonpath",
-                "query": "$..[?search(@.date, ':60Z$')].date",
-                "expected_result": []
+                "query": "$..[?search(@.date, ':60[Z+-]')].date",
+                "expected_result": [],
+                "comment": "The I-Regular expression given in the JSONPath will match all leap seconds that can appear related to software, according to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones (checked 2026-03-31), as Dublin Mean Time (UTC−00:25:21) was abolished 1916."
               },
               { "type": "success",
                 "value" : true
@@ -67,6 +68,31 @@
               },
               { "type": "success",
                 "value" : false
+              }
+          ]
+        },
+
+        { "input": "testcase-4-2-20260323-1146-isduba-2025-01.json",
+          "desc": "The category 'vendor' appears three time in the same path (aka 'it is stacked'). Two names are in the list to be removed, so this can be resolved.",
+          "asserts": [
+              { "type": "warningmsg",
+                "substring_matches": [
+                    "category", "vendor", "invalid product tree",
+                    "detected", "stacked branch", "detected",
+                    "resolved"
+                    ],
+                "comment": "must mention problematic stacked category `vendor` "
+              },
+              { "type": "jsonpath",
+                "query": "$.product_tree.branches..[?(@.name=='Open Source')]",
+                "expected_result": []
+              },
+              { "type": "jsonpath",
+                "query": "$.product_tree.branches..[?(@.name=='NOASSERTION')]",
+                "expected_result": []
+              },
+              { "type": "success",
+                "value" : true
               }
           ]
         }
