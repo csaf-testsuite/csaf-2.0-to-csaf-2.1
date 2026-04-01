@@ -6,6 +6,7 @@ SPDX-FileCopyrightText: 2026 German Federal Office for Information Security (BSI
 Software-Engineering: 2026 Intevation GmbH <https://intevation.de>
 """
 import datetime
+from enum import Enum
 import json
 import jsonpath_rfc9535
 from pathlib import Path
@@ -195,15 +196,25 @@ def check_json_test(test: dict, csaf_doc, returncode: int, messages) -> bool:
     # all checks were good
     return True
 
+class RequirementLevel(Enum):
+    MUST = 1
+    SHALL = 1
+    SHOULD = 2
+    MAY = 3
 
-def run_test(test, resultdir_name) -> bool:
-    test_from_json =  type(test) == dict
+
+def run_test(test, resultdir_name) -> (bool, RequirementLevel):
+    test_from_json = type(test) == dict
+    requirement_level = RequirementLevel.MUST  # default for both test types
 
     if test_from_json:
         input_filename = "input/" + test["input"]
+        if "other_requirement_level" in test:
+            if orl := getattr(
+                    RequirementLevel, test["other_requirement_level"], None):
+                requirement_level = orl
     else:
         input_filename = test
-
 
     output_filename = resultdir_name + "/tmp-out.json"
     completed_process = run([_CONV_BINARY, input_filename, output_filename],
@@ -221,17 +232,32 @@ def run_test(test, resultdir_name) -> bool:
 
     if not test_from_json:
         if "testcase-1" in test:
-            return check_testcase1(
-                output_csaf_doc, completed_process.returncode, messages)
+            return (check_testcase1(
+                       output_csaf_doc,
+                       completed_process.returncode,
+                       messages
+                   ), requirement_level)
+
         if "testcase-2" in test:
-            return check_testcase2(
-                output_csaf_doc, completed_process.returncode, messages)
+            return (check_testcase2(
+                       output_csaf_doc,
+                       completed_process.returncode,
+                       messages
+                   ), requirement_level)
+
         if "testcase-3" in test:
-            return check_testcase3(
-                output_csaf_doc, completed_process.returncode, messages)
+            return (check_testcase3(
+                       output_csaf_doc,
+                       completed_process.returncode,
+                       messages
+                   ), requirement_level)
     else:
-        return check_json_test(
-            test, output_csaf_doc, completed_process.returncode, messages)
+        return (check_json_test(
+                    test,
+                    output_csaf_doc,
+                    completed_process.returncode,
+                    messages
+                ), requirement_level)
 
     return False
 

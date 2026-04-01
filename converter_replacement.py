@@ -82,6 +82,14 @@ def main(input_filename, output_filename):
                      " Manually check that this the correct category."
                      )
 
+    ## warning /document/publisher/category == "other"
+    if d["publisher"]["category"] == "other":
+        warnings.append(
+                "found the /document/publisher/category to be `other`. "
+                "Please note some publisher have been regrouped into the "
+                "new category `multiplier`."
+                )
+
     ## prepare diagnostic messages
     messages = {}
     if len(errors) > 0:

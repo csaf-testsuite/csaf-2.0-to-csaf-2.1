@@ -94,8 +94,6 @@ They are given by a JSONPath pattern and expected output. Examples:
 }
 ```
 
-
-
 ### format of `converter-testcases-20-21.json`
 
 JSONPath [RFC 9535](https://www.rfc-editor.org/rfc/rfc9535) is used
@@ -105,5 +103,8 @@ asserts.
 The test runner implementation therefor needs an RFC 9535 compliant library.
 (Spoiler: python3-jsonpatch-ng is _not_ on of those. When in doubt, there is a
 [compliance test suite](https://github.com/jsonpath-standard/jsonpath-compliance-test-suite).)
+
+The `other_requirement_level" is optional to specify if the test
+`MUST`, `SHOULD` or `MAY` succeed; when missing it is "MUST".
 
 **TODO**
