@@ -12,17 +12,19 @@
 # csaf-2.0-to-csaf-2.1
 Test data for the CSAF 2.0 to CSAF 2.1 conversion
 
-**in development**
-
 Goal: support implementations of "CSAF 2.0 to CSAF 2.1 Converter"
       by making tests available for testing this conformance profile.
 
+**in development**
+
+Some experimental tests are specified in `converter-testcases-20-21.json`,
+which draw on input files from `input/`.
 
 Tests come from
 [CSAF v2.1 draft - development version - 9.1.18 Conformance Clause 18](https://github.com/oasis-tcs/csaf/blob/master/csaf_2.1/prose/share/csaf-v2.1-draft.md#conformance-clause-18-csaf-2-0-to-csaf-2-1-converter)
 
-Running `prototype_runtests.py` will execute some hardcoded things
-to experiment which data structures and interfaces are necessary.
+`prototype_runtests.py` is an experimental test runner to demonstrate
+how a runner could work.
 
 
 ### `input/`
@@ -31,7 +33,9 @@ to experiment which data structures and interfaces are necessary.
 There is one original file `isduba-2026-001.json`.
 
 Most other testcases were created
-by runing `prototype_modifier.py` on this or other original files.
+by running `prototype_modifier.py` on this or other original files.
+(It was easier to construct good testcase by manipulating
+existing CSAF 2.0 documents programmatically.)
 
 Each time the original is linked as
 `$.document.references[?(@.category=='external')]`.
@@ -53,8 +57,8 @@ warnings and errors as a list of strings.
   "errors":   [] }
 ```
 
-This is implemented in `converter_replacement.py`, which does
-a few hardcoded things like a converter would.
+This is implemented in `converter_replacement.py`, which is a prototype
+that does a few hardcoded things like a converter might.
 
 
 ### considerations
@@ -73,6 +77,7 @@ A typical run of testing a converter imagined:
 4. Check that the output file is a valid CSAF 2.1 document
    (by using external CSAF validators).
    If the validators fail the mandatory tests, the converter failed.
+
 
 ### discovered invariants
 
