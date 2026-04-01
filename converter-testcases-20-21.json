@@ -56,7 +56,7 @@
         },
 
         { "input": "testcase-4-20260323-1146-isduba-2025-01.json",
-          "desc": "Converter cannot create a valid product tree by itself.",
+          "desc": "Converter cannot create a valid product tree by itself.\nThe category 'vendor' appears twice in the same path (aka it is stacked). Both names are not in the list to be removed by 9.1.18 transformation rules.",
           "asserts": [
               { "type": "errormsg",
                 "substring_matches": [
