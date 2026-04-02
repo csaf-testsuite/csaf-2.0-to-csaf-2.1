@@ -62,7 +62,7 @@
               { "type": "errormsg",
                 "substring_matches": [
                     "category", "vendor", "invalid product tree",
-                    "detected", "stacked branch", "detected"
+                    "detected", "stacked branch"
                     ],
                 "comment": "must mention problematic stacked category `vendor` in error message"
               },
@@ -78,8 +78,7 @@
               { "type": "warningmsg",
                 "substring_matches": [
                     "category", "vendor", "invalid product tree",
-                    "detected", "stacked branch", "detected",
-                    "resolved"
+                    "detected", "stacked branch", "resolved"
                     ],
                 "comment": "must mention problematic stacked category `vendor` "
               },
