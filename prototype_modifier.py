@@ -134,10 +134,14 @@ def main(filename_str):
 
     # test 2 leap second
     new_csaf_doc, new_filename = modify1(deepcopy(csaf_doc), filename, 2)
+    leap_second = "2016-12-31T23:59:60Z"  # a valid one
+
+    new_csaf_doc["document"]["tracking"]["initial_release_date"] = leap_second
     rh = new_csaf_doc["document"]["tracking"]["revision_history"]
-    rh[0]["date"] = "2016-12-31T23:59:60Z" # a valid leap second
+    rh[0]["date"] = leap_second
+
     if len(rh) > 2:
-        rh[1]["date"] = "2026-12-31T23:59:60Z" # an invalid
+        rh[1]["date"] = "2020-12-31T23:59:60Z" # an invalid
     _write_csaf_doc(new_filename, new_csaf_doc)
 
     # test 3 branch category "legacy"

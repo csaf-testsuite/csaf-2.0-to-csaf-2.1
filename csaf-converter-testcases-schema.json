@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/csaf-testsuite/csaf-2.0-to-csaf-2.1/csaf-converter-testcases-schema.json",
   "title": "CSAF converter tests specification (schema)",
-  "description": "Specifies testcases to test CSAF converters. Developed for CSAF 2.0 to 2.1, but may work for converters between other version of the standad.",
+  "description": "Specifies testcases to test CSAF converters. Developed for CSAF 2.0 to 2.1, but may work for converters between other versions of the standard.",
   "type": "object",
   "required": [
       "input_csaf_revision",

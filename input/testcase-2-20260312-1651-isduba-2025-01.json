@@ -28,9 +28,9 @@
         ],
         "title": "does not integrate Cisco Secure Firewall Adaptive Security Appliance Software",
         "tracking": {
-            "current_release_date": "2026-03-12T16:51:21Z",
+            "current_release_date": "2027-03-12T16:51:21Z",
             "id": "testcase-2-20260312-1651-isduba-2025-01",
-            "initial_release_date": "2025-10-02T17:35:00.000Z",
+            "initial_release_date": "2016-12-31T23:59:60Z",
             "revision_history": [
                 {
                     "date": "2016-12-31T23:59:60Z",
