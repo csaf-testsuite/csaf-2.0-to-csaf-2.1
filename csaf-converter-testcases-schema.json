@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/csaf-testsuite/csaf-2.0-to-csaf-2.1/csaf-converter-testcases-schema.json",
+  "title": "CSAF converter tests specification (schema)",
+  "description": "Specifies testcases to test CSAF converters. Developed for CSAF 2.0 to 2.1, but may work for converters between other version of the standad.",
+  "type": "object",
+  "required": [
+      "input_csaf_revision",
+      "output_csaf_revision",
+      "converter_tests"
+  ],
+  "properties": {
+    "input_csaf_revision":  { "type": "string", "minLength": 3,
+                              "description": "The CSAF version of the files specified in each test.input. After the CSAF version number, there MAY be a dash followed by a specification of the variant. This includes pre and post release versions like `2.0-errata01` which includes the first errata and `2.1-cs02`, which is a pre-release version from the committee. It should be official variants. A following plus `+` with a string, giving a sub-variant, is possible."},
+
+    "output_csaf_revision": { "type": "string", "minLength": 3,
+                              "description": "CSAF version of the files, that the converter to be tested is supposed to put out. Same format as `input_csaf_revision`."},
+
+    "converter_tests": { "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": { "type": "object",
+        "required": [ "asserts", "input" ],
+        "properties": {
+          "input": { "type": "string" },
+
+          "desc": { "type": "string" },
+
+          "requirement_level": { "type": "string" },
+
+          "asserts": { "type": "array", "minItems": 1, "uniqueItems": true,
+            "items": { "oneOf": [
+                { "type": "object",
+                  "properties": {
+                      "type": { "const": "success" },
+                      "value" : { "type": "boolean"},
+                      "comment": { "type": "string" }
+                  },
+                  "required": ["type", "value"]
+                },
+
+                { "type": "object",
+                  "properties": {
+                      "type": { "const": "jsonpath" },
+                      "query" : { "type": "string"},
+                      "expected_result": { "type": "array" },
+                      "comment": { "type": "string" }
+                  },
+                  "required": ["type", "query", "expected_result"]
+                },
+
+                { "type": "object",
+                  "properties": {
+                      "type": { "enum": [ "warningmsg", "errormsg" ] },
+                      "substring_matches" : {
+                          "type": "array", "minItems": 1, "uniqueItems": true,
+                          "items": { "type": "string", "minLength": 1}
+                      },
+                      "comment": { "type": "string", "minLength": 1 }
+                  },
+                  "required": ["type", "substring_matches"]
+                }
+            ]}
+          }
+        }
+      }
+    }
+  }
+}
