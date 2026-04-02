@@ -20,15 +20,20 @@
       "items": { "type": "object",
         "required": [ "asserts", "input" ],
         "properties": {
-          "input": { "type": "string" },
+          "input": { "type": "string", "pattern": "^[\\S](.*[\\S])?.json$",
+                     "description": "Input filename for the converter" },
 
-          "desc": { "type": "string" },
+          "desc": { "type": "string", "minLength": 3,
+                    "description": "Description of the test case" },
 
-          "requirement_level": { "type": "string" },
+          "requirement_level": { "enum": [ "MUST", "SHOULD", "MAY" ],
+                                 "description": "Requirement level of the test case, expressing in three RFC2119 terms. If not given, default is `MUST`."},
 
           "asserts": { "type": "array", "minItems": 1, "uniqueItems": true,
+            "description": "List of conditions that must all be met by the output of a converter run to pass the test.",
             "items": { "oneOf": [
                 { "type": "object",
+                  "description":"Did the converter indicate a successful run?",
                   "properties": {
                       "type": { "const": "success" },
                       "value" : { "type": "boolean"},
@@ -38,6 +43,7 @@
                 },
 
                 { "type": "object",
+                  "description": "When JSONPath (RFC 9535) expession in `query` is applied to the output file of the converter, the resulting nodes list must be equal to the `expected_result`.",
                   "properties": {
                       "type": { "const": "jsonpath" },
                       "query" : { "type": "string"},
@@ -48,6 +54,7 @@
                 },
 
                 { "type": "object",
+                  "description": "All `substrings_match` must be found in a single error or warning message of the converter run.",
                   "properties": {
                       "type": { "enum": [ "warningmsg", "errormsg" ] },
                       "substring_matches" : {
