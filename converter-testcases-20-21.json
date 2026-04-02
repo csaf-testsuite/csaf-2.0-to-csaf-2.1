@@ -99,7 +99,7 @@
 
         { "input": "testcase-1-20260311-1512-isduba-2026-001.json",
           "desc": "Testing SHOULD warning for /document/publisher/category == 'other'",
-          "other_requirement_level": "SHOULD",
+          "requirement_level": "SHOULD",
           "asserts" : [
               { "type": "warningmsg",
                 "substring_matches": ["regroup", "multiplier"]

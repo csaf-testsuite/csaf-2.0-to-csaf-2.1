@@ -209,9 +209,9 @@ def run_test(test, resultdir_name) -> (bool, RequirementLevel):
 
     if test_from_json:
         input_filename = "input/" + test["input"]
-        if "other_requirement_level" in test:
+        if "requirement_level" in test:
             if orl := getattr(
-                    RequirementLevel, test["other_requirement_level"], None):
+                    RequirementLevel, test["requirement_level"], None):
                 requirement_level = orl
     else:
         input_filename = test
