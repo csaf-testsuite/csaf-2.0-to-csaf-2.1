@@ -43,7 +43,7 @@
                     "summary": "Improve structure:\n a) move from notes->summary to description\n b) move from threats->impact to flags->component_not_present\n c) Add document reference self."
                 },
                 {
-                    "date": "2026-03-12T16:51:21Z",
+                    "date": "2027-03-12T16:51:21Z",
                     "number": "2.1.0",
                     "summary": "created a test version from isduba-2025-01 from publisher: {\"category\": \"vendor\", \"contact_details\": \"See contact points at https://github.com/ISDuBA\", \"name\": \"ISDuBA Dev team\", \"namespace\": \"https://github.com/ISDuBA\"}"
                 }
