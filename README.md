@@ -101,15 +101,15 @@ They are given by a JSONPath pattern and expected output. Examples:
 
 ### format of `converter-testcases-20-21.json`
 
+See specification and descriptions in
+[csaf-converter-testcases-schema.json](csaf-converter-testcases-schema.json).
+
 JSONPath [RFC 9535](https://www.rfc-editor.org/rfc/rfc9535) is used
 as _query language_ to give the expected results for the `"type": "jsonpath"`
 asserts.
-
 The test runner implementation therefor needs an RFC 9535 compliant library.
-(Spoiler: python3-jsonpatch-ng is _not_ on of those. When in doubt, there is a
+(Spoiler: python3-jsonpatch-ng is _not_ one of those. When in doubt, there is a
 [compliance test suite](https://github.com/jsonpath-standard/jsonpath-compliance-test-suite).)
 
-The `requirement_level" is optional to specify if the test
-`MUST`, `SHOULD` or `MAY` succeed; when missing it is "MUST".
-
-**TODO**
+The `requirement_level" of a test is optional to specify if the test
+`MUST`, `SHOULD` or `MAY` succeed; when missing, it is "MUST".
