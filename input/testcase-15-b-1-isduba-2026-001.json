@@ -52,7 +52,7 @@
                   "product_id": "isduba-all-versions",
                   "product_identification_helper": {
                     "serial_numbers": [
-                      "ser\ial*",
+                      "ser\\ial*",
                       "se*ri*al*"
                     ]
                   }

@@ -492,7 +492,7 @@
           "query": "$.product_tree.branches..product.model_numbers",
           "expected_result": [
             [
-              "mo\\del*"
+              "mo\\\\del*"
             ]
           ]
         },
@@ -519,7 +519,7 @@
           "query": "$.product_tree.branches..product.serial_numbers",
           "expected_result": [
             [
-              "ser\\ial*"
+              "ser\\\\ial*"
             ]
           ]
         },
@@ -546,7 +546,7 @@
           "query": "$.product_tree.branches..product.skus",
           "expected_result": [
             [
-              "sku\\s*"
+              "sku\\\\s*"
             ]
           ]
         },
