@@ -1,112 +1,696 @@
 {
-    "input_csaf_revision": "2.0-errata01",
-    "output_csaf_revision": "2.1-cs02",
-    "converter_tests" : [
-        { "input": "testcase-1-20260311-1512-isduba-2026-001.json",
-          "desc": "testing the removal of an additional property",
-          "asserts" : [
-              { "type": "warningmsg",
-                "substring_matches": ["additional property", "not converted"]
-              },
-              { "type": "jsonpath",
-                "query": "$.document.x_test_q7VQf",
-                "expected_result": []
-              },
-              { "type": "success",
-                "value" : true
-              }
+  "input_csaf_revision": "2.0-errata01",
+  "output_csaf_revision": "2.1-cs02",
+  "converter_tests": [
+    {
+      "input": "testcase-1-20260311-1512-isduba-2026-001.json",
+      "desc": "testing the removal of an additional property",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "additional property",
+            "not converted"
           ]
         },
-
-        { "input": "testcase-2-20260312-1651-isduba-2025-01.json",
-          "asserts" : [
-              { "type": "warningmsg",
-                "substring_matches": [
-                    "valid leap second", "prohibited", "replaced"]
-              },
-              { "type": "jsonpath",
-                "query": "$..[?search(@.date, ':60[Z+-]')].date",
-                "expected_result": [],
-                "comment": "The I-Regular expression given in the JSONPath will match all leap seconds that can appear related to software, according to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones (checked 2026-03-31), as Dublin Mean Time (UTC−00:25:21) was abolished 1916."
-              },
-              { "type": "success",
-                "value" : true
-              }
-          ]
+        {
+          "type": "jsonpath",
+          "query": "$.document.x_test_q7VQf",
+          "expected_result": []
         },
-
-        { "input": "testcase-3-20260313-1429-isduba-2026-001.json",
-          "desc": "replace product category legacy",
-          "asserts" : [
-              { "type": "warningmsg",
-                "substring_matches": [
-                    "replaced", "legacy", "product_name"]
-              },
-              { "type": "jsonpath",
-                "query": "$.product_tree.branches..[?(@.category=='legacy')]",
-                "expected_result": []
-              },
-              { "type": "jsonpath",
-                "query": "$.product_tree.branches..[?(@.name=='the attic for OurProduct')].category",
-                "expected_result": ["product_name"]
-              },
-              { "type": "success",
-                "value" : true
-              }
-          ]
-        },
-
-        { "input": "testcase-4-20260323-1146-isduba-2025-01.json",
-          "desc": "Converter cannot create a valid product tree by itself.\nThe category 'vendor' appears twice in the same path (aka it is stacked). Both names are not in the list to be removed by 9.1.18 transformation rules.",
-          "asserts": [
-              { "type": "errormsg",
-                "substring_matches": [
-                    "category", "vendor", "invalid product tree",
-                    "detected", "stacked branch"
-                    ],
-                "comment": "must mention problematic stacked category `vendor` in error message"
-              },
-              { "type": "success",
-                "value" : false
-              }
-          ]
-        },
-
-        { "input": "testcase-4-2-20260323-1146-isduba-2025-01.json",
-          "desc": "The category 'vendor' appears three time in the same path (aka 'it is stacked'). Two names are in the list to be removed, so this can be resolved.",
-          "asserts": [
-              { "type": "warningmsg",
-                "substring_matches": [
-                    "category", "vendor", "invalid product tree",
-                    "detected", "stacked branch", "resolved"
-                    ],
-                "comment": "must mention problematic stacked category `vendor` "
-              },
-              { "type": "jsonpath",
-                "query": "$.product_tree.branches..[?(@.name=='Open Source')]",
-                "expected_result": []
-              },
-              { "type": "jsonpath",
-                "query": "$.product_tree.branches..[?(@.name=='NOASSERTION')]",
-                "expected_result": []
-              },
-              { "type": "success",
-                "value" : true
-              }
-          ]
-        },
-
-        { "input": "testcase-1-20260311-1512-isduba-2026-001.json",
-          "desc": "Testing SHOULD warning for /document/publisher/category == 'other'",
-          "requirement_level": "SHOULD",
-          "asserts" : [
-              { "type": "warningmsg",
-                "substring_matches": ["regroup", "multiplier"]
-              },
-              { "type": "success",
-                "value" : true
-              }
-          ]
+        {
+          "type": "success",
+          "value": true
         }
-    ]
+      ]
+    },
+    {
+      "input": "testcase-2-20260312-1651-isduba-2025-01.json",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "valid leap second",
+            "prohibited",
+            "replaced"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..[?search(@.date, ':60[Z+-]')].date",
+          "expected_result": [],
+          "comment": "The I-Regular expression given in the JSONPath will match all leap seconds that can appear related to software, according to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones (checked 2026-03-31), as Dublin Mean Time (UTC−00:25:21) was abolished 1916."
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-3-20260313-1429-isduba-2026-001.json",
+      "desc": "replace product category legacy",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "replaced",
+            "legacy",
+            "product_name"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches..[?(@.category=='legacy')]",
+          "expected_result": []
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches..[?(@.name=='the attic for OurProduct')].category",
+          "expected_result": [
+            "product_name"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-4-20260323-1146-isduba-2025-01.json",
+      "desc": "Converter cannot create a valid product tree by itself.\nThe category 'vendor' appears twice in the same path (aka it is stacked). Both names are not in the list to be removed by 9.1.18 transformation rules.",
+      "asserts": [
+        {
+          "type": "errormsg",
+          "substring_matches": [
+            "category",
+            "vendor",
+            "invalid product tree",
+            "detected",
+            "stacked branch"
+          ],
+          "comment": "must mention problematic stacked category `vendor` in error message"
+        },
+        {
+          "type": "success",
+          "value": false
+        }
+      ]
+    },
+    {
+      "input": "testcase-4-2-20260323-1146-isduba-2025-01.json",
+      "desc": "The category 'vendor' appears three time in the same path (aka 'it is stacked'). Two names are in the list to be removed, so this can be resolved.",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "category",
+            "vendor",
+            "invalid product tree",
+            "detected",
+            "stacked branch",
+            "resolved"
+          ],
+          "comment": "must mention problematic stacked category `vendor` "
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches..[?(@.name=='Open Source')]",
+          "expected_result": []
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches..[?(@.name=='NOASSERTION')]",
+          "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-1-20260311-1512-isduba-2026-001.json",
+      "desc": "Testing SHOULD warning for /document/publisher/category == 'other'",
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "regroup",
+            "multiplier"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-5-isduba-2026-001.json",
+      "desc": "Resolve product_version before product_version_range after product_name",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "product_version",
+            "product_version_range",
+            "resolved"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..branches[?(@.name=='ISDuBA')].category",
+          "expected_result": [
+            "product_family"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..branches[?(@.name=='ISDuBA 1.0')].category",
+          "expected_result": [
+            "product_name"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-6-isduba-2026-001.json",
+      "desc": "resolve product_version before product_version_range after product_family",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "product_version",
+            "product_version_range",
+            "resolved"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..branches[?(@.name=='ISDuBAFamily 0.14.0')].category",
+          "expected_result": [
+            "product_name"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-7-isduba-2026-001.json",
+      "desc": "resolve upper open ended range with single version constraint",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "upper open ended product_version_range",
+            "resolved"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..branches[?(@.name=='1.0')].category",
+          "expected_result": [
+            "product_version"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-8-isduba-2026-001.json",
+      "desc": "resolve upper open ended range with more than one version constraints",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "upper open ended product_version_range",
+            "resolved"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-9-isduba-2026-001.json",
+      "desc": "resolve product_version_range containing single version in vers format",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "product_version",
+            "declared as",
+            "product_version_range",
+            "resolved"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..branches[?(@.name=='0.14.0')].category",
+          "expected_result": [
+            "product_version"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-10-isduba-2026-001.json",
+      "desc": "resolve product_version_range containing single version in vls format",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "product_version",
+            "declared as",
+            "product_version_range",
+            "resolved"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..branches[?(@.category=='product_version')].name",
+          "expected_result": [
+            "0.14.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-11-isduba-2026-001.json",
+      "desc": "ensure removal of invalid CPE string",
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "invalid CPE",
+            "removed",
+            "cpe:2.3:a:isdubadevelopmentcommunity:isduba:1.0:*:*:*:*:*:*:*:invalid_addendum"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..product_identification_helper.cpe",
+          "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-12-isduba-2026-001.json",
+      "desc": "resolve unknown hash algorithm and convert it to lowercase",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "unknown hash algorithm",
+            "detected",
+            "converted",
+            "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..file_hashes[?(@.algorithm=='unknownhashalgorithm')]",
+          "expected_result": [
+            {
+              "algorithm": "unknownhashalgorithm",
+              "value": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+            }
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-13-isduba-2026-001.json",
+      "desc": "test forcing of hash value into lowercase",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$..file_hashes[?(@.value=='0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef')]",
+          "expected_result": [
+            {
+              "algorithm": "sha256",
+              "value": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+            }
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-14-isduba-2026-001.json",
+      "desc": "test conversion of single purl to purls array",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$..product_identification_helper.purls[0]",
+          "expected_result": [
+            "pkg:npm/isduba"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-15-a-isduba-2026-001.json",
+      "desc": "test model_numbers: add * if not exists, remove entries with multiple unescaped *, escape backslashes",
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "partial model number",
+            "star",
+            "added",
+            "model"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches..product.model_numbers",
+          "expected_result": [
+            [
+              "model*"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-15-b-isduba-2026-001.json",
+      "desc": "test serial_numbers: add * if not exists, remove entries with multiple unescaped *, escape backslashes",
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "partial serial number",
+            "star",
+            "added",
+            "serial"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches..product.serial_numbers",
+          "expected_result": [
+            [
+              "serial*"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-15-c-isduba-2026-001.json",
+      "desc": "test skus: add * if not exists, remove entries with multiple unescaped *, escape backslashes",
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "partial stock keeping unit",
+            "star",
+            "added",
+            "skus"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches..product.skus",
+          "expected_result": [
+            [
+              "skus*"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-15-a-1-isduba-2026-001.json",
+      "desc": "test model_numbers: remove entries with multiple unescaped *, escape backslashes",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "multiple stars",
+            "removed",
+            "mo*de*l*"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches..product.model_numbers",
+          "expected_result": [
+            [
+              "mo\\del*"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-15-b-1-isduba-2026-001.json",
+      "desc": "test serial_numbers: add * if not exists, remove entries with multiple unescaped *, escape backslashes",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "multiple stars",
+            "removed",
+            "se*ri*al*"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches..product.serial_numbers",
+          "expected_result": [
+            [
+              "ser\\ial*"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-15-c-1-isduba-2026-001.json",
+      "desc": "test skus: add * if not exists, remove entries with multiple unescaped *, escape backslashes",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "multiple stars",
+            "removed",
+            "s*k*u*s*"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches..product.skus",
+          "expected_result": [
+            [
+              "sku\\s*"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-16-isduba-2026-001.json",
+      "desc": "test no tlp becomes CLEAR with warning",
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "default TLP has been set"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.document.distribution.tlp.label",
+          "expected_result": [
+            "CLEAR"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-17-isduba-2026-001.json",
+      "desc": "remove /document/tracking/id from title",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.title",
+          "expected_result": [
+            "does not integrate Ivanti Endpoint Manager Mobile (EPMM)"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-18-isduba-2026-001.json",
+      "desc": "test remediation vendor_fix conversion to optional_patch when product is Not Affected",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "remediation",
+            "category was changed",
+            "optional_patch"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='optional_patch')].products",
+          "expected_result": [
+            [
+              "isduba-all-versions"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-19-a-isduba-2026-001.json",
+      "desc": "test that if the English title starts with 'Superseded', the document must become a document with the profile 'Superseded'",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_superseded"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-19-b-isduba-2026-001.json",
+      "desc": "test that if the English title starts with 'Withdrawn', the document must become a document with the profile 'Withdrawn'",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_withdrawn"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "isduba-2026-001.json",
+      "desc": "test document version update to 2.1",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.csaf_version",
+          "expected_result": [
+            "2.1"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "isduba-2026-001.json",
+      "desc": "test TLP update from WHITE to CLEAR",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.distribution.tlp.label",
+          "expected_result": [
+            "CLEAR"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    }
+  ]
 }
