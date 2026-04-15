@@ -4,13 +4,15 @@
   "converter_tests": [
     {
       "input": "testcase-1-20260311-1512-isduba-2026-001.json",
-      "desc": "testing the removal of an additional property",
+      "desc": "Firstly (3): testing the removal of an additional property",
       "asserts": [
         {
           "type": "warningmsg",
           "substring_matches": [
             "additional property",
-            "not converted"
+            "not converted",
+            "x_test_q7VQf",
+            "document"
           ]
         },
         {

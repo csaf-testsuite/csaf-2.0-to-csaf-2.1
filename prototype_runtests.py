@@ -269,6 +269,10 @@ def load_tests(filename):
 def main():
     tests = load_tests("./converter-testcases-20-21.json")
 
+    print(f"Found {len(tests['converter_tests'])} in the spec file "
+          f"and {len(_tests)} hardcoded.")
+    print("running them ...\n")
+
     results = []
     # using a result directory that is automatically removed
     with tempfile.TemporaryDirectory() as resultdir_name:
@@ -277,7 +281,22 @@ def main():
             print()
 
     print(f"Run {len(results)} test(s)...")
-    print("Results:", repr(results))
+    print("Raw results vector:", repr(results))
+
+    stats = {}
+    for result in results:
+        r_level = result[1]
+        c = stats.get(r_level, {"PASSED": 0, "FAILED": 0})
+        if result[0]:
+            c["PASSED"] += 1
+        else:
+            c["FAILED"] += 1
+
+        stats[r_level] = c
+
+    print(f"\nStats:")
+    for (key, value) in stats.items():
+        print(key, value)
 
 
 if __name__ == "__main__":
