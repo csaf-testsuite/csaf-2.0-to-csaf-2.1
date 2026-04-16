@@ -298,6 +298,10 @@ def main():
     for (key, value) in stats.items():
         print(key, value)
 
+    print("Description of loaded tests:")
+    for t in tests['converter_tests']:
+        if "desc" in t:
+            print(t["desc"])
 
 if __name__ == "__main__":
     main()

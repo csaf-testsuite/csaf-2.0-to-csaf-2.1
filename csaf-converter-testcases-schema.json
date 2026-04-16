@@ -18,7 +18,7 @@
 
     "converter_tests": { "type": "array", "minItems": 1, "uniqueItems": true,
       "items": { "type": "object",
-        "required": [ "asserts", "input" ],
+        "required": [ "asserts", "desc", "input" ],
         "properties": {
           "input": { "type": "string", "pattern": "^[\\S](.*[\\S])?.json$",
                      "description": "Input filename for the converter" },
