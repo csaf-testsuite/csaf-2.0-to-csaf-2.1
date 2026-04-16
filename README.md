@@ -31,10 +31,9 @@ how a runner could work.
 .. has CSAF 2.0 files.
 
 There is one original file `isduba-2026-001.json`.
-
-Most other testcases were created
+Many testcases were created
 by running `prototype_modifier.py` on this or other original files.
-(It was easier to construct good testcase by manipulating
+(It seemed easier to construct good testcases by manipulating
 existing CSAF 2.0 documents programmatically.)
 
 Each time the original is linked as
@@ -111,5 +110,5 @@ The test runner implementation therefor needs an RFC 9535 compliant library.
 (Spoiler: python3-jsonpatch-ng is _not_ one of those. When in doubt, there is a
 [compliance test suite](https://github.com/jsonpath-standard/jsonpath-compliance-test-suite).)
 
-The `requirement_level" of a test is optional to specify if the test
-`MUST`, `SHOULD` or `MAY` succeed; when missing, it is "MUST".
+The `requirement_level` of a test is optional to specify if the test
+`MUST`, `SHOULD` or `MAY` succeed; when missing, it MUST.
