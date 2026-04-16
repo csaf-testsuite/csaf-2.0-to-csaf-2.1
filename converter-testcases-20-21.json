@@ -4,7 +4,7 @@
   "converter_tests": [
     {
       "input": "testcase-1-20260311-1512-isduba-2026-001.json",
-      "desc": "Firstly (3): testing the removal of an additional property",
+      "desc": "Firstly •3: testing the removal of an additional property",
       "asserts": [
         {
           "type": "warningmsg",
@@ -28,9 +28,9 @@
     },
     {
       "input": "testcase-2-20260312-1651-isduba-2025-01.json",
+      "desc": "Secondly •1 s1-2: leap second replacement and warning",
       "asserts": [
-        {
-          "type": "warningmsg",
+        { "type": "warningmsg",
           "substring_matches": [
             "valid leap second",
             "prohibited",
@@ -41,12 +41,19 @@
           "type": "jsonpath",
           "query": "$..[?search(@.date, ':60[Z+-]')].date",
           "expected_result": [],
-          "comment": "The I-Regular expression given in the JSONPath will match all leap seconds that can appear related to software, according to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones (checked 2026-03-31), as Dublin Mean Time (UTC−00:25:21) was abolished 1916."
+          "comment": "The I-Regular expression given in the JSONPath will match all leap seconds that can appear related to software in the revision_history, according to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones (checked 2026-03-31), as Dublin Mean Time (UTC−00:25:21) was abolished 1916."
         },
         {
-          "type": "success",
-          "value": true
-        }
+          "type": "jsonpath",
+          "query": "$..[?search(@.current_release_date, ':60[Z+-]')].date",
+          "expected_result": []
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..[?search(@.initial_release_date, ':60[Z+-]')].date",
+          "expected_result": []
+        },
+        { "type": "success", "value": true }
       ]
     },
     {
