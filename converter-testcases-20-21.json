@@ -58,7 +58,7 @@
     },
     {
       "input": "testcase-3-20260313-1429-isduba-2026-001.json",
-      "desc": "replace product category legacy",
+      "desc": "Secondly •2(/$defs/branches_t) ◦1: replace product category legacy",
       "asserts": [
         {
           "type": "warningmsg",
@@ -80,15 +80,12 @@
             "product_name"
           ]
         },
-        {
-          "type": "success",
-          "value": true
-        }
+        { "type": "success", "value": true }
       ]
     },
     {
       "input": "testcase-4-20260323-1146-isduba-2025-01.json",
-      "desc": "Converter cannot create a valid product tree by itself.\nThe category 'vendor' appears twice in the same path (aka it is stacked). Both names are not in the list to be removed by 9.1.18 transformation rules.",
+      "desc": "Secondly •2(/$defs/branches_t) sect 4: Converter cannot create a valid product tree by itself.\nThe category 'vendor' appears twice in the same path (aka it is stacked). Both names are not in the list to be removed by 'Secondly •2(/$defs/branches_t) ◦2' transformation rules.",
       "asserts": [
         {
           "type": "errormsg",
@@ -97,9 +94,11 @@
             "vendor",
             "invalid product tree",
             "detected",
-            "stacked branch"
+            "stacked branch",
+            "product_tree",
+            "branches"
           ],
-          "comment": "must mention problematic stacked category `vendor` in error message"
+          "comment": "must mention problematic stacked category `vendor` and path in error message"
         },
         {
           "type": "success",
@@ -109,7 +108,7 @@
     },
     {
       "input": "testcase-4-2-20260323-1146-isduba-2025-01.json",
-      "desc": "The category 'vendor' appears three time in the same path (aka 'it is stacked'). Two names are in the list to be removed, so this can be resolved.",
+      "desc": "Secondly •2(/$defs/branches_t) ◦2 a.: The category 'vendor' appears three time in the same path (aka 'it is stacked'). Two names are in the list to be removed, so this can be resolved.",
       "asserts": [
         {
           "type": "warningmsg",
@@ -141,7 +140,7 @@
     },
     {
       "input": "testcase-1-20260311-1512-isduba-2026-001.json",
-      "desc": "Testing SHOULD warning for /document/publisher/category == 'other'",
+      "desc": "Secondly •16(/document/publisher/category) s1: Testing SHOULD warning for /document/publisher/category == 'other'",
       "requirement_level": "SHOULD",
       "asserts": [
         {
