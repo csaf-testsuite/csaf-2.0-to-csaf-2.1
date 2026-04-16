@@ -299,9 +299,9 @@ def main():
         print(key, value)
 
     print("Description of loaded tests:")
-    for t in tests['converter_tests']:
+    for i,t in enumerate(tests['converter_tests'], 1):
         if "desc" in t:
-            print(t["desc"])
+            print(f"{i:2d}:", t["desc"])
 
 if __name__ == "__main__":
     main()
