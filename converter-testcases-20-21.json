@@ -316,7 +316,7 @@
           "substring_matches": [
             "invalid CPE",
             "removed",
-            "cpe:2.3:a:isdubadevelopmentcommunity:isduba:1.0:*:*:*:*:*:*:*:invalid_addendum"
+            "cpe:/o:isdubadevelopmentcommunity:isduba:1.0"
           ]
         },
         {
