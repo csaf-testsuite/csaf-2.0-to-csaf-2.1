@@ -41,16 +41,10 @@
   "product_tree": {
     "branches": [
       {
-        "category": "vendor",
-        "name": "Isduba Development Community",
         "branches": [
           {
-            "category": "product_family",
-            "name": "ISDuBAFamily",
             "branches": [
               {
-                "category": "product_version",
-                "name": "0.14.0",
                 "branches": [
                   {
                     "category": "product_version_range",
@@ -60,11 +54,17 @@
                       "product_id": "isduba-all-versions"
                     }
                   }
-                ]
+                ],
+                "category": "product_version",
+                "name": "0.14.0"
               }
-            ]
+            ],
+            "category": "product_family",
+            "name": "ISDuBAFamily"
           }
-        ]
+        ],
+        "category": "vendor",
+        "name": "Isduba Development Community"
       }
     ]
   },

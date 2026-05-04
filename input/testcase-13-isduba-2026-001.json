@@ -53,13 +53,13 @@
                   "product_identification_helper": {
                     "hashes": [
                       {
-                        "filename": "example.bin",
                         "file_hashes": [
                           {
                             "algorithm": "sha256",
                             "value": "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"
                           }
-                        ]
+                        ],
+                        "filename": "example.bin"
                       }
                     ]
                   }
