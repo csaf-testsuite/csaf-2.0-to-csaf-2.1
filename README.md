@@ -106,7 +106,7 @@ See specification and descriptions in
 JSONPath [RFC 9535](https://www.rfc-editor.org/rfc/rfc9535) is used
 as _query language_ to give the expected results for the `"type": "jsonpath"`
 asserts.
-The test runner implementation therefor needs an RFC 9535 compliant library.
+The test runner implementation therefore needs an RFC 9535 compliant library.
 (Spoiler: python3-jsonpatch-ng is _not_ one of those. When in doubt, there is a
 [compliance test suite](https://github.com/jsonpath-standard/jsonpath-compliance-test-suite).)
 

@@ -1,6 +1,6 @@
 {
   "input_csaf_revision": "2.0-errata01",
-  "output_csaf_revision": "2.1-cs02",
+  "output_csaf_revision": "2.1-csd02",
   "converter_tests": [
     {
       "input": "testcase-1-20260311-1512-isduba-2026-001.json",
@@ -41,7 +41,7 @@
           "type": "jsonpath",
           "query": "$..[?search(@.date, ':60[Z+-]')].date",
           "expected_result": [],
-          "comment": "The I-Regular expression given in the JSONPath will match all leap seconds that can appear related to software in the revision_history, according to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones (checked 2026-03-31), as Dublin Mean Time (UTC−00:25:21) was abolished 1916."
+          "comment": "The I-Regexp (RFC9485) given in the JSONPath will match all leap seconds that can appear related to software in the revision_history, according to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones (checked 2026-03-31), as Dublin Mean Time (UTC−00:25:21) was abolished 1916."
         },
         {
           "type": "jsonpath",
