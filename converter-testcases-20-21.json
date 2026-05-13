@@ -45,12 +45,12 @@
         },
         {
           "type": "jsonpath",
-          "query": "$..[?search(@.current_release_date, ':60[Z+-]')].date",
+          "query": "$..[?search(@.current_release_date, ':60[Z+-]')].current_release_date",
           "expected_result": []
         },
         {
           "type": "jsonpath",
-          "query": "$..[?search(@.initial_release_date, ':60[Z+-]')].date",
+          "query": "$..[?search(@.initial_release_date, ':60[Z+-]')].initial_release_date",
           "expected_result": []
         },
         { "type": "success", "value": true }
