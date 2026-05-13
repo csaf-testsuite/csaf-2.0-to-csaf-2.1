@@ -18,8 +18,8 @@
     "references": [
       {
         "category": "self",
-        "summary": "ISDuBA-2026-001",
-        "url": "https://isduba.github.io/.well-known/csaf/white/2026/testcase-5-isduba-001.json"
+        "summary": "testcase-5-isduba-2026-001",
+        "url": "https://isduba.github.io/.well-known/csaf/white/2026/testcase-5-isduba-2026-001.json"
       }
     ],
     "title": "does not integrate Ivanti Endpoint Manager Mobile (EPMM)",
@@ -41,16 +41,10 @@
   "product_tree": {
     "branches": [
       {
-        "category": "vendor",
-        "name": "Isduba Development Community",
         "branches": [
           {
-            "category": "product_name",
-            "name": "ISDuBA",
             "branches": [
               {
-                "category": "product_version",
-                "name": "1.0",
                 "branches": [
                   {
                     "category": "product_version_range",
@@ -60,11 +54,17 @@
                       "product_id": "isduba-all-versions"
                     }
                   }
-                ]
+                ],
+                "category": "product_version",
+                "name": "1.0"
               }
-            ]
+            ],
+            "category": "product_name",
+            "name": "ISDuBA"
           }
-        ]
+        ],
+        "category": "vendor",
+        "name": "Isduba Development Community"
       }
     ]
   },

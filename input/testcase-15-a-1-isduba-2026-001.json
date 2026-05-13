@@ -18,8 +18,8 @@
     "references": [
       {
         "category": "self",
-        "summary": "ISDuBA-2026-001",
-        "url": "https://isduba.github.io/.well-known/csaf/white/2026/isduba-2026-001.json"
+        "summary": "testcase-15-a-1-isduba-2026-001",
+        "url": "https://isduba.github.io/.well-known/csaf/white/2026/testcase-15-a-1-isduba-2026-001.json"
       }
     ],
     "title": "does not integrate Ivanti Endpoint Manager Mobile (EPMM)",
