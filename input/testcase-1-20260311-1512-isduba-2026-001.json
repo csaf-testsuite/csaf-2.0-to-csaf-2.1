@@ -23,7 +23,7 @@
             {
                 "category": "self",
                 "summary": "plausible looking links to this specific run",
-                "url": "https://github.com/csaf-testsuite/csaf-2.0-to-csaf-2.1/tmp/testcase-20260311-1512-isduba-2026-001"
+                "url": "https://github.com/csaf-testsuite/csaf-2.0-to-csaf-2.1/tmp/testcase-1-20260311-1512-isduba-2026-001.json"
             }
         ],
         "title": "does not integrate Ivanti Endpoint Manager Mobile (EPMM)",
