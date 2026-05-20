@@ -28,7 +28,7 @@
     },
     {
       "input": "testcase-2-20260312-1651-isduba-2025-01.json",
-      "desc": "Secondly •1 s1-2: leap second replacement and warning",
+      "desc": "Secondly •1 s1-2: leap second replacement and warning. Test only uses three paths as samples to be tested from the 12 paths given in CSAF 2.1-csd02 6.1.37 that can have date-time values.",
       "asserts": [
         { "type": "warningmsg",
           "substring_matches": [
