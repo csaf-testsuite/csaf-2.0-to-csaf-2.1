@@ -699,6 +699,89 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-20-isduba-2026-001.json",
+      "desc": "test conversion of document/notes with valid SPDX license with category legal_disclaimer into /document/license_expression",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.license_expression",
+          "expected_result": [
+            "Apache2.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-21-isduba-2026-001.json",
+      "desc": "test /vulnerabilities[]/disclosure_date: release_date converted into disclosure_date",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[*].disclosure_date",
+          "expected_result": [
+            "2025-03-11T15:12:00.0000Z"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-22-isduba-2026-001.json",
+      "desc": "test /vulnerabilities[]/remediations[]: none_available converted to fix_planned due to future or undated vendor_fix",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "remediation",
+            "category was changed",
+            "fix_planned"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..remediations[?(@.category=='fix_planned')].product_ids",
+          "expected_result": [
+            [
+              "isduba-all-versions"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-23-isduba-2026-001.json",
+      "desc": "test /vulnerabilities[]/remediations[] product removed from none_available because a vendor_fix date is known",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "remediation",
+            "remove"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..remediations[?(@.category=='none_available')]",
+          "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
