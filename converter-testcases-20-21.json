@@ -951,6 +951,87 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-27-a-isduba-2026-001.json",
+      "is_testing": [
+        ["Secondly •11 ◦1", ["For any version range of affected products that uses the strict <, i.e. not <=, as comparator of the last version constraint, the CSAF 2.0 to CSAF 2.1 Converter SHOULD add a new product with the version of the last constraint and add that in the appropriate places as fixed. The CSAF 2.0 to CSAF 2.1 Converter MUST output a warning that a product was added to the product_tree and the corresponding /vulnerabilities[]. Such warning MUST contain the full product name and its path as well as the paths of the /vulnerabilities[] it was added to.", 1]]
+      ],
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "product",
+            "added",
+            "product_tree",
+            "branches",
+            "vulnerabilities",
+            "ISDuBA",
+            "2.0.0"
+          ],
+          "comment": "warning must state that the product was added and contain the full product name plus the product_tree and vulnerability paths"
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_security_advisory"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..branches[?(@.name=='2.0.0')].category",
+          "expected_result": [
+            "product_version"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[?(@.product_status.fixed)].cve",
+          "expected_result": [
+            "CVE-2026-1281"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-26-b-isduba-2026-001.json",
+      "is_testing": [
+        ["Secondly •11 ◦1", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid CSAF 2.1 Document according to the profile, it SHALL set the category value to csaf_deprecated_security_advisory.", 1]]
+      ],
+      "remark": "CSAF 2.0 does not require known_affected but 2.1 does",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_deprecated_security_advisory"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].product_status.known_not_affected",
+          "expected_result": [
+            [
+              "isduba-1.0.0"
+            ]
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].product_status.known_affected",
+          "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
