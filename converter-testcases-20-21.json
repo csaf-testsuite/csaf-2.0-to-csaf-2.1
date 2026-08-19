@@ -1000,7 +1000,7 @@
       ]
     },
     {
-      "input": "testcase-26-b-isduba-2026-001.json",
+      "input": "testcase-27-b-isduba-2026-001.json",
       "is_testing": [
         ["Secondly •11 ◦1", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid CSAF 2.1 Document according to the profile, it SHALL set the category value to csaf_deprecated_security_advisory.", 1]]
       ],
