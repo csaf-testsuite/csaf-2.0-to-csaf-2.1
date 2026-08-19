@@ -905,6 +905,52 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-26-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦2 2."],
+                    ["Secondly •2 ◦2", ["If the CSAF 2.0 to CSAF 2.1 Converter is able to create a valid product tree, it MUST output a warning that an invalid product tree with stacked branch categories was detected and resolved. Such a warning MUST include the invalid path as well as the branch categories that were present multiple times.", 1], 50]],
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "category",
+            "product_version",
+            "invalid product tree",
+            "detected",
+            "stacked branch",
+            "resolved",
+            "product_tree",
+            "branches"
+          ],
+          "comment": "must mention problematic stacked category `product_version` "
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..branches[?(@.name=='ISDuBA')].category",
+          "expected_result": [
+            "product_family"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..branches[?(@.name=='ISDuBA 0.14.0')].category",
+          "expected_result": [
+            "product_name"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..branches[?(@.name=='0.1.0')].category",
+          "expected_result": [
+            "product_version"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
