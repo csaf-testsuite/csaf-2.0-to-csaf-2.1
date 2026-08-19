@@ -1032,6 +1032,100 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-28-a-isduba-2026-001.json",
+      "is_testing": [
+        ["Secondly •15", ["/document/notes: If any /document/notes item contains one of the category and title combinations specified in 3.2.2.8, where the title is extended, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to identify whether that extension is a specific product name, version or family. In such case, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to add the corresponding products to the note item and output a warning that a potential product specific note has been discovered and products have been assigned to it. Such warning MUST also include the note and the assigned products.", 1]]
+      ],
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "potential product specific note",
+            "assigned",
+            "ISDuBA Script",
+            "isduba-script"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "potential product specific note",
+            "assigned",
+            "1.0.0",
+            "isduba-1.0.0"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "potential product specific note",
+            "assigned",
+            "ISDuBA Tools",
+            "isduba-1.0.0",
+            "isduba-2.0.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.document.notes[0].product_ids",
+          "expected_result": [
+            [
+              "isduba-script"
+            ]
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.document.notes[1].product_ids",
+          "expected_result": [
+            [
+              "isduba-1.0.0"
+            ]
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.document.notes[2].product_ids",
+          "expected_result": [
+            [
+              "isduba-1.0.0",
+              "isduba-2.0.0"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-28-b-isduba-2026-001.json",
+      "is_testing": [
+        ["Secondly •15", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid object, it MUST remove the reference to the products and output a warning that a potential product specific note has been discovered and no products could been assigned to it.", 1]]
+      ],
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "potential product specific note",
+            "no products",
+            "assigned",
+            "ISDuBA Mobile Script"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.document.notes[0].product_ids",
+          "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
