@@ -1317,6 +1317,74 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-32-a-isduba-2026-001.json",
+      "is_testing": [["Secondly •24", ["In such case, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to add the corresponding products to the note item and output a warning that a potential product specific note has been discovered and products have been assigned to it. Such warning MUST also include the note and the assigned products.", 1]]],
+      "remark": "The vulnerability note title identifies the affected product by its full product name.",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "potential product specific note",
+            "assigned",
+            "CVE Description for ISDuBA all versions",
+            "isduba-all-versions"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].notes[0].product_ids",
+          "expected_result": [
+            [
+              "isduba-all-versions"
+            ]
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].notes[0].title",
+          "expected_result": [
+            "CVE Description for ISDuBA all versions"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-32-b-isduba-2026-001.json",
+      "is_testing": [["Secondly •24", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid object, it MUST remove the reference to the products and output a warning that a potential product specific note has been discovered and no products could been assigned to it.", 1]]],
+      "remark": "The vulnerability note title names no product present in the product tree.",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "potential product specific note",
+            "no products",
+            "assigned",
+            "CVE Description for ISDuBA Mobile"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].notes[0].product_ids",
+          "expected_result": []
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].notes[0].title",
+          "expected_result": [
+            "CVE Description for ISDuBA Mobile"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
