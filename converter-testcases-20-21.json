@@ -1246,6 +1246,77 @@
           "value": false
         }
       ]
+    },
+    {
+      "input": "testcase-31-a-isduba-2026-001.json",
+      "is_testing": [["Secondly •22", ["/vulnerabilities[]/metrics[]/content/cvss_v4: If an external reference in the vulnerability linking to the official FIRST.org CVSS v4.0 calculator exists, the CSAF 2.0 to CSAF 2.1 Converter MUST convert the vector given in the fragment into a cvss_v4 object linked to all affected products of the vulnerability.", 1]]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].metrics[0].content.cvss_v4.version",
+          "expected_result": [
+            "4.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].metrics[0].content.cvss_v4.vectorString",
+          "expected_result": [
+            "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:L"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].metrics[0].content.cvss_v4.baseScore",
+          "expected_result": [
+            "8.7"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].metrics[0].content.cvss_v4.baseSeverity",
+          "expected_result": [
+            "HIGH"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].metrics[0].products",
+          "expected_result": [
+            [
+              "isduba-all-versions"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-31-b-isduba-2026-001.json",
+      "is_testing": [["Secondly •22", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to construct a valid object with the information given, the CSAF 2.0 to CSAF 2.1 Converter SHALL remove the invalid cvss_v4 object and output a warning that the automatic conversion of the CVSS v4.0 reference failed. Such warning SHOULD include the specific error that occurred.", 1]]],
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "automatic conversion",
+            "CVSS v4.0",
+            "failed",
+            "invalid"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].metrics[*].content.cvss_v4",
+          "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
