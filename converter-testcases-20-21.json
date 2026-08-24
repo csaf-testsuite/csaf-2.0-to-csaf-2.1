@@ -1198,6 +1198,54 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-30-a-isduba-2026-001.json",
+      "is_testing": [["Secondly •19 ◦1"],
+                     ["Secondly •19 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter MUST determine the CWE specification version the given CWE was selected from by using the latest version that matches the id and name exactly and was published prior to the value of /document/tracking/current_release_date of the source document.", 1]]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwe",
+          "expected_result": []
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwes[0].id",
+          "expected_result": [
+            "CWE-79"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwes[0].name",
+          "expected_result": [
+            "Improper Control of Generation of Code ('Code Injection')"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwes[0].version",
+          "expected_result": [
+            "4.19.1"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-30-b-isduba-2026-001.json",
+      "is_testing": [["Secondly •19 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter MUST determine the CWE specification version the given CWE was selected from by using the latest version that matches the id and name exactly and was published prior to the value of /document/tracking/current_release_date of the source document.", 1]]],
+      "remark": "CWE-79 is paired with improper name. After trimming, no CWE version can match that exact id/name pair.",
+      "asserts": [
+        {
+          "type": "success",
+          "value": false
+        }
+      ]
     }
   ]
 }
