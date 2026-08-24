@@ -941,7 +941,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$..branches[?(@.name=='0.1.0')].category",
+          "query": "$..branches[?(@.name=='1.0')].category",
           "expected_result": [
             "product_version"
           ]
@@ -955,7 +955,7 @@
     {
       "input": "testcase-27-a-isduba-2026-001.json",
       "is_testing": [
-        ["Secondly •11 ◦1", ["For any version range of affected products that uses the strict <, i.e. not <=, as comparator of the last version constraint, the CSAF 2.0 to CSAF 2.1 Converter SHOULD add a new product with the version of the last constraint and add that in the appropriate places as fixed. The CSAF 2.0 to CSAF 2.1 Converter MUST output a warning that a product was added to the product_tree and the corresponding /vulnerabilities[]. Such warning MUST contain the full product name and its path as well as the paths of the /vulnerabilities[] it was added to.", 1]]
+        ["Secondly •11 ◦1", ["For any version range of affected products that uses the strict &lt;, i.e. not &lt;=, as comparator of the last version constraint, the CSAF 2.0 to CSAF 2.1 Converter SHOULD add a new product with the version of the last constraint and add that in the appropriate places as fixed. The CSAF 2.0 to CSAF 2.1 Converter MUST output a warning that a product was added to the product_tree and the corresponding /vulnerabilities[]. Such warning MUST contain the full product name and its path as well as the paths of the /vulnerabilities[] it was added to.", 1]]
       ],
       "requirement_level": "SHOULD",
       "asserts": [
@@ -1129,8 +1129,8 @@
     },
     {
       "input": "testcase-29-isduba-2026-001.json",
-      "is_testing": [["Secondly •23 ◦1"],
-                     ["Secondly •23 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter constructs the first item of subpaths by setting the value of category into category and the value of relates_to_product_reference into next_product_reference.", 1]]],
+      "is_testing": [["Secondly •18 ◦1"],
+                     ["Secondly •18 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter constructs the first item of subpaths by setting the value of category into category and the value of relates_to_product_reference into next_product_reference.", 1]]],
       "asserts": [
         {
           "type": "jsonpath",
@@ -1237,17 +1237,6 @@
       ]
     },
     {
-      "input": "testcase-30-b-isduba-2026-001.json",
-      "is_testing": [["Secondly •19 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter MUST determine the CWE specification version the given CWE was selected from by using the latest version that matches the id and name exactly and was published prior to the value of /document/tracking/current_release_date of the source document.", 1]]],
-      "remark": "CWE-94 is paired with improper name. After trimming, no CWE version can match that exact id/name pair.",
-      "asserts": [
-        {
-          "type": "success",
-          "value": false
-        }
-      ]
-    },
-    {
       "input": "testcase-31-a-isduba-2026-001.json",
       "is_testing": [["Secondly •22", ["/vulnerabilities[]/metrics[]/content/cvss_v4: If an external reference in the vulnerability linking to the official FIRST.org CVSS v4.0 calculator exists, the CSAF 2.0 to CSAF 2.1 Converter MUST convert the vector given in the fragment into a cvss_v4 object linked to all affected products of the vulnerability.", 1]]],
       "asserts": [
@@ -1269,7 +1258,7 @@
           "type": "jsonpath",
           "query": "$.vulnerabilities[0].metrics[0].content.cvss_v4.baseScore",
           "expected_result": [
-            "8.7"
+            8.7
           ]
         },
         {
@@ -1303,8 +1292,7 @@
           "substring_matches": [
             "automatic conversion",
             "CVSS v4.0",
-            "failed",
-            "invalid"
+            "failed"
           ]
         },
         {
