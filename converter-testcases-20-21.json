@@ -1126,6 +1126,78 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-29-isduba-2026-001.json",
+      "is_testing": [["Secondly •23 ◦1"],
+                     ["Secondly •23 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter constructs the first item of subpaths by setting the value of category into category and the value of relates_to_product_reference into next_product_reference.", 1]]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.relationships",
+          "expected_result": []
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-on-linux')].beginning_product_reference",
+          "expected_result": [
+            "isduba-2.0.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-on-linux')].full_product_name.name",
+          "expected_result": [
+            "ISDuBA 2.0.0 installed on Linux"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-on-linux')].subpaths[0].category",
+          "expected_result": [
+            "installed_on"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-on-linux')].subpaths[0].next_product_reference",
+          "expected_result": [
+            "linux"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-with-postgresql')].beginning_product_reference",
+          "expected_result": [
+            "isduba-2.0.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-with-postgresql')].full_product_name.name",
+          "expected_result": [
+            "ISDuBA 2.0.0 installed with PostgreSQL"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-with-postgresql')].subpaths[0].category",
+          "expected_result": [
+            "installed_with"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-with-postgresql')].subpaths[0].next_product_reference",
+          "expected_result": [
+            "postgresql"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,77 @@
+{
+    "document": {
+        "category": "csaf_base",
+        "csaf_version": "2.0",
+        "distribution": {
+            "tlp": {
+                "label": "WHITE",
+                "url": "https://www.first.org/tlp/v1/"
+            }
+        },
+        "lang": "en",
+        "publisher": {
+            "category": "vendor",
+            "contact_details": "See contact points at https://github.com/ISDuBA",
+            "name": "ISDuBA Dev team",
+            "namespace": "https://github.com/ISDuBA"
+        },
+        "references": [
+            {
+                "category": "self",
+                "summary": "testcase-29-isduba-2026-001",
+                "url": "https://isduba.github.io/.well-known/csaf/white/2026/testcase-29-isduba-2026-001.json"
+            }
+        ],
+        "title": "ISDuBA product relationship conversion",
+        "tracking": {
+            "current_release_date": "2026-02-12T14:42:00.000Z",
+            "id": "testcase-29-isduba-2026-001",
+            "initial_release_date": "2026-02-12T14:42:00.000Z",
+            "revision_history": [
+                {
+                    "date": "2026-02-12T14:42:00.000Z",
+                    "number": "1.0.0",
+                    "summary": "Initial revision"
+                }
+            ],
+            "status": "final",
+            "version": "1.0.0"
+        }
+    },
+    "product_tree": {
+        "full_product_names": [
+            {
+                "name": "ISDuBA 2.0.0",
+                "product_id": "isduba-2.0.0"
+            },
+            {
+                "name": "Linux",
+                "product_id": "linux"
+            },
+            {
+                "name": "PostgreSQL",
+                "product_id": "postgresql"
+            }
+        ],
+        "relationships": [
+            {
+                "category": "installed_on",
+                "full_product_name": {
+                    "name": "ISDuBA 2.0.0 installed on Linux",
+                    "product_id": "isduba-2.0.0-on-linux"
+                },
+                "product_reference": "isduba-2.0.0",
+                "relates_to_product_reference": "linux"
+            },
+            {
+                "category": "installed_with",
+                "full_product_name": {
+                    "name": "ISDuBA 2.0.0 installed with PostgreSQL",
+                    "product_id": "isduba-2.0.0-with-postgresql"
+                },
+                "product_reference": "isduba-2.0.0",
+                "relates_to_product_reference": "postgresql"
+            }
+        ]
+    }
+}
