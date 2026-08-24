@@ -72,7 +72,7 @@ def main(input_filename, output_filename):
     #  "Secondly" requirement: product_tree branch category legacy
 
     # our testcase-3 has it in the first list
-    for n,b in enumerate(p["branches"]):
+    for n,b in enumerate(p.get("branches", [])):
         if b["category"] == "legacy":
              b["category"] = "product_name"
              warnings.append(
