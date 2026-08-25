@@ -1376,7 +1376,7 @@
     },
     {
       "input": "testcase-33-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •23", ["If a SSVC vector or decision points of an SSVC vector are given in an item of notes of the current vulnerability using the title SSVC and the category other, the CSAF 2.0 to CSAF 2.1 Converter MUST convert that data into the ssvc_v2 object within the current vulnerability. If the CSAF 2.0 to CSAF 2.1 Converter is able to construct a valid object without loosing any information, the corresponding notes item SHALL be removed.", 1]]],
+      "is_testing": [["Secondly •23", ["/vulnerabilities[]/metrics[]/content/ssvc_v2: If a SSVC vector or decision points of an SSVC vector are given in an item of notes of the current vulnerability using the title SSVC and the category other, the CSAF 2.0 to CSAF 2.1 Converter MUST convert that data into the ssvc_v2 object within the current vulnerability. If the CSAF 2.0 to CSAF 2.1 Converter is able to construct a valid object without loosing any information, the corresponding notes item SHALL be removed.", 1]]],
       "remark": "Convert a valid SSVC vector into a SelectionList and remove the source note.",
       "asserts": [
         {
@@ -1477,7 +1477,6 @@
     {
       "input": "testcase-33-c-isduba-2026-001.json",
       "is_testing": [["Secondly •23", ["If the CSAF 2.0 to CSAF 2.1 Converter would loose information during the conversion, the CSAF 2.0 to CSAF 2.1 Converter SHALL remove the ssvc_v2 object, keep the original item of notes and output a warning that the automatic conversion of the SSVC data would lead to loosing information.", 1]]],
-      "remark": "A valid SSVC vector is accompanied by analyst context that cannot be represented in the SelectionList.",
       "asserts": [
         {
           "type": "warningmsg",
@@ -1495,13 +1494,23 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.vulnerabilities[0].notes[0]",
+          "query": "$.vulnerabilities[0].notes[0].category",
           "expected_result": [
-            {
-              "category": "other",
-              "text": "SSVCv2/E:N/A:N/2026-02-12T14:42:00.000Z/\n\nAnalyst context: This assessment applies only to internet-facing deployments.",
-              "title": "SSVC"
-            }
+            "other"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].notes[0].text",
+          "expected_result": [
+            "SSVCv2/E:N/A:N/2026-02-12T14:42:00.000Z/\n\nAdditional context: This assessment applies only to internet-facing deployments."
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].notes[0].title",
+          "expected_result": [
+            "SSVC"
           ]
         },
         {

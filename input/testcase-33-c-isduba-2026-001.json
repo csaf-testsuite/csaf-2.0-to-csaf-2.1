@@ -81,7 +81,7 @@
             "notes": [
                 {
                     "category": "other",
-                    "text": "SSVCv2/E:N/A:N/2026-02-12T14:42:00.000Z/\n\nAnalyst context: This assessment applies only to internet-facing deployments.",
+                    "text": "SSVCv2/E:N/A:N/2026-02-12T14:42:00.000Z/\n\nAdditional context: This assessment applies only to internet-facing deployments.",
                     "title": "SSVC"
                 }
             ],
