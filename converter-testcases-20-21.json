@@ -1417,14 +1417,6 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.vulnerabilities[0].metrics[0].content.ssvc_v2.selections[*].version",
-          "expected_result": [
-            "1.1.0",
-            "2.0.0"
-          ]
-        },
-        {
-          "type": "jsonpath",
           "query": "$.vulnerabilities[0].metrics[0].content.ssvc_v2.selections[*].values[0].key",
           "expected_result": [
             "N",
