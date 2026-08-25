@@ -1601,6 +1601,45 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-35-isduba-2026-001.json",
+      "is_testing": [["Secondly •25 ◦4"]],
+      "remark": "Preserve a none_available remediation when no vendor_fix applies to its product.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='none_available')].category",
+          "expected_result": [
+            "none_available"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='none_available')].details",
+          "expected_result": [
+            "No remediation is currently available."
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='none_available')].product_ids",
+          "expected_result": [
+            [
+              "isduba-all-versions"
+            ]
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='fix_planned')]",
+          "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
