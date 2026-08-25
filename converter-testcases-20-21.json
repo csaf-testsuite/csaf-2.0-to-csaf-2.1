@@ -659,7 +659,7 @@
     },
     {
       "input": "testcase-19-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •11(/document/category) ◦2 ▪1"]],
+      "is_testing": [["Secondly •11(/document/category) ◦2 ▪1"], 50],
       "remark": "if the English title starts with 'Superseded', the document must become a document with the profile 'Superseded'",
       "asserts": [
         {
@@ -1634,6 +1634,24 @@
           "type": "jsonpath",
           "query": "$.vulnerabilities[0].remediations[?(@.category=='fix_planned')]",
           "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-36-isduba-2026-001.json",
+      "is_testing": [["Secondly •11 ◦2 ▪1", 50]],
+      "remark": "Detect a mixed-case Superseded document category when the title does not contain the trigger.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_superseded"
+          ]
         },
         {
           "type": "success",
