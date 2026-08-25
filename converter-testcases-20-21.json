@@ -677,7 +677,7 @@
     },
     {
       "input": "testcase-19-b-isduba-2026-001.json",
-      "is_testing": [["Secondly •11(/document/category) ◦2 ▪2"]],
+      "is_testing": [["Secondly •11(/document/category) ◦2 ▪2"], 50],
       "remark": "if the English title starts with 'Withdrawn', the document must become a document with the profile 'Withdrawn'",
       "asserts": [
         {
@@ -1651,6 +1651,24 @@
           "query": "$.document.category",
           "expected_result": [
             "csaf_superseded"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-37-isduba-2026-001.json",
+      "is_testing": [["Secondly •11 ◦2 ▪2", 50]],
+      "remark": "Detect a mixed-case Withdrawn document category when the title does not contain the trigger.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_withdrawn"
           ]
         },
         {
