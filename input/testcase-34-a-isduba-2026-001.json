@@ -1,0 +1,116 @@
+{
+    "document": {
+        "category": "csaf_vex",
+        "csaf_version": "2.0",
+        "distribution": {
+            "tlp": {
+                "label": "WHITE",
+                "url": "https://www.first.org/tlp/v1/"
+            }
+        },
+        "lang": "en",
+        "publisher": {
+            "category": "vendor",
+            "contact_details": "See contact points at https://github.com/ISDuBA",
+            "name": "ISDuBA Dev team",
+            "namespace": "https://github.com/ISDuBA"
+        },
+        "references": [
+            {
+                "category": "external",
+                "summary": "original ISDuBA-2026-001",
+                "url": "https://isduba.github.io/.well-known/csaf/white/2026/isduba-2026-001.json"
+            },
+            {
+                "category": "self",
+                "summary": "testcase-34-a-isduba-2026-001",
+                "url": "https://isduba.github.io/.well-known/csaf/white/2026/testcase-34-a-isduba-2026-001.json"
+            }
+        ],
+        "title": "ISDuBA remediation for products with different statuses",
+        "tracking": {
+            "current_release_date": "2026-02-12T14:42:00.000Z",
+            "id": "testcase-34-a-isduba-2026-001",
+            "initial_release_date": "2026-02-12T14:42:00.000Z",
+            "revision_history": [
+                {
+                    "date": "2026-02-12T14:42:00.000Z",
+                    "number": "1.0.0",
+                    "summary": "Initial revision"
+                }
+            ],
+            "status": "final",
+            "version": "1.0.0"
+        }
+    },
+    "product_tree": {
+        "branches": [
+            {
+                "branches": [
+                    {
+                        "branches": [
+                            {
+                                "category": "product_version",
+                                "name": "1.0.0",
+                                "product": {
+                                    "name": "ISDuBA 1.0.0",
+                                    "product_id": "isduba-1.0.0"
+                                }
+                            },
+                            {
+                                "category": "product_version",
+                                "name": "2.0.0",
+                                "product": {
+                                    "name": "ISDuBA 2.0.0",
+                                    "product_id": "isduba-2.0.0"
+                                }
+                            }
+                        ],
+                        "category": "product_name",
+                        "name": "ISDuBA"
+                    }
+                ],
+                "category": "vendor",
+                "name": "Isduba Development Community"
+            }
+        ]
+    },
+    "vulnerabilities": [
+        {
+            "cve": "CVE-2026-1281",
+            "flags": [
+                {
+                    "label": "component_not_present",
+                    "product_ids": [
+                        "isduba-1.0.0"
+                    ]
+                }
+            ],
+            "notes": [
+                {
+                    "category": "description",
+                    "text": "A vulnerability affecting selected ISDuBA products.",
+                    "title": "CVE description"
+                }
+            ],
+            "product_status": {
+                "known_affected": [
+                    "isduba-2.0.0"
+                ],
+                "known_not_affected": [
+                    "isduba-1.0.0"
+                ]
+            },
+            "remediations": [
+                {
+                    "category": "vendor_fix",
+                    "details": "Apply the latest patch",
+                    "product_ids": [
+                        "isduba-1.0.0",
+                        "isduba-2.0.0"
+                    ]
+                }
+            ]
+        }
+    ]
+}

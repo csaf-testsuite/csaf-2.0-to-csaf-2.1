@@ -631,7 +631,7 @@
     },
     {
       "input": "testcase-18-isduba-2026-001.json",
-      "is_testing": [["Secondly •25(/vulnerabilities[]/remediations[]) ◦1"]],
+      "is_testing": [["Secondly •25 ◦1", ["The CSAF 2.0 to CSAF 2.1 Converter MUST convert any remediation with the category vendor_fix into the category optional_patch if the product in question is in one of the product status groups \"Not Affected\" or \"Fixed\" for this vulnerability.", 1]]],
       "remark": "remediation vendor_fix conversion to optional_patch when product is Not Affected",
       "asserts": [
         {
@@ -1512,6 +1512,89 @@
           "expected_result": [
             "SSVC"
           ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-34-a-isduba-2026-001.json",
+      "is_testing": [["Secondly •25 ◦1", ["If multiple products are associated with the remediation - either directly or through a product group - and the products belong to different product status groups, the CSAF 2.0 to CSAF 2.1 Converter MUST duplicate the remediation, change the category in one instance to optional_patch and distribute the products accordingly as stated by the conversion rule.", 1]],
+                     ["Secondly •25 ◦5"]],
+      "remark": "Split a vendor_fix remediation shared by Not Affected and Affected products and warn about the change.",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "remediation",
+            "category was changed",
+            "optional_patch",
+            "isduba-1.0.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='optional_patch')].category",
+          "expected_result": ["optional_patch"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='optional_patch')].details",
+          "expected_result": ["Apply the latest patch"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='optional_patch')].product_ids[0]",
+          "expected_result": ["isduba-1.0.0"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='vendor_fix')].category",
+          "expected_result": ["vendor_fix"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='vendor_fix')].details",
+          "expected_result": ["Apply the latest patch"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='vendor_fix')].product_ids[0]",
+          "expected_result": ["isduba-2.0.0"]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-34-b-isduba-2026-001.json",
+      "is_testing": [["Secondly •25 ◦1", ["Otherwise, the category vendor_fix MUST stay the same.", 1]]
+      ],
+      "remark": "Keep vendor_fix unchanged when its only product is Affected.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='vendor_fix')].category",
+          "expected_result": ["vendor_fix"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='vendor_fix')].details",
+          "expected_result": ["Apply the latest patch"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='vendor_fix')].product_ids[0]",
+          "expected_result": ["isduba-all-versions"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='optional_patch')]",
+          "expected_result": []
         },
         {
           "type": "success",
