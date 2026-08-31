@@ -474,8 +474,8 @@
     },
     {
       "input": "testcase-15-c-isduba-2026-001.json",
-      "is_testing": [["Secondly •9(/$defs/full_product_name_t/product_identification_helper/skus[])"]],
-      "remark": "skus: add * if not exists, remove entries with multiple unescaped *, escape backslashes",
+      "is_testing": [["Secondly •9 ◦1"]],
+      "remark": "skus: add * if not exists",
       "requirement_level": "SHOULD",
       "asserts": [
         {
@@ -614,6 +614,24 @@
             [
               "sku\\\\s*"
             ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-15-c-2-isduba-2026-001.json",
+      "is_testing": [["Secondly •9 ◦2"]],
+      "remark": "skus: escape backslashes",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches..product.skus[0]",
+          "expected_result": [
+            "sku\\\\number*"
           ]
         },
         {
