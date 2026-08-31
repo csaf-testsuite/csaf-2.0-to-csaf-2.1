@@ -444,8 +444,8 @@
     },
     {
       "input": "testcase-15-b-isduba-2026-001.json",
-      "is_testing": [["Secondly •8(/$defs/full_product_name_t/product_identification_helper/serial_numbers[])"]],
-      "remark": "serial_numbers: add * if not exists, remove entries with multiple unescaped *, escape backslashes",
+      "is_testing": [["Secondly •8 ◦1"]],
+      "remark": "serial_numbers: add * if not exists",
       "requirement_level": "SHOULD",
       "asserts": [
         {
@@ -568,6 +568,24 @@
             [
               "ser\\\\ial*"
             ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-15-b-2-isduba-2026-001.json",
+      "is_testing": [["Secondly •8 ◦2"]],
+      "remark": "serial_numbers: escape backslashes",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches..product.serial_numbers[0]",
+          "expected_result": [
+            "serial\\\\number*"
           ]
         },
         {
