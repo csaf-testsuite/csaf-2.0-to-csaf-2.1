@@ -1676,6 +1676,190 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-38-a-isduba-2026-001.json",
+      "is_testing": [["Secondly •21 ◦1", ["If the system_name belongs to an RVISC entry, the CSAF 2.0 to CSAF 2.1 Converter MUST execute test 6.2.53.", 1]],
+                     ["Secondly •21 ◦1 ▪1"]],
+      "remark": "For a registered vulnerability ID system, preserve an ID whose text already passes test 6.2.53.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[0].system_name",
+          "expected_result": ["https://github.com/oasis-tcs/csaf"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[0].text",
+          "expected_result": ["#1217"]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-38-b-isduba-2026-001.json",
+      "is_testing": [["Secondly •21 ◦1 ▪2 •1"]],
+      "remark": "For a registered vulnerability ID system, convert invalid text through its RVISC mapping and report both values.",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "registered vulnerability system",
+            "detected",
+            "converted",
+            "Issue 001218",
+            "#1218"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[0].system_name",
+          "expected_result": ["https://github.com/oasis-tcs/csaf"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[0].text",
+          "expected_result": ["#1218"]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-38-c-isduba-2026-001.json",
+      "is_testing": [["Secondly •21 ◦1 ▪2 •2", 50]],
+      "remark": "For a registered vulnerability ID system, preserve invalid text when its RVISC mapping cannot convert it and report the reason. Coverage is 50% because this does not test a successful mapping whose result still fails test 6.2.53.",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "registered vulnerability system",
+            "detected",
+            "could not be converted automatically",
+            "unconvertible identifier",
+            "mapping"
+          ],
+          "comment": "Mentioning the mapping together with the original value states why no conversion rule applies."
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[0].system_name",
+          "expected_result": ["https://github.com/oasis-tcs/csaf"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[0].text",
+          "expected_result": ["unconvertible identifier"]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-38-d-isduba-2026-001.json",
+      "is_testing": [["Secondly •21 ◦2", ["If the system_name does not belong to an RVISC entry, the CSAF 2.0 to CSAF 2.1 Converter MUST try to convert the entry based on the mapping given in [RVISC-M].", 1]],
+                     ["Secondly •21 ◦2 ▪2"]],
+      "remark": "Convert a legacy vulnerability ID system name and its text through a known RVISC mapping and report all original and converted values.",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "vulnerability system with a known mapping",
+            "detected",
+            "converted",
+            "OASIS Open CSAF TC GitHub Issues",
+            "https://github.com/oasis-tcs/csaf",
+            "Issue 001219",
+            "#1219"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[0].system_name",
+          "expected_result": ["https://github.com/oasis-tcs/csaf"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[0].text",
+          "expected_result": ["#1219"]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-38-e-isduba-2026-001.json",
+      "is_testing": [["Secondly •21 ◦2 ▪3", 50]],
+      "remark": "Preserve a legacy vulnerability ID when its known RVISC mapping cannot convert the text and report the reason. Coverage is 50% because this does not test a successful mapping whose result still fails test 6.2.53.",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "vulnerability system with a known mapping",
+            "detected",
+            "could not be converted automatically",
+            "OASIS Open CSAF TC GitHub Issues",
+            "unconvertible identifier",
+            "mapping"
+          ],
+          "comment": "Mentioning the mapping together with both original values states why no conversion rule applies."
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[0].system_name",
+          "expected_result": ["OASIS Open CSAF TC GitHub Issues"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[0].text",
+          "expected_result": ["unconvertible identifier"]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-38-f-isduba-2026-001.json",
+      "is_testing": [["Secondly •21 ◦2 ▪1"]],
+      "remark": "Preserve an ID from an unregistered vulnerability system when no RVISC mapping exists and report that no change occurred.",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "potentially unregistered vulnerability system",
+            "detected",
+            "no change occurred",
+            "Unregistered Example Tracker",
+            "EXAMPLE-42"
+          ],
+          "comment": "The specification requires an informational message. Unclear if the converter interface represents informational messages as warnings."
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[0].system_name",
+          "expected_result": ["Unregistered Example Tracker"]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[0].text",
+          "expected_result": ["EXAMPLE-42"]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
