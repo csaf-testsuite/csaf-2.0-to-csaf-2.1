@@ -1237,6 +1237,44 @@
       ]
     },
     {
+      "input": "testcase-30-b-isduba-2026-001.json",
+      "is_testing": [["Secondly •19 ◦2", ["If no such version exist, the first matching version published after the value of /document/tracking/current_release_date of the source document SHOULD be used.", 1]]],
+      "remark": "CWE 1.11 uses a different name for CWE-94. CWE 1.12 is the first version after the document release date that matches both the id and name exactly.",
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwe",
+          "expected_result": []
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwes[0].id",
+          "expected_result": [
+            "CWE-94"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwes[0].name",
+          "expected_result": [
+            "Improper Control of Generation of Code ('Code Injection')"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwes[0].version",
+          "expected_result": [
+            "1.12"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
       "input": "testcase-31-a-isduba-2026-001.json",
       "is_testing": [["Secondly •22", ["/vulnerabilities[]/metrics[]/content/cvss_v4: If an external reference in the vulnerability linking to the official FIRST.org CVSS v4.0 calculator exists, the CSAF 2.0 to CSAF 2.1 Converter MUST convert the vector given in the fragment into a cvss_v4 object linked to all affected products of the vulnerability.", 1]]],
       "asserts": [
