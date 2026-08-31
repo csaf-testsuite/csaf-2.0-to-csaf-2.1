@@ -59,6 +59,36 @@
       ]
     },
     {
+      "input": "testcase-2-20260312-1651-isduba-2025-01.json",
+      "is_testing": [["Secondly •1", ["The CSAF 2.0 to CSAF 2.1 Converter SHOULD indicate in such warning message whether the value was a valid leap second or not.", 1]]],
+      "remark": "identify a non-historical leap second as invalid in the replacement warning",
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "invalid leap second",
+            "2026-12-31T23:59:60Z",
+            "document",
+            "tracking",
+            "revision_history",
+            "date"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.document.tracking.revision_history[1].date",
+          "expected_result": [
+            "2026-12-31T23:59:59.999999Z"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
       "input": "testcase-3-20260313-1429-isduba-2026-001.json",
       "is_testing": [["Secondly •2(/$defs/branches_t) ◦1"]],
       "remark": "replace product category legacy",
