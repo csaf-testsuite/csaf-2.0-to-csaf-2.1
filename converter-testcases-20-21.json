@@ -695,7 +695,7 @@
     },
     {
       "input": "testcase-19-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •11(/document/category) ◦2 ▪1"], 50],
+      "is_testing": [["Secondly •11(/document/category) ◦2 ▪1", 50]],
       "remark": "if the English title starts with 'Superseded', the document must become a document with the profile 'Superseded'",
       "asserts": [
         {
@@ -713,7 +713,7 @@
     },
     {
       "input": "testcase-19-b-isduba-2026-001.json",
-      "is_testing": [["Secondly •11(/document/category) ◦2 ▪2"], 50],
+      "is_testing": [["Secondly •11(/document/category) ◦2 ▪2", 50]],
       "remark": "if the English title starts with 'Withdrawn', the document must become a document with the profile 'Withdrawn'",
       "asserts": [
         {
