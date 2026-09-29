@@ -1992,6 +1992,33 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-39-isduba-2026-001.json",
+      "is_testing": [["Secondly •19 ◦2"]],
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "multiple",
+            "SPDX license expressions",
+            "no document license expression",
+            "Apache-2.0",
+            "MIT",
+            "$.document.notes[0].text",
+            "$.document.notes[1].text"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.document.license_expression",
+          "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
