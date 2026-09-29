@@ -2019,6 +2019,103 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "isduba-2026-001.json",
+      "is_testing": [["Secondly •22 ◦1"]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.publisher.contact.details",
+          "expected_result": [
+            "See contact points at https://github.com/ISDuBA"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.document.publisher.contact_details",
+          "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-40-a-isduba-2026-001.json",
+      "is_testing": [["Secondly •22 ◦2"]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.publisher.contact.public_openpgp_key_url",
+          "expected_result": [
+            "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0d59d2b15144766a14d241c66baf400b05c3e651"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-40-a-isduba-2026-001.json",
+      "is_testing": [["Secondly •22 ◦3", 50]],
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.publisher.contact.email",
+          "expected_result": [
+            "security@debian.org"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-40-b-isduba-2026-001.json",
+      "is_testing": [["Secondly •22 ◦3", 50]],
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.publisher.contact.email",
+          "expected_result": [
+            "first@example.org"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-40-c-isduba-2026-001.json",
+      "is_testing": [["Secondly •22 ◦2", 50]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.publisher[?(@.public_openpgp_key_url=='http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0d59d2b15144766a14d241c66baf400b05c3e651')].public_openpgp_key_url",
+          "expected_result": []
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.document.publisher.contact.details",
+          "expected_result": [
+            "Security contact: security@debian.org. Public OpenPGP key: http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0d59d2b15144766a14d241c66baf400b05c3e651"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
