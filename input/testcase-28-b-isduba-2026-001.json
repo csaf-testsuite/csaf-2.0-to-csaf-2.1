@@ -1,0 +1,66 @@
+{
+    "document": {
+        "category": "csaf_base",
+        "csaf_version": "2.0",
+        "distribution": {
+            "tlp": {
+                "label": "WHITE",
+                "url": "https://www.first.org/tlp/v1/"
+            }
+        },
+        "lang": "en",
+        "notes": [
+            {
+                "category": "description",
+                "text": "Description of an ISDuBA product which cannot be found in the product tree.",
+                "title": "Product Description for ISDuBA Mobile Script"
+            }
+        ],
+        "publisher": {
+            "category": "vendor",
+            "contact_details": "See contact points at https://github.com/ISDuBA",
+            "name": "ISDuBA Dev team",
+            "namespace": "https://github.com/ISDuBA"
+        },
+        "references": [
+            {
+                "category": "self",
+                "summary": "testcase-28-b-isduba-2026-001",
+                "url": "https://isduba.github.io/.well-known/csaf/white/2026/testcase-28-b-isduba-2026-001.json"
+            }
+        ],
+        "title": "ISDuBA product specific document notes",
+        "tracking": {
+            "current_release_date": "2026-02-12T14:42:00.000Z",
+            "id": "testcase-28-b-isduba-2026-001",
+            "initial_release_date": "2026-02-12T14:42:00.000Z",
+            "revision_history": [
+                {
+                    "date": "2026-02-12T14:42:00.000Z",
+                    "number": "1.0.0",
+                    "summary": "Initial revision"
+                }
+            ],
+            "status": "final",
+            "version": "1.0.0"
+        }
+    },
+    "product_tree": {
+        "branches": [
+            {
+                "category": "vendor",
+                "name": "Isduba Development Community",
+                "branches": [
+                    {
+                        "category": "product_name",
+                        "name": "ISDuBA Script",
+                        "product": {
+                            "name": "ISDuBA Script",
+                            "product_id": "isduba-script"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

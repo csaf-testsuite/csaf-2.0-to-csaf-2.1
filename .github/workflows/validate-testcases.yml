@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 German Federal Office for Information Security (BSI) <https://www.bsi.bund.de>
+
+name: Validate converter testcases
+
+on:
+  push:
+    paths:
+      - "converter-testcases-20-21.json"
+      - "csaf-converter-testcases-schema.json"
+      - ".github/workflows/validate-testcases.yml"
+  pull_request:
+    paths:
+      - "converter-testcases-20-21.json"
+      - "csaf-converter-testcases-schema.json"
+      - ".github/workflows/validate-testcases.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install check-jsonschema==0.38.0
+      - run: check-jsonschema --schemafile csaf-converter-testcases-schema.json converter-testcases-20-21.json

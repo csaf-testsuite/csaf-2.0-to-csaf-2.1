@@ -37,7 +37,10 @@ from markdown.extensions import Extension
 from markdown.preprocessors import Preprocessor
 from markdown.treeprocessors import Treeprocessor
 
-REVISIONS = {"2.1-csd02": "https://docs.oasis-open.org/csaf/csaf/v2.1/csd02/csaf-v2.1-csd02.md"}
+REVISIONS = {
+    "2.1-csd02": "https://docs.oasis-open.org/csaf/csaf/v2.1/csd02/csaf-v2.1-csd02.md",
+    "2.1-csd03": "https://docs.oasis-open.org/csaf/csaf/v2.1/csd03/csaf-v2.1-csd03.md",
+}
 
 COMMIT_TAG_PATTERN = re.compile(r"^[0-9a-f]{6,40}$")
 REVISION_TEMPLATE = "https://raw.githubusercontent.com/oasis-tcs/csaf/{tag}/csaf_2.1/prose/share/csaf-v2.1-draft.md"
@@ -1415,7 +1418,7 @@ def main() -> None:
         type=str,
         help="ID of revision to generate HTML for",
         required=False,
-        default="2.1-csd02",
+        default="2.1-csd03",
     )
     interactive_selection_parser.add_argument(
         "--output",
