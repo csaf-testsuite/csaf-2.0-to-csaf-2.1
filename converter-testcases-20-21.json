@@ -2121,6 +2121,30 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-41-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦3", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid product tree, it SHALL issue an error that an invalid product tree with branch categories product_version and product_version_range in one path was detected and could not be resolved. Such a error SHALL include the invalid path as well as the branch category items.", 1]]],
+      "remark": "Reject a product_version_range followed by product_version on the same path. Both repair steps require product_version before product_version_range, so neither applies.",
+      "asserts": [
+        {
+          "type": "errormsg",
+          "substring_matches": [
+            "invalid product tree",
+            "product_version",
+            "product_version_range",
+            "detected",
+            "could not be resolved",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:semver/>=0.1.0|<1.0.0",
+            "0.14.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": false
+        }
+      ]
     }
   ]
 }
