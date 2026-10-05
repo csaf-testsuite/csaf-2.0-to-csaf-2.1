@@ -920,7 +920,7 @@
           "type": "jsonpath",
           "query": "$['$schema']",
           "expected_result": [
-            "https://docs.oasis-open.org/csaf/csaf/v2.1/csaf_json_schema.json"
+            "https://docs.oasis-open.org/csaf/csaf/v2.1/schema/csaf.json"
           ]
         },
         {
