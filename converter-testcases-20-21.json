@@ -748,14 +748,24 @@
     },
     {
       "input": "testcase-19-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •16($.document.category) ◦2 ▪1", 50]],
-      "remark": "if the English title starts with 'Superseded', the document must become a document with the profile 'Superseded'",
+      "is_testing": [["Secondly •16 ◦2", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid CSAF 2.1 Document according to the profile, it SHALL set the category of the original CSAF Document and issue a warning a potentially withdrawn CSAF Document was created which would result in an invalid CSAF.", 1], 50]],
+      "remark": "Cannot satisfy the Superseded profile: no supersession reason or superseding document reference, only one revision history entry, and product_tree and vulnerabilities are still present. The warning follows CSD03's wording 'potentially withdrawn', which may be a misnomer for Superseded.",
       "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "potentially withdrawn CSAF Document",
+            "created",
+            "invalid CSAF",
+            "$.document.title",
+            "Superseded: does not integrate Ivanti Endpoint Manager Mobile (EPMM)"
+          ]
+        },
         {
           "type": "jsonpath",
           "query": "$.document.category",
           "expected_result": [
-            "csaf_superseded"
+            "csaf_vex"
           ]
         },
         {
@@ -766,14 +776,24 @@
     },
     {
       "input": "testcase-19-b-isduba-2026-001.json",
-      "is_testing": [["Secondly •16($.document.category) ◦2 ▪2", 50]],
-      "remark": "if the English title starts with 'Withdrawn', the document must become a document with the profile 'Withdrawn'",
+      "is_testing": [["Secondly •16 ◦2", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid CSAF 2.1 Document according to the profile, it SHALL set the category of the original CSAF Document and issue a warning a potentially withdrawn CSAF Document was created which would result in an invalid CSAF.", 1], 50]],
+      "remark": "Cannot satisfy the Withdrawn profile: no withdrawal reason, only one revision history entry, and product_tree and vulnerabilities are still present.",
       "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "potentially withdrawn CSAF Document",
+            "created",
+            "invalid CSAF",
+            "$.document.title",
+            "Withdrawn: does not integrate Ivanti Endpoint Manager Mobile (EPMM)"
+          ]
+        },
         {
           "type": "jsonpath",
           "query": "$.document.category",
           "expected_result": [
-            "csaf_withdrawn"
+            "csaf_vex"
           ]
         },
         {
@@ -2288,6 +2308,78 @@
                 "uri": "https://github.com/ISDuBA/ISDuBA/releases/tag/v0.13.0"
               }
             ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-48-isduba-2026-001.json",
+      "is_testing": [["Secondly •16 ◦2 ▪2", 50]],
+      "remark": "Successful Withdrawn conversion triggered only by the English title.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_withdrawn"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-49-isduba-2026-001.json",
+      "is_testing": [["Secondly •16 ◦2 ▪2", 50]],
+      "remark": "Successful Withdrawn conversion triggered only by the category.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_withdrawn"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-50-isduba-2026-001.json",
+      "is_testing": [["Secondly •16 ◦2 ▪1", 50]],
+      "remark": "Successful Superseded conversion triggered only by the English title.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_superseded"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-51-isduba-2026-001.json",
+      "is_testing": [["Secondly •16 ◦2 ▪1", 50]],
+      "remark": "Successful Superseded conversion triggered only by the category.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_superseded"
           ]
         },
         {
