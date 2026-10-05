@@ -13,7 +13,9 @@
             "additional property",
             "not converted",
             "x_test_q7VQf",
-            "document"
+            "document",
+            "$.document.x_test_q7VQf",
+            "true"
           ]
         },
         {
@@ -130,7 +132,10 @@
             "detected",
             "stacked branch",
             "product_tree",
-            "branches"
+            "branches",
+            "$.product_tree.branches[0].branches[0]",
+            "super Isduba Development Community",
+            "Isduba Development Community"
           ],
           "comment": "must mention problematic stacked category `vendor` and path in error message"
         },
