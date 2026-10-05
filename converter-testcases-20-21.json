@@ -2269,6 +2269,32 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-47-isduba-2026-001.json",
+      "is_testing": [["Secondly •14"]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].product.product_identification_helper.x_generic_uris",
+          "expected_result": [
+            [
+              {
+                "namespace": "https://github.com/ISDuBA/ISDuBA",
+                "uri": "https://github.com/ISDuBA/ISDuBA/releases/tag/v0.14.0"
+              },
+              {
+                "namespace": "https://github.com/ISDuBA/ISDuBA",
+                "uri": "https://github.com/ISDuBA/ISDuBA/releases/tag/v0.13.0"
+              }
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
