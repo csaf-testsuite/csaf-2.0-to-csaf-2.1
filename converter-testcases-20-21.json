@@ -2167,6 +2167,42 @@
           "value": false
         }
       ]
+    },
+    {
+      "input": "testcase-43-isduba-2026-001.json",
+      "is_testing": [["Secondly •4"]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].product.product_identification_helper.hashes",
+          "expected_result": [
+            [
+              {
+                "file_hashes": [
+                  {
+                    "algorithm": "sha256",
+                    "value": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+                  }
+                ],
+                "filename": "z-example.bin"
+              },
+              {
+                "file_hashes": [
+                  {
+                    "algorithm": "sha256",
+                    "value": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+                  }
+                ],
+                "filename": "a-example.bin"
+              }
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
