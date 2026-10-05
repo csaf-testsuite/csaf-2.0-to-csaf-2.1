@@ -2145,6 +2145,28 @@
           "value": false
         }
       ]
+    },
+    {
+      "input": "testcase-42-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦4", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid product tree, it SHALL issue an error that an invalid product tree with an upper open ended product version range in one path was detected and could not be resolved.", 1]]],
+      "remark": "Reject an upper open ended range with multiple constraints whose opening constraint is followed by an exclusion. Neither repair step applies: this is not a single constraint and the upper open constraint is not last. The selector covers the required error, but excludes the following sentence requiring the invalid path and original and new values in the error. The assertions check the path and original value. No new value is produced because neither repair step applies, and it is not clear what to report as the new value in this situation.",
+      "asserts": [
+        {
+          "type": "errormsg",
+          "substring_matches": [
+            "invalid product tree",
+            "upper open ended product version range",
+            "detected",
+            "could not be resolved",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:semver/>=1.0.0|!=2.0.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": false
+        }
+      ]
     }
   ]
 }
