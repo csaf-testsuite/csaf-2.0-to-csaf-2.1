@@ -2249,6 +2249,26 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-46-isduba-2026-001.json",
+      "is_testing": [["Secondly •12"]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].product.product_identification_helper.skus",
+          "expected_result": [
+            [
+              "z-skus*",
+              "a-skus*"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
