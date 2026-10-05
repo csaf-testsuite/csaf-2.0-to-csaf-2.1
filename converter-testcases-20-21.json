@@ -822,7 +822,9 @@
     },
     {
       "input": "isduba-2026-001.json",
-      "is_testing": [["Secondly •18", ["TLP:WHITE TLP:CLEAR", 1]]],
+      "is_testing": [["Secondly •18", ["TLP:WHITE TLP:CLEAR", 1]],
+                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to the table below:", 1], 25],
+                     ["Secondly •18", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
       "remark": "TLP update from WHITE to CLEAR",
       "asserts": [
         {
@@ -951,7 +953,9 @@
     },
     {
       "input": "testcase-25-g-isduba-2026-001.json",
-      "is_testing": [["Secondly •18", ["TLP:GREEN TLP:GREEN", 1]]],
+      "is_testing": [["Secondly •18", ["TLP:GREEN TLP:GREEN", 1]],
+                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to the table below:", 1], 25],
+                     ["Secondly •18", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
       "remark": "preserve TLP:GREEN during conversion",
       "asserts": [
         {
@@ -969,7 +973,9 @@
     },
     {
       "input": "testcase-25-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •18", ["TLP:AMBER TLP:AMBER", 1]]],
+      "is_testing": [["Secondly •18", ["TLP:AMBER TLP:AMBER", 1]],
+                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to the table below:", 1], 25],
+                     ["Secondly •18", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
       "remark": "preserve TLP:AMBER during conversion",
       "asserts": [
         {
@@ -987,7 +993,9 @@
     },
     {
       "input": "testcase-25-r-isduba-2026-001.json",
-      "is_testing": [["Secondly •18", ["TLP:RED TLP:RED", 1]]],
+      "is_testing": [["Secondly •18", ["TLP:RED TLP:RED", 1]],
+                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to the table below:", 1], 25],
+                     ["Secondly •18", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
       "remark": "preserve TLP:RED during conversion",
       "asserts": [
         {
