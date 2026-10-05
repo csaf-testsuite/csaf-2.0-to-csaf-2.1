@@ -2229,6 +2229,26 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-45-isduba-2026-001.json",
+      "is_testing": [["Secondly •10"]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].product.product_identification_helper.sbom_urls",
+          "expected_result": [
+            [
+              "https://raw.githubusercontent.com/CycloneDX/bom-examples/master/SBOM/keycloak-10.0.2/bom.xml",
+              "https://raw.githubusercontent.com/CycloneDX/bom-examples/master/SBOM/keycloak-10.0.2/bom.json"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
