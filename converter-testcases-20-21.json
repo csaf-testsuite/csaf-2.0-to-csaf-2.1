@@ -889,24 +889,45 @@
     },
     {
       "input": "testcase-22-isduba-2026-001.json",
-      "is_testing": [["Secondly •31($.vulnerabilities[*].remediations[*]) ◦2"]],
-      "remark": "/vulnerabilities[]/remediations[]: none_available converted to fix_planned due to future or undated vendor_fix",
+      "is_testing": [["Secondly •31 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category none_available into the category fix_planned if the product in question is also listed in a remediation of the category vendor_fix with a date in the future or no date at all.", 1], 50]],
+      "remark": "/vulnerabilities[]/remediations[]: none_available converted to fix_planned due to future vendor_fix",
       "asserts": [
         {
-          "type": "warningmsg",
-          "substring_matches": [
-            "remediation",
-            "category was changed",
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[0].category",
+          "expected_result": [
             "fix_planned"
           ]
         },
         {
           "type": "jsonpath",
-          "query": "$..remediations[?(@.category=='fix_planned')].product_ids",
+          "query": "$.vulnerabilities[0].remediations[0].product_ids",
           "expected_result": [
             [
               "isduba-all-versions"
             ]
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='vendor_fix')]",
+          "expected_result": []
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "remediation",
+            "category was changed",
+            "fix_planned",
+            "isduba-all-versions"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "remediation",
+            "remove",
+            "isduba-all-versions"
           ]
         },
         {
@@ -2437,6 +2458,56 @@
           "query": "$.vulnerabilities[0].remediations[?(@.category=='vendor_fix')].product_ids[0]",
           "expected_result": [
             "isduba-2.0.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-53-isduba-2026-001.json",
+      "is_testing": [["Secondly •31 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category none_available into the category fix_planned if the product in question is also listed in a remediation of the category vendor_fix with a date in the future or no date at all.", 1], 50],
+                     ["Secondly •31 ◦2", ["Consequently, the product SHALL be removed from the remediation of the category vendor_fix. If it was the last product in that remediation, the remediation SHALL be removed.", 1]],
+                     ["Secondly •31 ◦5"]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[0].category",
+          "expected_result": [
+            "fix_planned"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[0].product_ids",
+          "expected_result": [
+            [
+              "isduba-all-versions"
+            ]
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='vendor_fix')]",
+          "expected_result": []
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "remediation",
+            "category was changed",
+            "fix_planned",
+            "isduba-all-versions"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "remediation",
+            "remove",
+            "isduba-all-versions"
           ]
         },
         {
