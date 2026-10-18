@@ -147,7 +147,8 @@
     },
     {
       "input": "testcase-4-2-20260323-1146-isduba-2025-01.json",
-      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦2 1."]],
+      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦2 1."],
+                     ["Secondly •2 ◦2", ["If the CSAF 2.0 to CSAF 2.1 Converter is able to create a valid product tree, it SHALL issue a warning that an invalid product tree with stacked branch categories was detected and resolved. Such a warning SHALL include the invalid path as well as the branch categories that were present multiple times.", 1], 50]],
       "remark": "The category 'vendor' appears three time in the same path (aka 'it is stacked'). Two names are in the list to be removed, so this can be resolved.",
       "asserts": [
         {
@@ -158,7 +159,8 @@
             "invalid product tree",
             "detected",
             "stacked branch",
-            "resolved"
+            "resolved",
+            "$.product_tree.branches[0].branches[0]"
           ],
           "comment": "must mention problematic stacked category `vendor` "
         },
