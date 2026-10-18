@@ -274,14 +274,20 @@
     },
     {
       "input": "testcase-7-isduba-2026-001.json",
-      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦4 a."]],
+      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦4 a."],
+                     ["Secondly •2 ◦4", ["If the CSAF 2.0 to CSAF 2.1 Converter is able to create a valid product tree, it SHALL issue a warning that an invalid product tree with an upper open ended product version range in one path was detected and resolved.", 1], 50],
+                     ["Secondly •2 ◦4", ["Such a warning SHALL include the invalid path as well as the original", 1], 50]],
       "remark": "resolve upper open ended range with single version constraint",
       "asserts": [
         {
           "type": "warningmsg",
           "substring_matches": [
             "upper open ended product_version_range",
-            "resolved"
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:all/>=1.0"
           ]
         },
         {
