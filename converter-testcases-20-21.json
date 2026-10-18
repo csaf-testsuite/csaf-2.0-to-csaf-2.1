@@ -2547,6 +2547,68 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-54-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦2", ["If any branch category appears multiple times along a path under $.product_tree.branches and the category is not an excepted one according to test 6.1.57, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to convert the data into a valid product tree by applying the following steps to the path:", 1]]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0]['category','name']",
+          "expected_result": [
+            "vendor",
+            "Isduba Development Community"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0]['category','name']",
+          "expected_result": [
+            "product_family",
+            "ISDuBA"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0]['category','name']",
+          "expected_result": [
+            "product_name",
+            "ISDuBA 0.14.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].branches[0]['category','name']",
+          "expected_result": [
+            "product_version",
+            "1.0"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "stacked branch",
+            "resolved",
+            "vendor",
+            "unknown",
+            "$.product_tree.branches[0]"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "stacked branch",
+            "resolved",
+            "product_version",
+            "0.14.0",
+            "$.product_tree.branches[0].branches[0].branches[0].branches[0]"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
