@@ -2804,6 +2804,106 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-59-isduba-2026-001.json",
+      "is_testing": [["Secondly •27", ["$.vulnerabilities[*].ids: If an system_name was given, the CSAF 2.0 to CSAF 2.1 Converter SHALL test whether it belongs to a registered vulnerability ID system in RVISC.", 1]],
+                     ["Secondly •27 ◦1", ["If the test fails, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to convert the entry based on the mapping given in [RVISC-M].", 1]],
+                     ["Secondly •27 ◦1", ["The output SHALL include the original values and, if applicable, the converted ones.", 1]]],
+      "remark": "Based on testcase-38-b; combines existing ID examples. Valid, convertible, unconvertible and unregistered entries must be handled independently, including entries after a failed mapping.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[?(@.text=='#1217')].system_name",
+          "expected_result": [
+            "https://github.com/oasis-tcs/csaf"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[?(@.text=='#1218')].system_name",
+          "expected_result": [
+            "https://github.com/oasis-tcs/csaf"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[?(@.text=='unconvertible identifier')].system_name",
+          "expected_result": [
+            "https://github.com/oasis-tcs/csaf"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[?(@.text=='EXAMPLE-42')].system_name",
+          "expected_result": [
+            "Unregistered Example Tracker"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[?(@.text=='#1219')].system_name",
+          "expected_result": [
+            "https://github.com/oasis-tcs/csaf"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[5]",
+          "expected_result": []
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "registered vulnerability system",
+            "detected",
+            "converted",
+            "https://github.com/oasis-tcs/csaf",
+            "Issue 001218",
+            "#1218",
+            "$.vulnerabilities[0].ids[1]"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "registered vulnerability system",
+            "detected",
+            "could not be converted automatically",
+            "https://github.com/oasis-tcs/csaf",
+            "unconvertible identifier",
+            "mapping",
+            "$.vulnerabilities[0].ids[2]"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "potentially unregistered vulnerability system",
+            "no change occurred",
+            "Unregistered Example Tracker",
+            "EXAMPLE-42",
+            "$.vulnerabilities[0].ids[3]"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "vulnerability system with a known mapping",
+            "detected",
+            "converted",
+            "OASIS Open CSAF TC GitHub Issues",
+            "Issue 001219",
+            "https://github.com/oasis-tcs/csaf",
+            "#1219",
+            "$.vulnerabilities[0].ids[4]"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
