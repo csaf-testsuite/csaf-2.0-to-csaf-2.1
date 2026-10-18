@@ -2713,6 +2713,33 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-57-isduba-2026-001.json",
+      "is_testing": [["Secondly •19", ["$.document.license_expression: If any $.document.notes item in with category legal_disclaimer contains a valid SPDX license expression, the CSAF 2.0 to CSAF 2.1 Converter SHALL apply the following rules for the list of candidates:", 1]]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.license_expression",
+          "expected_result": [
+            "(Apache-2.0 OR MIT)"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "license expression",
+            "found",
+            "set",
+            "(Apache-2.0 OR MIT)",
+            "$.document.notes[0].text"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
