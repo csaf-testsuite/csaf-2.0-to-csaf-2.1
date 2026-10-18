@@ -323,7 +323,8 @@
     },
     {
       "input": "testcase-9-isduba-2026-001.json",
-      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦5 a."]],
+      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦5 a."],
+                     ["Secondly •2 ◦5", ["If the CSAF 2.0 to CSAF 2.1 Converter is able to create a valid product tree, it SHALL issue a warning that an invalid product tree with a product_version declared as product_version_range in one path was detected and resolved. Such a warning SHALL include the invalid path as well as value of the product version.", 1], 50]],
       "remark": "resolve product_version_range containing single version in vers format",
       "asserts": [
         {
@@ -332,7 +333,11 @@
             "product_version",
             "declared as",
             "product_version_range",
-            "resolved"
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:all/0.14.0"
           ]
         },
         {
@@ -350,7 +355,8 @@
     },
     {
       "input": "testcase-10-isduba-2026-001.json",
-      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦5 b."]],
+      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦5 b."],
+                     ["Secondly •2 ◦5", ["If the CSAF 2.0 to CSAF 2.1 Converter is able to create a valid product tree, it SHALL issue a warning that an invalid product tree with a product_version declared as product_version_range in one path was detected and resolved. Such a warning SHALL include the invalid path as well as value of the product version.", 1], 50]],
       "remark": "resolve product_version_range containing single version in vls format",
       "asserts": [
         {
@@ -359,7 +365,11 @@
             "product_version",
             "declared as",
             "product_version_range",
-            "resolved"
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "0.14.0"
           ]
         },
         {
