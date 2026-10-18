@@ -86,13 +86,39 @@ COVERAGE_CSS = """.coverage {
 .coverage-full {
     background-color: #60f060;
 }
-.coverage-summary {
-    color: #666;
-    opacity: 0.7;
-}
-.coverage-summary span {
+.coverage-values {
     display: block;
-    margin-left: 2em;
+    margin-left: 1em;
+}
+.coverage-values > span + span {
+    margin-left: 1em;
+}
+.coverage-info {
+    position: relative;
+    margin-left: 0.5em;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: help;
+}
+.coverage-info [role="tooltip"] {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    width: min(32em, 80vw);
+    padding: 0.75em;
+    border: 1px solid #666;
+    background: white;
+    color: #222;
+    text-align: left;
+}
+.coverage-info:hover [role="tooltip"],
+.coverage-info:focus [role="tooltip"] {
+    display: block;
 }"""
 
 SELECTOR_SCRIPT_PATH = Path(__file__).with_name("selector_script.js")
@@ -970,8 +996,23 @@ class _SelectorTreeprocessor(Treeprocessor):
 
         summary = etree.Element("p", {"class": "coverage-summary"})
         summary.text = "Coverage:"
+        info = etree.SubElement(summary, "button", {
+            "type": "button",
+            "class": "coverage-info",
+            "aria-label": "How coverage is calculated",
+            "aria-describedby": "coverage-explanation",
+        })
+        info.text = "ⓘ"
+        etree.SubElement(info, "span", {"id": "coverage-explanation", "role": "tooltip"}).text = (
+            "Percentage (weighted): averages the selector coverage of all occurrences of each keyword in this section.\n"
+            "Uncovered occurrences contribute 0%. Overlapping selectors add up, capped at 100% per occurrence.\n"
+            "Count (unweighted): matched keyword occurrences / all keyword occurrences. "
+            "An occurrence counts once as soon as a selector covers it with non-zero coverage, even partially. "
+            "Partial and full coverage count equally here, so this ratio is not the weighted percentage."
+        )
+        values = etree.SubElement(summary, "span", {"class": "coverage-values"})
         for entry in entries:
-            etree.SubElement(summary, "span").text = entry
+            etree.SubElement(values, "span").text = entry
         return summary
 
     # Called by Markdown.convert()
@@ -993,7 +1034,7 @@ class _SelectorTreeprocessor(Treeprocessor):
             self._apply_annotations(root)
             markdown_selector.keep_section_only()
             if summary is not None:
-                root.append(summary)
+                root.insert(0, summary)
 
         return root
 
