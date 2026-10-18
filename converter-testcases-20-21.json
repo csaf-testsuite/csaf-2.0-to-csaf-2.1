@@ -2665,6 +2665,54 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-56-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦5", ["If the value of name of an item categorized as product_version_range contains just a single version, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to convert the data into a valid product tree by applying the following steps to the path:", 1]]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[*]['category','name']",
+          "expected_result": [
+            "product_version",
+            "0.14.0",
+            "product_version",
+            "0.15.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[*].product.product_id",
+          "expected_result": [
+            "isduba-all-versions",
+            "isduba-0.15.0"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "product_version",
+            "product_version_range",
+            "resolved",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "0.14.0"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "product_version",
+            "product_version_range",
+            "resolved",
+            "$.product_tree.branches[0].branches[0].branches[1]",
+            "0.15.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
