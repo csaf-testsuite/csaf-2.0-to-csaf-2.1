@@ -201,7 +201,8 @@
     },
     {
       "input": "testcase-5-isduba-2026-001.json",
-      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦3 1."]],
+      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦3 1."],
+                     ["Secondly •2 ◦3", ["If the CSAF 2.0 to CSAF 2.1 Converter is able to create a valid product tree, it SHALL issue a warning that an invalid product tree with branch categories product_version and product_version_range in one path was detected and resolved. Such a warning SHALL include the invalid path as well as the branch category items changed.", 1], 50]],
       "remark": "resolve product_name.product_version.product_version_range",
       "asserts": [
         {
@@ -209,7 +210,13 @@
           "substring_matches": [
             "product_version",
             "product_version_range",
-            "resolved"
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "product_name",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "ISDuBA",
+            "1.0"
           ]
         },
         {
@@ -234,7 +241,8 @@
     },
     {
       "input": "testcase-6-isduba-2026-001.json",
-      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦3 b."]],
+      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦3 b."],
+                     ["Secondly •2 ◦3", ["If the CSAF 2.0 to CSAF 2.1 Converter is able to create a valid product tree, it SHALL issue a warning that an invalid product tree with branch categories product_version and product_version_range in one path was detected and resolved. Such a warning SHALL include the invalid path as well as the branch category items changed.", 1], 50]],
       "remark": "resolve product_version before product_version_range after product_family",
       "asserts": [
         {
@@ -242,7 +250,13 @@
           "substring_matches": [
             "product_version",
             "product_version_range",
-            "resolved"
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "product_name",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "0.14.0",
+            "ISDuBAFamily"
           ]
         },
         {
