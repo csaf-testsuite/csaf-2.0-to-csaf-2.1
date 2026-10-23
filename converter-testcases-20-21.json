@@ -851,7 +851,7 @@
           "type": "jsonpath",
           "query": "$.vulnerabilities[*].disclosure_date",
           "expected_result": [
-            "2025-03-11T15:12:00.0000Z"
+            "2025-03-11T15:12:00.000Z"
           ]
         },
         {
