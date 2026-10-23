@@ -55,7 +55,7 @@
                       {
                         "file_hashes": [
                           {
-                            "algorithm": "sha256",
+                            "algorithm": "SHA256",
                             "value": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
                           }
                         ],

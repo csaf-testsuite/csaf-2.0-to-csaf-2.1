@@ -13,7 +13,9 @@
             "additional property",
             "not converted",
             "x_test_q7VQf",
-            "document"
+            "document",
+            "$.document.x_test_q7VQf",
+            "true"
           ]
         },
         {
@@ -130,7 +132,10 @@
             "detected",
             "stacked branch",
             "product_tree",
-            "branches"
+            "branches",
+            "$.product_tree.branches[0].branches[0]",
+            "super Isduba Development Community",
+            "Isduba Development Community"
           ],
           "comment": "must mention problematic stacked category `vendor` and path in error message"
         },
@@ -142,7 +147,8 @@
     },
     {
       "input": "testcase-4-2-20260323-1146-isduba-2025-01.json",
-      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦2 1."]],
+      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦2 1."],
+                     ["Secondly •2 ◦2", ["If the CSAF 2.0 to CSAF 2.1 Converter is able to create a valid product tree, it SHALL issue a warning that an invalid product tree with stacked branch categories was detected and resolved. Such a warning SHALL include the invalid path as well as the branch categories that were present multiple times.", 1], 50]],
       "remark": "The category 'vendor' appears three time in the same path (aka 'it is stacked'). Two names are in the list to be removed, so this can be resolved.",
       "asserts": [
         {
@@ -153,7 +159,8 @@
             "invalid product tree",
             "detected",
             "stacked branch",
-            "resolved"
+            "resolved",
+            "$.product_tree.branches[0].branches[0]"
           ],
           "comment": "must mention problematic stacked category `vendor` "
         },
@@ -194,7 +201,8 @@
     },
     {
       "input": "testcase-5-isduba-2026-001.json",
-      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦3 1."]],
+      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦3 1."],
+                     ["Secondly •2 ◦3", ["If the CSAF 2.0 to CSAF 2.1 Converter is able to create a valid product tree, it SHALL issue a warning that an invalid product tree with branch categories product_version and product_version_range in one path was detected and resolved. Such a warning SHALL include the invalid path as well as the branch category items changed.", 1], 50]],
       "remark": "resolve product_name.product_version.product_version_range",
       "asserts": [
         {
@@ -202,7 +210,13 @@
           "substring_matches": [
             "product_version",
             "product_version_range",
-            "resolved"
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "product_name",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "ISDuBA",
+            "1.0"
           ]
         },
         {
@@ -227,7 +241,8 @@
     },
     {
       "input": "testcase-6-isduba-2026-001.json",
-      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦3 b."]],
+      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦3 b."],
+                     ["Secondly •2 ◦3", ["If the CSAF 2.0 to CSAF 2.1 Converter is able to create a valid product tree, it SHALL issue a warning that an invalid product tree with branch categories product_version and product_version_range in one path was detected and resolved. Such a warning SHALL include the invalid path as well as the branch category items changed.", 1], 50]],
       "remark": "resolve product_version before product_version_range after product_family",
       "asserts": [
         {
@@ -235,7 +250,13 @@
           "substring_matches": [
             "product_version",
             "product_version_range",
-            "resolved"
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "product_name",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "0.14.0",
+            "ISDuBAFamily"
           ]
         },
         {
@@ -253,14 +274,20 @@
     },
     {
       "input": "testcase-7-isduba-2026-001.json",
-      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦4 a."]],
+      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦4 a."],
+                     ["Secondly •2 ◦4", ["If the CSAF 2.0 to CSAF 2.1 Converter is able to create a valid product tree, it SHALL issue a warning that an invalid product tree with an upper open ended product version range in one path was detected and resolved.", 1], 50],
+                     ["Secondly •2 ◦4", ["Such a warning SHALL include the invalid path as well as the original", 1], 50]],
       "remark": "resolve upper open ended range with single version constraint",
       "asserts": [
         {
           "type": "warningmsg",
           "substring_matches": [
             "upper open ended product_version_range",
-            "resolved"
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:all/>=1.0"
           ]
         },
         {
@@ -296,7 +323,8 @@
     },
     {
       "input": "testcase-9-isduba-2026-001.json",
-      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦5 a."]],
+      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦5 a."],
+                     ["Secondly •2 ◦5", ["If the CSAF 2.0 to CSAF 2.1 Converter is able to create a valid product tree, it SHALL issue a warning that an invalid product tree with a product_version declared as product_version_range in one path was detected and resolved. Such a warning SHALL include the invalid path as well as value of the product version.", 1], 50]],
       "remark": "resolve product_version_range containing single version in vers format",
       "asserts": [
         {
@@ -305,7 +333,11 @@
             "product_version",
             "declared as",
             "product_version_range",
-            "resolved"
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:all/0.14.0"
           ]
         },
         {
@@ -323,7 +355,8 @@
     },
     {
       "input": "testcase-10-isduba-2026-001.json",
-      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦5 b."]],
+      "is_testing": [["Secondly •2($['$defs'].branches_t) ◦5 b."],
+                     ["Secondly •2 ◦5", ["If the CSAF 2.0 to CSAF 2.1 Converter is able to create a valid product tree, it SHALL issue a warning that an invalid product tree with a product_version declared as product_version_range in one path was detected and resolved. Such a warning SHALL include the invalid path as well as value of the product version.", 1], 50]],
       "remark": "resolve product_version_range containing single version in vls format",
       "asserts": [
         {
@@ -332,7 +365,11 @@
             "product_version",
             "declared as",
             "product_version_range",
-            "resolved"
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "0.14.0"
           ]
         },
         {
@@ -743,14 +780,24 @@
     },
     {
       "input": "testcase-19-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •16($.document.category) ◦2 ▪1", 50]],
-      "remark": "if the English title starts with 'Superseded', the document must become a document with the profile 'Superseded'",
+      "is_testing": [["Secondly •16 ◦2", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid CSAF 2.1 Document according to the profile, it SHALL set the category of the original CSAF Document and issue a warning a potentially withdrawn CSAF Document was created which would result in an invalid CSAF.", 1], 50]],
+      "remark": "Cannot satisfy the Superseded profile: no supersession reason or superseding document reference, only one revision history entry, and product_tree and vulnerabilities are still present. The warning follows CSD03's wording 'potentially withdrawn', which may be a misnomer for Superseded.",
       "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "potentially withdrawn CSAF Document",
+            "created",
+            "invalid CSAF",
+            "$.document.title",
+            "Superseded: does not integrate Ivanti Endpoint Manager Mobile (EPMM)"
+          ]
+        },
         {
           "type": "jsonpath",
           "query": "$.document.category",
           "expected_result": [
-            "csaf_superseded"
+            "csaf_vex"
           ]
         },
         {
@@ -761,14 +808,24 @@
     },
     {
       "input": "testcase-19-b-isduba-2026-001.json",
-      "is_testing": [["Secondly •16($.document.category) ◦2 ▪2", 50]],
-      "remark": "if the English title starts with 'Withdrawn', the document must become a document with the profile 'Withdrawn'",
+      "is_testing": [["Secondly •16 ◦2", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid CSAF 2.1 Document according to the profile, it SHALL set the category of the original CSAF Document and issue a warning a potentially withdrawn CSAF Document was created which would result in an invalid CSAF.", 1], 50]],
+      "remark": "Cannot satisfy the Withdrawn profile: no withdrawal reason, only one revision history entry, and product_tree and vulnerabilities are still present.",
       "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "potentially withdrawn CSAF Document",
+            "created",
+            "invalid CSAF",
+            "$.document.title",
+            "Withdrawn: does not integrate Ivanti Endpoint Manager Mobile (EPMM)"
+          ]
+        },
         {
           "type": "jsonpath",
           "query": "$.document.category",
           "expected_result": [
-            "csaf_withdrawn"
+            "csaf_vex"
           ]
         },
         {
@@ -797,7 +854,9 @@
     },
     {
       "input": "isduba-2026-001.json",
-      "is_testing": [["Secondly •18", ["TLP:WHITE TLP:CLEAR", 1]]],
+      "is_testing": [["Secondly •18", ["TLP:WHITE TLP:CLEAR", 1]],
+                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to the table below:", 1], 25],
+                     ["Secondly •18", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
       "remark": "TLP update from WHITE to CLEAR",
       "asserts": [
         {
@@ -862,24 +921,45 @@
     },
     {
       "input": "testcase-22-isduba-2026-001.json",
-      "is_testing": [["Secondly •31($.vulnerabilities[*].remediations[*]) ◦2"]],
-      "remark": "/vulnerabilities[]/remediations[]: none_available converted to fix_planned due to future or undated vendor_fix",
+      "is_testing": [["Secondly •31 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category none_available into the category fix_planned if the product in question is also listed in a remediation of the category vendor_fix with a date in the future or no date at all.", 1], 50]],
+      "remark": "/vulnerabilities[]/remediations[]: none_available converted to fix_planned due to future vendor_fix",
       "asserts": [
         {
-          "type": "warningmsg",
-          "substring_matches": [
-            "remediation",
-            "category was changed",
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[0].category",
+          "expected_result": [
             "fix_planned"
           ]
         },
         {
           "type": "jsonpath",
-          "query": "$..remediations[?(@.category=='fix_planned')].product_ids",
+          "query": "$.vulnerabilities[0].remediations[0].product_ids",
           "expected_result": [
             [
               "isduba-all-versions"
             ]
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='vendor_fix')]",
+          "expected_result": []
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "remediation",
+            "category was changed",
+            "fix_planned",
+            "isduba-all-versions"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "remediation",
+            "remove",
+            "isduba-all-versions"
           ]
         },
         {
@@ -915,7 +995,7 @@
           "type": "jsonpath",
           "query": "$['$schema']",
           "expected_result": [
-            "https://docs.oasis-open.org/csaf/csaf/v2.1/csaf_json_schema.json"
+            "https://docs.oasis-open.org/csaf/csaf/v2.1/schema/csaf.json"
           ]
         },
         {
@@ -926,7 +1006,9 @@
     },
     {
       "input": "testcase-25-g-isduba-2026-001.json",
-      "is_testing": [["Secondly •18", ["TLP:GREEN TLP:GREEN", 1]]],
+      "is_testing": [["Secondly •18", ["TLP:GREEN TLP:GREEN", 1]],
+                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to the table below:", 1], 25],
+                     ["Secondly •18", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
       "remark": "preserve TLP:GREEN during conversion",
       "asserts": [
         {
@@ -944,7 +1026,9 @@
     },
     {
       "input": "testcase-25-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •18", ["TLP:AMBER TLP:AMBER", 1]]],
+      "is_testing": [["Secondly •18", ["TLP:AMBER TLP:AMBER", 1]],
+                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to the table below:", 1], 25],
+                     ["Secondly •18", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
       "remark": "preserve TLP:AMBER during conversion",
       "asserts": [
         {
@@ -962,7 +1046,9 @@
     },
     {
       "input": "testcase-25-r-isduba-2026-001.json",
-      "is_testing": [["Secondly •18", ["TLP:RED TLP:RED", 1]]],
+      "is_testing": [["Secondly •18", ["TLP:RED TLP:RED", 1]],
+                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to the table below:", 1], 25],
+                     ["Secondly •18", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
       "remark": "preserve TLP:RED during conversion",
       "asserts": [
         {
@@ -1655,7 +1741,8 @@
     {
       "input": "testcase-34-a-isduba-2026-001.json",
       "is_testing": [["Secondly •31 ◦1", ["If multiple products are associated with the remediation - either directly or through a product group - and the products belong to different product status groups, the CSAF 2.0 to CSAF 2.1 Converter SHALL duplicate the remediation, change the category in one instance to optional_patch and distribute the products accordingly as stated by the conversion rule.", 1]],
-                     ["Secondly •31 ◦5"]],
+                     ["Secondly •31 ◦5"],
+                     ["Secondly •31 ◦1", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category vendor_fix into the category optional_patch if the product in question is in one of the product status groups \"Not Affected\" or \"Fixed\" for this vulnerability.", 1], 50]],
       "remark": "Split a vendor_fix remediation shared by Not Affected and Affected products and warn about the change.",
       "asserts": [
         {
@@ -2109,6 +2196,707 @@
           "query": "$.document.publisher.contact.details",
           "expected_result": [
             "Security contact: security@debian.org. Public OpenPGP key: http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0d59d2b15144766a14d241c66baf400b05c3e651"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-41-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦3", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid product tree, it SHALL issue an error that an invalid product tree with branch categories product_version and product_version_range in one path was detected and could not be resolved. Such a error SHALL include the invalid path as well as the branch category items.", 1]]],
+      "remark": "Reject a product_version_range followed by product_version on the same path. Both repair steps require product_version before product_version_range, so neither applies.",
+      "asserts": [
+        {
+          "type": "errormsg",
+          "substring_matches": [
+            "invalid product tree",
+            "product_version",
+            "product_version_range",
+            "detected",
+            "could not be resolved",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:semver/>=0.1.0|<1.0.0",
+            "0.14.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": false
+        }
+      ]
+    },
+    {
+      "input": "testcase-42-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦4", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid product tree, it SHALL issue an error that an invalid product tree with an upper open ended product version range in one path was detected and could not be resolved.", 1]]],
+      "remark": "Reject an upper open ended range with multiple constraints whose opening constraint is followed by an exclusion. Neither repair step applies: this is not a single constraint and the upper open constraint is not last. The selector covers the required error, but excludes the following sentence requiring the invalid path and original and new values in the error. The assertions check the path and original value. No new value is produced because neither repair step applies, and it is not clear what to report as the new value in this situation.",
+      "asserts": [
+        {
+          "type": "errormsg",
+          "substring_matches": [
+            "invalid product tree",
+            "upper open ended product version range",
+            "detected",
+            "could not be resolved",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:semver/>=1.0.0|!=2.0.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": false
+        }
+      ]
+    },
+    {
+      "input": "testcase-43-isduba-2026-001.json",
+      "is_testing": [["Secondly •4"]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].product.product_identification_helper.hashes",
+          "expected_result": [
+            [
+              {
+                "file_hashes": [
+                  {
+                    "algorithm": "sha256",
+                    "value": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+                  }
+                ],
+                "filename": "z-example.bin"
+              },
+              {
+                "file_hashes": [
+                  {
+                    "algorithm": "sha256",
+                    "value": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+                  }
+                ],
+                "filename": "a-example.bin"
+              }
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-44-isduba-2026-001.json",
+      "is_testing": [["Secondly •5"]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].product.product_identification_helper.hashes[0].file_hashes",
+          "expected_result": [
+            [
+              {
+                "algorithm": "sha512",
+                "value": "3bb12eda3c298db5de25597f54d924f2e17e78a26ad8953ed8218ee682f0bbbe9021e2f3009d152c911bf1f25ec683a902714166767afbd8e5bd0fb0124ecb8a"
+              },
+              {
+                "algorithm": "sha256",
+                "value": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+              }
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-45-isduba-2026-001.json",
+      "is_testing": [["Secondly •10"]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].product.product_identification_helper.sbom_urls",
+          "expected_result": [
+            [
+              "https://raw.githubusercontent.com/CycloneDX/bom-examples/master/SBOM/keycloak-10.0.2/bom.xml",
+              "https://raw.githubusercontent.com/CycloneDX/bom-examples/master/SBOM/keycloak-10.0.2/bom.json"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-46-isduba-2026-001.json",
+      "is_testing": [["Secondly •12"]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].product.product_identification_helper.skus",
+          "expected_result": [
+            [
+              "z-skus*",
+              "a-skus*"
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-47-isduba-2026-001.json",
+      "is_testing": [["Secondly •14"]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].product.product_identification_helper.x_generic_uris",
+          "expected_result": [
+            [
+              {
+                "namespace": "https://github.com/ISDuBA/ISDuBA",
+                "uri": "https://github.com/ISDuBA/ISDuBA/releases/tag/v0.14.0"
+              },
+              {
+                "namespace": "https://github.com/ISDuBA/ISDuBA",
+                "uri": "https://github.com/ISDuBA/ISDuBA/releases/tag/v0.13.0"
+              }
+            ]
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-48-isduba-2026-001.json",
+      "is_testing": [["Secondly •16 ◦2 ▪2", 50]],
+      "remark": "Successful Withdrawn conversion triggered only by the English title.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_withdrawn"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-49-isduba-2026-001.json",
+      "is_testing": [["Secondly •16 ◦2 ▪2", 50]],
+      "remark": "Successful Withdrawn conversion triggered only by the category.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_withdrawn"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-50-isduba-2026-001.json",
+      "is_testing": [["Secondly •16 ◦2 ▪1", 50]],
+      "remark": "Successful Superseded conversion triggered only by the English title.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_superseded"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-51-isduba-2026-001.json",
+      "is_testing": [["Secondly •16 ◦2 ▪1", 50]],
+      "remark": "Successful Superseded conversion triggered only by the category.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.category",
+          "expected_result": [
+            "csaf_superseded"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-52-isduba-2026-001.json",
+      "is_testing": [["Secondly •31 ◦1", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category vendor_fix into the category optional_patch if the product in question is in one of the product status groups \"Not Affected\" or \"Fixed\" for this vulnerability.", 1], 50],
+                     ["Secondly •31 ◦5"]],
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "remediation",
+            "category was changed",
+            "optional_patch",
+            "isduba-1.0.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='optional_patch')].category",
+          "expected_result": [
+            "optional_patch"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='optional_patch')].product_ids[0]",
+          "expected_result": [
+            "isduba-1.0.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='vendor_fix')].category",
+          "expected_result": [
+            "vendor_fix"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='vendor_fix')].product_ids[0]",
+          "expected_result": [
+            "isduba-2.0.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-53-isduba-2026-001.json",
+      "is_testing": [["Secondly •31 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category none_available into the category fix_planned if the product in question is also listed in a remediation of the category vendor_fix with a date in the future or no date at all.", 1], 50],
+                     ["Secondly •31 ◦2", ["Consequently, the product SHALL be removed from the remediation of the category vendor_fix. If it was the last product in that remediation, the remediation SHALL be removed.", 1]],
+                     ["Secondly •31 ◦5"]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[0].category",
+          "expected_result": [
+            "fix_planned"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[0].product_ids",
+          "expected_result": [
+            [
+              "isduba-all-versions"
+            ]
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='vendor_fix')]",
+          "expected_result": []
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "remediation",
+            "category was changed",
+            "fix_planned",
+            "isduba-all-versions"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "remediation",
+            "remove",
+            "isduba-all-versions"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-54-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦2", ["If any branch category appears multiple times along a path under $.product_tree.branches and the category is not an excepted one according to test 6.1.57, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to convert the data into a valid product tree by applying the following steps to the path:", 1]]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0]['category','name']",
+          "expected_result": [
+            "vendor",
+            "Isduba Development Community"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0]['category','name']",
+          "expected_result": [
+            "product_family",
+            "ISDuBA"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0]['category','name']",
+          "expected_result": [
+            "product_name",
+            "ISDuBA 0.14.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].branches[0]['category','name']",
+          "expected_result": [
+            "product_version",
+            "1.0"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "stacked branch",
+            "resolved",
+            "vendor",
+            "unknown",
+            "$.product_tree.branches[0]"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "stacked branch",
+            "resolved",
+            "product_version",
+            "0.14.0",
+            "$.product_tree.branches[0].branches[0].branches[0].branches[0]"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-55-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦3", ["If the branch categories product_version and product_version_range appear along a path under $.product_tree.branches, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to convert the data into a valid product tree by applying the following steps to the path:", 1]]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[*]['category','name']",
+          "expected_result": [
+            "product_family",
+            "ISDuBA",
+            "product_family",
+            "ISDuBAFamily"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[*].branches[0]['category','name']",
+          "expected_result": [
+            "product_name",
+            "ISDuBA 1.0",
+            "product_name",
+            "ISDuBAFamily 0.14.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[*].branches[0].branches[0].product.product_id",
+          "expected_result": [
+            "isduba-all-versions",
+            "isduba-family-all-versions"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "product_version",
+            "product_version_range",
+            "resolved",
+            "$.product_tree.branches[0].branches[0].branches[0]"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "product_version",
+            "product_version_range",
+            "resolved",
+            "$.product_tree.branches[0].branches[1].branches[0]"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-56-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦5", ["If the value of name of an item categorized as product_version_range contains just a single version, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to convert the data into a valid product tree by applying the following steps to the path:", 1]]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[*]['category','name']",
+          "expected_result": [
+            "product_version",
+            "0.14.0",
+            "product_version",
+            "0.15.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[*].product.product_id",
+          "expected_result": [
+            "isduba-all-versions",
+            "isduba-0.15.0"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "product_version",
+            "product_version_range",
+            "resolved",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "0.14.0"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "product_version",
+            "product_version_range",
+            "resolved",
+            "$.product_tree.branches[0].branches[0].branches[1]",
+            "0.15.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-57-isduba-2026-001.json",
+      "is_testing": [["Secondly •19", ["$.document.license_expression: If any $.document.notes item in with category legal_disclaimer contains a valid SPDX license expression, the CSAF 2.0 to CSAF 2.1 Converter SHALL apply the following rules for the list of candidates:", 1]]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.document.license_expression",
+          "expected_result": [
+            "(Apache-2.0 OR MIT)"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "license expression",
+            "found",
+            "set",
+            "(Apache-2.0 OR MIT)",
+            "$.document.notes[0].text"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-58-isduba-2026-001.json",
+      "is_testing": [["Secondly •24", ["$.product_tree.product_paths[*]: For each element in $.product_tree.relationships[*], the CSAF 2.0 to CSAF 2.1 Converter SHALL apply the following rules:", 1]]],
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.relationships",
+          "expected_result": []
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-on-linux')].beginning_product_reference",
+          "expected_result": [
+            "isduba-2.0.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-on-linux')].full_product_name.name",
+          "expected_result": [
+            "ISDuBA 2.0.0 installed on Linux"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-on-linux')].subpaths[*]['category','next_product_reference']",
+          "expected_result": [
+            "installed_on",
+            "linux"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-with-postgresql')].beginning_product_reference",
+          "expected_result": [
+            "postgresql"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-with-postgresql')].full_product_name.name",
+          "expected_result": [
+            "PostgreSQL installed with ISDuBA 2.0.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[?(@.full_product_name.product_id=='isduba-2.0.0-with-postgresql')].subpaths[*]['category','next_product_reference']",
+          "expected_result": [
+            "installed_with",
+            "isduba-2.0.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.product_paths[2]",
+          "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-59-isduba-2026-001.json",
+      "is_testing": [["Secondly •27", ["$.vulnerabilities[*].ids: If an system_name was given, the CSAF 2.0 to CSAF 2.1 Converter SHALL test whether it belongs to a registered vulnerability ID system in RVISC.", 1]],
+                     ["Secondly •27 ◦1", ["If the test fails, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to convert the entry based on the mapping given in [RVISC-M].", 1]],
+                     ["Secondly •27 ◦1", ["The output SHALL include the original values and, if applicable, the converted ones.", 1]]],
+      "remark": "Based on testcase-38-b; combines existing ID examples. Valid, convertible, unconvertible and unregistered entries must be handled independently, including entries after a failed mapping.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[?(@.text=='#1217')].system_name",
+          "expected_result": [
+            "https://github.com/oasis-tcs/csaf"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[?(@.text=='#1218')].system_name",
+          "expected_result": [
+            "https://github.com/oasis-tcs/csaf"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[?(@.text=='unconvertible identifier')].system_name",
+          "expected_result": [
+            "https://github.com/oasis-tcs/csaf"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[?(@.text=='EXAMPLE-42')].system_name",
+          "expected_result": [
+            "Unregistered Example Tracker"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[?(@.text=='#1219')].system_name",
+          "expected_result": [
+            "https://github.com/oasis-tcs/csaf"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].ids[5]",
+          "expected_result": []
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "registered vulnerability system",
+            "detected",
+            "converted",
+            "https://github.com/oasis-tcs/csaf",
+            "Issue 001218",
+            "#1218",
+            "$.vulnerabilities[0].ids[1]"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "registered vulnerability system",
+            "detected",
+            "could not be converted automatically",
+            "https://github.com/oasis-tcs/csaf",
+            "unconvertible identifier",
+            "mapping",
+            "$.vulnerabilities[0].ids[2]"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "potentially unregistered vulnerability system",
+            "no change occurred",
+            "Unregistered Example Tracker",
+            "EXAMPLE-42",
+            "$.vulnerabilities[0].ids[3]"
+          ]
+        },
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "vulnerability system with a known mapping",
+            "detected",
+            "converted",
+            "OASIS Open CSAF TC GitHub Issues",
+            "Issue 001219",
+            "https://github.com/oasis-tcs/csaf",
+            "#1219",
+            "$.vulnerabilities[0].ids[4]"
           ]
         },
         {

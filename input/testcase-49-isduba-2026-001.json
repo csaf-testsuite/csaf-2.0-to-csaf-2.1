@@ -1,0 +1,58 @@
+{
+    "document": {
+        "category": "Withdrawn",
+        "csaf_version": "2.0",
+        "distribution": {
+            "tlp": {
+                "label": "WHITE",
+                "url": "https://www.first.org/tlp/v1/"
+            }
+        },
+        "lang": "en",
+        "publisher": {
+            "category": "vendor",
+            "contact_details": "See contact points at https://github.com/ISDuBA",
+            "name": "ISDuBA Dev team",
+            "namespace": "https://github.com/ISDuBA"
+        },
+        "references": [
+            {
+                "category": "external",
+                "summary": "original ISDuBA-2026-001",
+                "url": "https://isduba.github.io/.well-known/csaf/white/2026/isduba-2026-001.json"
+            },
+            {
+                "category": "self",
+                "summary": "testcase-49-isduba-2026-001",
+                "url": "https://github.com/csaf-testsuite/csaf-2.0-to-csaf-2.1/tmp/testcase-49-isduba-2026-001.json"
+            }
+        ],
+        "title": "does not integrate Ivanti Endpoint Manager Mobile (EPMM)",
+        "tracking": {
+            "current_release_date": "2026-02-13T14:42:00.000Z",
+            "id": "testcase-49-isduba-2026-001",
+            "initial_release_date": "2026-02-12T14:42:00.000Z",
+            "revision_history": [
+                {
+                    "date": "2026-02-12T14:42:00.000Z",
+                    "number": "1.0.0",
+                    "summary": "Initial revision"
+                },
+                {
+                    "date": "2026-02-13T14:42:00.000Z",
+                    "number": "2.0.0",
+                    "summary": "Withdrawal for converter test data."
+                }
+            ],
+            "status": "final",
+            "version": "2.0.0"
+        },
+        "notes": [
+            {
+                "category": "description",
+                "text": "This document originally stated that ISDuBA does not integrate Ivanti Endpoint Manager Mobile (EPMM). It was withdrawn to create converter test data.",
+                "title": "Reasoning for Withdrawal"
+            }
+        ]
+    }
+}

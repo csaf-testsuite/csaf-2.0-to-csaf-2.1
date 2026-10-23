@@ -85,6 +85,19 @@ COVERAGE_CSS = """.coverage {
 }
 .coverage-full {
     background-color: #60f060;
+}
+.coverage-values {
+    display: block;
+    margin-left: 1em;
+}
+.coverage-values > span + span {
+    margin-left: 1em;
+}
+.coverage-explanation {
+    display: block;
+    margin-left: 1em;
+    opacity: 0.7;
+    white-space: pre-line;
 }"""
 
 SELECTOR_SCRIPT_PATH = Path(__file__).with_name("selector_script.js")
@@ -916,6 +929,68 @@ class _SelectorTreeprocessor(Treeprocessor):
         for element, attribute, marks in slots.values():
             self._replace_slot(element, attribute, marks, parents)
 
+    def _character_coverage(self, selector: MarkdownSelector) -> tuple[str, list[int]]:
+        """Return section text and combined, capped coverage for each character."""
+        coverage_by_position: dict[tuple[etree.Element, str, int], int] = {}
+        for result in self.results:
+            if result.match is None:
+                continue
+            for segment in result.match.segments:
+                for index in range(segment.start, segment.end):
+                    key = (segment.element, segment.attribute, index)
+                    coverage_by_position[key] = coverage_by_position.get(key, 0) + result.match.coverage
+
+        units = [unit for element in selector.section for unit in selector._visible_units(element)]
+        text = "".join(char for char, _position in units)
+        character_coverage: list[int] = []
+        for _char, position in units:
+            value = 0
+            if position is not None:
+                key = (position.element, position.attribute, position.start)
+                value = coverage_by_position.get(key, 0)
+            character_coverage.append(min(max(value, 0), MarkdownSelector.MAX_COVERAGE))
+        return text, character_coverage
+
+    def _coverage_summary(
+        self,
+        selector: MarkdownSelector,
+        keywords: Iterable[str] = ("SHALL", "SHOULD", "MAY"),
+    ) -> etree.Element:
+        """Average coverage across all keyword occurrences, including uncovered ones."""
+        text, character_coverage = self._character_coverage(selector)
+        entries: list[str] = []
+        for keyword in dict.fromkeys(keywords):
+            if not keyword:
+                continue
+            pattern = rf"(?<!\w){re.escape(keyword)}(?!\w)"
+            occurrences = [
+                sum(character_coverage[match.start() : match.end()]) / len(keyword) for match in re.finditer(pattern, text)
+            ]
+            if occurrences:
+                average = sum(occurrences) / len(occurrences)
+                covered = sum(coverage > 0 for coverage in occurrences)
+                entries.append(f"{keyword}: {average:.1f}% ({covered}/{len(occurrences)} occurrences)")
+            else:
+                entries.append(f"{keyword}: N/A (0/0 occurrences)")
+
+        summary = etree.Element("p", {"class": "coverage-summary"})
+        summary.text = "Coverage:"
+        values = etree.SubElement(summary, "span", {"class": "coverage-values"})
+        for entry in entries:
+            etree.SubElement(values, "span").text = entry
+        etree.SubElement(
+            summary,
+            "span",
+            {"class": "coverage-explanation"},
+        ).text = (
+            "Percentage (weighted): averages the selector coverage of all occurrences of each keyword in this section. "
+            "Uncovered occurrences contribute 0%. Overlapping selectors add up, capped at 100% per occurrence. "
+            "Count (unweighted): matched keyword occurrences / all keyword occurrences. "
+            "An occurrence counts once as soon as a selector covers it with non-zero coverage, even partially. "
+            "Partial and full coverage count equally here, so this ratio is not the weighted percentage."
+        )
+        return summary
+
     # Called by Markdown.convert()
     def run(self, root: etree.Element) -> etree.Element:
         markdown_selector = MarkdownSelector(root)
@@ -931,8 +1006,11 @@ class _SelectorTreeprocessor(Treeprocessor):
         )
 
         if self.section_found:
+            summary = self._coverage_summary(markdown_selector) if self.requests else None
             self._apply_annotations(root)
             markdown_selector.keep_section_only()
+            if summary is not None:
+                root.insert(0, summary)
 
         return root
 
@@ -1348,6 +1426,7 @@ def interactive_selection_command(args: argparse.Namespace) -> None:
 
 def main() -> None:
     """Run the command-line interface."""
+
     def add_testcase_revision_arguments(parser: argparse.ArgumentParser) -> None:
         """Add arguments for resolving a revision from the testcase file."""
         parser.add_argument(
@@ -1429,9 +1508,7 @@ def main() -> None:
 
     test_parser.set_defaults(handler=partial(test_command, parser=parser))
     visualize_parser.set_defaults(handler=visualize_command)
-    interactive_visualization_parser.set_defaults(
-        handler=partial(visualize_command, include_interactive_selector=True)
-    )
+    interactive_visualization_parser.set_defaults(handler=partial(visualize_command, include_interactive_selector=True))
     interactive_selection_parser.set_defaults(handler=interactive_selection_command)
 
     args = parser.parse_args()
