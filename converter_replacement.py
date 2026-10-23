@@ -27,7 +27,7 @@ def main(input_filename, output_filename):
 
     # for easier access
     d = csaf_doc["document"]
-    p = csaf_doc["product_tree"]
+    p = csaf_doc.get("product_tree", {})
 
     d["csaf_version"] = "2.1"
 
