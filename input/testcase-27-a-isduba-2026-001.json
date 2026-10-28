@@ -51,6 +51,14 @@
                                     "name": "ISDuBA >=1.0.0 and <2.0.0",
                                     "product_id": "isduba-before-2"
                                 }
+                            },
+                            {
+                                "category": "product_version",
+                                "name": "3.0.0",
+                                "product": {
+                                    "name": "ISDuBA 3.0.0",
+                                    "product_id": "isduba-3.0.0"
+                                }
                             }
                         ],
                         "category": "product_name",
@@ -105,6 +113,9 @@
                 }
             ],
             "product_status": {
+                "known_affected": [
+                    "isduba-3.0.0"
+                ],
                 "known_not_affected": [
                     "isduba-before-2"
                 ]

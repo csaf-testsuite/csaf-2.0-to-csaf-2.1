@@ -1,11 +1,12 @@
 {
   "input_csaf_revision": "2.0-errata01",
-  "output_csaf_revision": "2.1-csd03",
+  "output_csaf_revision": "2.1-csd04",
   "converter_tests": [
     {
       "input": "testcase-1-20260311-1512-isduba-2026-001.json",
-      "is_testing": [["Firstly •3"]],
-      "remark": "testing the removal of an additional property",
+      "is_testing": [["Firstly •4"]],
+      "remark": "testing the removal of an additional property. An additional property makes the input invalid CSAF 2.0, so the converter has to be forced to process it.",
+      "converter_options": ["force"],
       "asserts": [
         {
           "type": "warningmsg",
@@ -30,9 +31,20 @@
       ]
     },
     {
-      "input": "testcase-2-20260312-1651-isduba-2025-01.json",
+      "input": "testcase-1-20260311-1512-isduba-2026-001.json",
+      "is_testing": [["Firstly •3", 50]],
+      "remark": "reject an input that fails the CSAF 2.0 schema (additional property) when the converter is not forced",
+      "asserts": [
+        {
+          "type": "success",
+          "value": false
+        }
+      ]
+    },
+    {
+      "input": "testcase-60-isduba-2026-001.json",
       "is_testing": [["Secondly •1", ["value type string with format date-time: If the value contains a 60 in the seconds place, the CSAF 2.0 to CSAF 2.1 Converter SHALL replace the seconds and their fractions with 59.999999. In addition, the converter issues a warning that leap seconds are now prohibited in CSAF and the value has been replaced.", 1]]],
-      "remark": "leap second replacement and warning. Test only uses three paths as samples to be tested from the 12 paths given in CSAF 2.1-csd02 6.1.37 that can have date-time values.",
+      "remark": "leap second replacement and warning. Test only uses three paths as samples to be tested from the 14 paths given in CSAF 2.1-csd04 6.1.37 that can have date-time values. The input only uses the historical leap second 2016-12-31T23:59:60Z and is therefore valid CSAF 2.0.",
       "asserts": [
         { "type": "warningmsg",
           "substring_matches": [
@@ -57,14 +69,22 @@
           "query": "$..[?search(@.initial_release_date, ':60[Z+-]')].initial_release_date",
           "expected_result": []
         },
+        {
+          "type": "jsonpath",
+          "query": "$.document.tracking.revision_history[0].date",
+          "expected_result": [
+            "2016-12-31T23:59:59.999999Z"
+          ]
+        },
         { "type": "success", "value": true }
       ]
     },
     {
       "input": "testcase-2-20260312-1651-isduba-2025-01.json",
       "is_testing": [["Secondly •1", ["The CSAF 2.0 to CSAF 2.1 Converter SHOULD indicate in such warning message whether the value was a valid leap second or not.", 1]]],
-      "remark": "identify a non-historical leap second as invalid in the replacement warning",
+      "remark": "identify a non-historical leap second as invalid in the replacement warning. The non-historical leap second makes the input invalid CSAF 2.0, so the converter has to be forced to process it.",
       "requirement_level": "SHOULD",
+      "converter_options": ["force"],
       "asserts": [
         {
           "type": "warningmsg",
@@ -181,8 +201,8 @@
       ]
     },
     {
-      "input": "testcase-1-20260311-1512-isduba-2026-001.json",
-      "is_testing": [["Secondly •21", ["$.document.publisher.category: If the value is other, the CSAF 2.0 to CSAF 2.1 Converter SHOULD issue a warning that some parties have been regrouped into the new value multiplier.", 1]]],
+      "input": "testcase-3-20260313-1429-isduba-2026-001.json",
+      "is_testing": [["Secondly •22", ["$.document.publisher.category: If the value is other, the CSAF 2.0 to CSAF 2.1 Converter SHOULD issue a warning that some parties have been regrouped into the new value multiplier.", 1]]],
       "remark": "Testing SHOULD warning for /document/publisher/category == 'other'",
       "requirement_level": "SHOULD",
       "asserts": [
@@ -282,12 +302,13 @@
         {
           "type": "warningmsg",
           "substring_matches": [
-            "upper open ended product_version_range",
+            "upper open ended",
+            "range",
             "resolved",
             "invalid product tree",
             "detected",
             "$.product_tree.branches[0].branches[0].branches[0]",
-            "vers:all/>=1.0"
+            "vers:intdot/>=1.0"
           ]
         },
         {
@@ -306,13 +327,33 @@
     {
       "input": "testcase-8-isduba-2026-001.json",
       "is_testing": [["Secondly •2($['$defs'].branches_t) ◦4 b."]],
-      "remark": "resolve upper open ended range with more than one version constraints",
+      "remark": "resolve upper open ended range with more than one version constraints. The last constraint >=2.0 becomes 2.0, which keeps the inclusion boundary.",
       "asserts": [
         {
           "type": "warningmsg",
           "substring_matches": [
-            "upper open ended product_version_range",
-            "resolved"
+            "upper open ended",
+            "range",
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:intdot/<1.0|>=2.0",
+            "vers:intdot/<1.0|2.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].category",
+          "expected_result": [
+            "product_version_range"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].name",
+          "expected_result": [
+            "vers:intdot/<1.0|2.0"
           ]
         },
         {
@@ -337,7 +378,7 @@
             "invalid product tree",
             "detected",
             "$.product_tree.branches[0].branches[0].branches[0]",
-            "vers:all/0.14.0"
+            "vers:intdot/0.14.0"
           ]
         },
         {
@@ -388,7 +429,7 @@
     {
       "input": "testcase-11-isduba-2026-001.json",
       "is_testing": [["Secondly •3($['$defs'].full_product_name_t..product_identification_helper..cpe)"]],
-      "remark": "ensure removal of invalid CPE string",
+      "remark": "ensure removal of an invalid CPE. The CSAF 2.0 cpe pattern anchors only one of its alternatives, so a prefix before a CPE 2.2 URI passes the CSAF 2.0 schema but not the CSAF 2.1 schema.",
       "requirement_level": "SHOULD",
       "asserts": [
         {
@@ -396,7 +437,32 @@
           "substring_matches": [
             "invalid CPE",
             "removed",
-            "cpe:/o:isdubadevelopmentcommunity:isduba:1.0"
+            "PREFIXcpe:/o:isdubadevelopmentcommunity:isduba:1.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..product_identification_helper.cpe",
+          "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-11-b-isduba-2026-001.json",
+      "is_testing": [["Secondly •3($['$defs'].full_product_name_t..product_identification_helper..cpe)"]],
+      "remark": "ensure removal of a CPE with invalid percent encoding (%zz). It passes the cpe pattern of both CSAF 2.0 and CSAF 2.1, so detecting it requires checking the CPE beyond the schema pattern.",
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "invalid CPE",
+            "removed",
+            "cpe:/o:isdubadevelopmentcommunity:isduba%zz:1.0"
           ]
         },
         {
@@ -496,7 +562,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.model_numbers",
+          "query": "$.product_tree.branches..product.product_identification_helper.model_numbers",
           "expected_result": [
             [
               "model*"
@@ -526,7 +592,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.serial_numbers",
+          "query": "$.product_tree.branches..product.product_identification_helper.serial_numbers",
           "expected_result": [
             [
               "serial*"
@@ -556,7 +622,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.skus",
+          "query": "$.product_tree.branches..product.product_identification_helper.skus",
           "expected_result": [
             [
               "skus*"
@@ -584,7 +650,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.model_numbers",
+          "query": "$.product_tree.branches..product.product_identification_helper.model_numbers",
           "expected_result": [
             [
               "mo\\\\del*"
@@ -604,7 +670,7 @@
       "asserts": [
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.model_numbers[0]",
+          "query": "$.product_tree.branches..product.product_identification_helper.model_numbers[0]",
           "expected_result": [
             "model\\\\number*"
           ]
@@ -630,7 +696,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.serial_numbers",
+          "query": "$.product_tree.branches..product.product_identification_helper.serial_numbers",
           "expected_result": [
             [
               "ser\\\\ial*"
@@ -650,7 +716,7 @@
       "asserts": [
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.serial_numbers[0]",
+          "query": "$.product_tree.branches..product.product_identification_helper.serial_numbers[0]",
           "expected_result": [
             "serial\\\\number*"
           ]
@@ -676,7 +742,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.skus",
+          "query": "$.product_tree.branches..product.product_identification_helper.skus",
           "expected_result": [
             [
               "sku\\\\s*"
@@ -696,7 +762,7 @@
       "asserts": [
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.skus[0]",
+          "query": "$.product_tree.branches..product.product_identification_helper.skus[0]",
           "expected_result": [
             "sku\\\\number*"
           ]
@@ -734,7 +800,7 @@
     },
     {
       "input": "testcase-17-isduba-2026-001.json",
-      "is_testing": [["Secondly •23($.document.title)"]],
+      "is_testing": [["Secondly •25($.document.title)"]],
       "remark": "remove /document/tracking/id from title",
       "asserts": [
         {
@@ -752,7 +818,7 @@
     },
     {
       "input": "testcase-18-isduba-2026-001.json",
-      "is_testing": [["Secondly •31 ◦1", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category vendor_fix into the category optional_patch if the product in question is in one of the product status groups \"Not Affected\" or \"Fixed\" for this vulnerability.", 1]]],
+      "is_testing": [["Secondly •33 ◦1", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category vendor_fix into the category optional_patch if the product in question is in one of the product status groups \"Not Affected\" or \"Fixed\" for this vulnerability.", 1]]],
       "remark": "remediation vendor_fix conversion to optional_patch when product is Not Affected",
       "asserts": [
         {
@@ -765,7 +831,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.vulnerabilities[0].remediations[?(@.category=='optional_patch')].products",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='optional_patch')].product_ids",
           "expected_result": [
             [
               "isduba-all-versions"
@@ -854,9 +920,9 @@
     },
     {
       "input": "isduba-2026-001.json",
-      "is_testing": [["Secondly •18", ["TLP:WHITE TLP:CLEAR", 1]],
-                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to the table below:", 1], 25],
-                     ["Secondly •18", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
+      "is_testing": [["Secondly", ["TLP:WHITE TLP:CLEAR", 1]],
+                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to table 6.", 1], 25],
+                     ["Secondly", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
       "remark": "TLP update from WHITE to CLEAR",
       "asserts": [
         {
@@ -874,7 +940,7 @@
     },
     {
       "input": "testcase-20-isduba-2026-001.json",
-      "is_testing": [["Secondly •19 ◦1"]],
+      "is_testing": [["Secondly •20 ◦1"]],
       "remark": "conversion of document/notes with valid SPDX license with category legal_disclaimer into /document/license_expression",
       "asserts": [
         {
@@ -903,7 +969,7 @@
     },
     {
       "input": "testcase-21-isduba-2026-001.json",
-      "is_testing": [["Secondly •26($.vulnerabilities[*].disclosure_date)"]],
+      "is_testing": [["Secondly •28($.vulnerabilities[*].disclosure_date)"]],
       "remark": "release_date converted into disclosure_date",
       "asserts": [
         {
@@ -921,7 +987,7 @@
     },
     {
       "input": "testcase-22-isduba-2026-001.json",
-      "is_testing": [["Secondly •31 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category none_available into the category fix_planned if the product in question is also listed in a remediation of the category vendor_fix with a date in the future or no date at all.", 1], 50]],
+      "is_testing": [["Secondly •33 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category none_available into the category fix_planned if the product in question is also listed in a remediation of the category vendor_fix with a date in the future or no date at all.", 1], 50]],
       "remark": "/vulnerabilities[]/remediations[]: none_available converted to fix_planned due to future vendor_fix",
       "asserts": [
         {
@@ -1006,9 +1072,9 @@
     },
     {
       "input": "testcase-25-g-isduba-2026-001.json",
-      "is_testing": [["Secondly •18", ["TLP:GREEN TLP:GREEN", 1]],
-                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to the table below:", 1], 25],
-                     ["Secondly •18", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
+      "is_testing": [["Secondly", ["TLP:GREEN TLP:GREEN", 1]],
+                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to table 6.", 1], 25],
+                     ["Secondly", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
       "remark": "preserve TLP:GREEN during conversion",
       "asserts": [
         {
@@ -1026,9 +1092,9 @@
     },
     {
       "input": "testcase-25-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •18", ["TLP:AMBER TLP:AMBER", 1]],
-                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to the table below:", 1], 25],
-                     ["Secondly •18", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
+      "is_testing": [["Secondly", ["TLP:AMBER TLP:AMBER", 1]],
+                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to table 6.", 1], 25],
+                     ["Secondly", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
       "remark": "preserve TLP:AMBER during conversion",
       "asserts": [
         {
@@ -1046,9 +1112,9 @@
     },
     {
       "input": "testcase-25-r-isduba-2026-001.json",
-      "is_testing": [["Secondly •18", ["TLP:RED TLP:RED", 1]],
-                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to the table below:", 1], 25],
-                     ["Secondly •18", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
+      "is_testing": [["Secondly", ["TLP:RED TLP:RED", 1]],
+                     ["Secondly •18", ["$.document.distribution.tlp.label: If a TLP label is given, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert it according to table 6.", 1], 25],
+                     ["Secondly", ["CSAF 2.0 (using TLP v1.0) CSAF 2.1 (using TLP v2.0)", 1], 25]],
       "remark": "preserve TLP:RED during conversion",
       "asserts": [
         {
@@ -1066,7 +1132,7 @@
     },
     {
       "input": "testcase-23-isduba-2026-001.json",
-      "is_testing": [["Secondly •31($.vulnerabilities[*].remediations[*]) ◦3"]],
+      "is_testing": [["Secondly •33($.vulnerabilities[*].remediations[*]) ◦3"]],
       "remark": "/vulnerabilities[]/remediations[] product removed from none_available because a vendor_fix date is known",
       "asserts": [
         {
@@ -1217,7 +1283,7 @@
     {
       "input": "testcase-28-a-isduba-2026-001.json",
       "is_testing": [
-        ["Secondly •20", ["$.document.notes: If any $.document.notes item contains one of the category and title combinations specified in table table 1 of section 3.2.2.9, where the title is extended, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to identify whether that extension is a specific product name, version or family. In such case, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to add the corresponding products to the note item and issue a warning that a potential product specific note has been discovered and products have been assigned to it. Such warning SHALL also include the note and the assigned products.", 1]]
+        ["Secondly •21", ["$.document.notes: If any $.document.notes item contains one of the category and title combinations specified in table 1 of section 3.2.2.9, where the title is extended, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to identify whether that extension is a specific product name, version or family. In such case, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to add the corresponding products to the note item and issue a warning that a potential product specific note has been discovered and products have been assigned to it. Such warning SHALL also include the note and the assigned products.", 1]]
       ],
       "asserts": [
         {
@@ -1285,7 +1351,7 @@
     {
       "input": "testcase-28-b-isduba-2026-001.json",
       "is_testing": [
-        ["Secondly •20", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid object, it SHALL remove the reference to the products and issue a warning that a potential product specific note has been discovered and no products could been assigned to it.", 1]]
+        ["Secondly •21", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid object, it SHALL remove the reference to the products and issue a warning that a potential product specific note has been discovered and no products could be assigned to it.", 1]]
       ],
       "asserts": [
         {
@@ -1310,8 +1376,8 @@
     },
     {
       "input": "testcase-29-isduba-2026-001.json",
-      "is_testing": [["Secondly •24 ◦1"],
-                     ["Secondly •24 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter constructs the first item of subpaths by setting the value of category into category and the value of relates_to_product_reference into next_product_reference.", 1]]],
+      "is_testing": [["Secondly •26 ◦1"],
+                     ["Secondly •26 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter constructs the first item of subpaths by setting the value of category into category and the value of relates_to_product_reference into next_product_reference.", 1]]],
       "asserts": [
         {
           "type": "jsonpath",
@@ -1382,8 +1448,9 @@
     },
     {
       "input": "testcase-30-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •25 ◦1"],
-                     ["Secondly •25 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL determine the CWE specification version the given CWE was selected from by using the latest version that matches the id and name exactly and was published prior to the value of $.document.tracking.current_release_date of the source document.", 1]]],
+      "is_testing": [["Secondly •27 ◦1"]],
+      "remark": "The surrounding white space makes the CWE name fail CSAF 2.0 test 6.1.11, so the converter has to be forced to process the input. testcase-30-c tests the version determination with valid input.",
+      "converter_options": ["force"],
       "asserts": [
         {
           "type": "jsonpath",
@@ -1419,7 +1486,7 @@
     },
     {
       "input": "testcase-30-b-isduba-2026-001.json",
-      "is_testing": [["Secondly •25 ◦2", ["If no such version exist, the first matching version published after the value of $.document.tracking.current_release_date of the source document SHOULD be used.", 1]]],
+      "is_testing": [["Secondly •27 ◦2", ["If no such version exists, the first matching version published after the value of $.document.tracking.current_release_date of the source document SHOULD be used.", 1]]],
       "remark": "CWE 1.11 uses a different name for CWE-94. CWE 1.12 is the first version after the document release date that matches both the id and name exactly.",
       "requirement_level": "SHOULD",
       "asserts": [
@@ -1456,8 +1523,45 @@
       ]
     },
     {
+      "input": "testcase-30-c-isduba-2026-001.json",
+      "is_testing": [["Secondly •27 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL determine the CWE specification version the given CWE was selected from by using the latest version that matches the id and name exactly and was published prior to the value of $.document.tracking.current_release_date of the source document.", 1]]],
+      "remark": "CWE 4.19.1 (2026-01-21) is the latest version published before the document release date 2026-02-12 and matches both the id and name exactly. CWE 4.20 was published 2026-04-30.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwe",
+          "expected_result": []
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwes[0].id",
+          "expected_result": [
+            "CWE-94"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwes[0].name",
+          "expected_result": [
+            "Improper Control of Generation of Code ('Code Injection')"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwes[0].version",
+          "expected_result": [
+            "4.19.1"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
       "input": "testcase-31-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •28", ["$.vulnerabilities[*].metrics[*].content.cvss_v4: If an external reference in the vulnerability linking to the official FIRST.org CVSS v4.0 calculator exists, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert the vector given in the fragment into a cvss_v4 object linked to all affected products of the vulnerability.", 1]]],
+      "is_testing": [["Secondly •30", ["$.vulnerabilities[*].metrics[*].content.cvss_v4: If an external reference in the vulnerability linking to the official FIRST.org CVSS v4.0 calculator exists, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert the vector given in the fragment into a cvss_v4 object linked to all affected products of the vulnerability.", 1]]],
       "asserts": [
         {
           "type": "jsonpath",
@@ -1504,7 +1608,7 @@
     },
     {
       "input": "testcase-31-b-isduba-2026-001.json",
-      "is_testing": [["Secondly •28", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to construct a valid object with the information given, the CSAF 2.0 to CSAF 2.1 Converter SHALL remove the invalid cvss_v4 object and issue a warning that the automatic conversion of the CVSS v4.0 reference failed. Such warning SHOULD include the specific error that occurred.", 1]]],
+      "is_testing": [["Secondly •30", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to construct a valid object with the information given, the CSAF 2.0 to CSAF 2.1 Converter SHALL remove the invalid cvss_v4 object and issue a warning that the automatic conversion of the CVSS v4.0 reference failed. Such warning SHOULD include the specific error that occurred.", 1]]],
       "asserts": [
         {
           "type": "warningmsg",
@@ -1527,7 +1631,7 @@
     },
     {
       "input": "testcase-32-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •30", ["In such case, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to add the corresponding products to the note item and issue a warning that a potential product specific note has been discovered and products have been assigned to it. Such warning SHALL also include the note and the assigned products.", 1]]],
+      "is_testing": [["Secondly •32", ["In such case, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to add the corresponding products to the note item and issue a warning that a potential product specific note has been discovered and products have been assigned to it. Such warning SHALL also include the note and the assigned products.", 1]]],
       "remark": "The vulnerability note title identifies the affected product by its full product name.",
       "asserts": [
         {
@@ -1563,7 +1667,7 @@
     },
     {
       "input": "testcase-32-b-isduba-2026-001.json",
-      "is_testing": [["Secondly •30", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid object, it SHALL remove the reference to the products and issue a warning that a potential product specific note has been discovered and no products could been assigned to it.", 1]]],
+      "is_testing": [["Secondly •32", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid object, it SHALL remove the reference to the products and issue a warning that a potential product specific note has been discovered and no products could be assigned to it.", 1]]],
       "remark": "The vulnerability note title names no product present in the product tree.",
       "asserts": [
         {
@@ -1595,7 +1699,7 @@
     },
     {
       "input": "testcase-33-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •29", ["$.vulnerabilities[*].metrics[*].content.ssvc_v2: If a SSVC vector or decision points of an SSVC vector are given in an item of notes of the current vulnerability using the title SSVC and the category other, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert that data into the ssvc_v2 object within the current vulnerability. If the CSAF 2.0 to CSAF 2.1 Converter is able to construct a valid object without losing any information, the corresponding notes item SHALL be removed.", 1]]],
+      "is_testing": [["Secondly •31", ["$.vulnerabilities[*].metrics[*].content.ssvc_v2: If a SSVC vector or decision points of an SSVC vector are given in an item of notes of the current vulnerability using the title SSVC and the category other, the CSAF 2.0 to CSAF 2.1 Converter SHALL convert that data into the ssvc_v2 object within the current vulnerability. If the CSAF 2.0 to CSAF 2.1 Converter is able to construct a valid object without losing any information, the corresponding notes item SHALL be removed.", 1]]],
       "remark": "Convert a valid SSVC vector into a SelectionList and remove the source note.",
       "asserts": [
         {
@@ -1650,7 +1754,7 @@
     },
     {
       "input": "testcase-33-b-isduba-2026-001.json",
-      "is_testing": [["Secondly •29", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to construct a valid object with the information given, the CSAF 2.0 to CSAF 2.1 Converter SHALL remove the invalid ssvc_v2 object, keep the original item of notes and issue a warning that the automatic conversion of the SSVC data failed.", 1]]],
+      "is_testing": [["Secondly •31", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to construct a valid object with the information given, the CSAF 2.0 to CSAF 2.1 Converter SHALL remove the invalid ssvc_v2 object, keep the original item of notes and issue a warning that the automatic conversion of the SSVC data failed.", 1]]],
       "remark": "An unknown Exploitation value makes the SSVC vector invalid.",
       "asserts": [
         {
@@ -1695,7 +1799,7 @@
     },
     {
       "input": "testcase-33-c-isduba-2026-001.json",
-      "is_testing": [["Secondly •29", ["If the CSAF 2.0 to CSAF 2.1 Converter would lose information during the conversion, the CSAF 2.0 to CSAF 2.1 Converter SHALL remove the ssvc_v2 object, keep the original item of notes and issue a warning that the automatic conversion of the SSVC data would lead to losing information.", 1]]],
+      "is_testing": [["Secondly •31", ["If the CSAF 2.0 to CSAF 2.1 Converter would lose information during the conversion, the CSAF 2.0 to CSAF 2.1 Converter SHALL remove the ssvc_v2 object, keep the original item of notes and issue a warning that the automatic conversion of the SSVC data would lead to losing information.", 1]]],
       "asserts": [
         {
           "type": "warningmsg",
@@ -1740,9 +1844,9 @@
     },
     {
       "input": "testcase-34-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •31 ◦1", ["If multiple products are associated with the remediation - either directly or through a product group - and the products belong to different product status groups, the CSAF 2.0 to CSAF 2.1 Converter SHALL duplicate the remediation, change the category in one instance to optional_patch and distribute the products accordingly as stated by the conversion rule.", 1]],
-                     ["Secondly •31 ◦5"],
-                     ["Secondly •31 ◦1", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category vendor_fix into the category optional_patch if the product in question is in one of the product status groups \"Not Affected\" or \"Fixed\" for this vulnerability.", 1], 50]],
+      "is_testing": [["Secondly •33 ◦1", ["If multiple products are associated with the remediation - either directly or through a product group - and the products belong to different product status groups, the CSAF 2.0 to CSAF 2.1 Converter SHALL duplicate the remediation, change the category in one instance to optional_patch and distribute the products accordingly as stated by the conversion rule.", 1]],
+                     ["Secondly •33 ◦5"],
+                     ["Secondly •33 ◦1", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category vendor_fix into the category optional_patch if the product in question is in one of the product status groups \"Not Affected\" or \"Fixed\" for this vulnerability.", 1], 50]],
       "remark": "Split a vendor_fix remediation shared by Not Affected and Affected products and warn about the change.",
       "asserts": [
         {
@@ -1792,7 +1896,7 @@
     },
     {
       "input": "testcase-34-b-isduba-2026-001.json",
-      "is_testing": [["Secondly •31 ◦1", ["Otherwise, the category vendor_fix SHALL stay the same.", 1]]
+      "is_testing": [["Secondly •33 ◦1", ["Otherwise, the category vendor_fix SHALL stay the same.", 1]]
       ],
       "remark": "Keep vendor_fix unchanged when its only product is Affected.",
       "asserts": [
@@ -1824,7 +1928,7 @@
     },
     {
       "input": "testcase-35-isduba-2026-001.json",
-      "is_testing": [["Secondly •31 ◦4"]],
+      "is_testing": [["Secondly •33 ◦4"]],
       "remark": "Preserve a none_available remediation when no vendor_fix applies to its product.",
       "asserts": [
         {
@@ -1899,8 +2003,8 @@
     },
     {
       "input": "testcase-38-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •27 ◦1", ["If the system_name belongs to an RVISC entry, the CSAF 2.0 to CSAF 2.1 Converter SHALL execute test 6.2.53.", 1]],
-                     ["Secondly •27 ◦1 ▪1"]],
+      "is_testing": [["Secondly •29 ◦1", ["If the system_name belongs to an RVISC entry, the CSAF 2.0 to CSAF 2.1 Converter SHALL execute test 6.2.53.", 1]],
+                     ["Secondly •29 ◦1 ▪1"]],
       "remark": "For a registered vulnerability ID system, preserve an ID whose text already passes test 6.2.53.",
       "asserts": [
         {
@@ -1921,7 +2025,7 @@
     },
     {
       "input": "testcase-38-b-isduba-2026-001.json",
-      "is_testing": [["Secondly •27 ◦1 ▪2 •2"]],
+      "is_testing": [["Secondly •29 ◦1 ▪2 •2"]],
       "remark": "For a registered vulnerability ID system, convert invalid text through its RVISC mapping and report both values.",
       "asserts": [
         {
@@ -1952,7 +2056,7 @@
     },
     {
       "input": "testcase-38-c-isduba-2026-001.json",
-      "is_testing": [["Secondly •27 ◦1 ▪2 •3", 50]],
+      "is_testing": [["Secondly •29 ◦1 ▪2 •3", 50]],
       "remark": "For a registered vulnerability ID system, preserve invalid text when its RVISC mapping cannot convert it and report the reason. Coverage is 50% because this does not test a successful mapping whose result still fails test 6.2.53.",
       "asserts": [
         {
@@ -1984,8 +2088,8 @@
     },
     {
       "input": "testcase-38-d-isduba-2026-001.json",
-      "is_testing": [["Secondly •27 ◦2", ["If the system_name does not belong to an RVISC entry, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to convert the entry based on the mapping given in [RVISC-M].", 1]],
-                     ["Secondly •27 ◦2 ▪2"]],
+      "is_testing": [["Secondly •29 ◦2", ["If the system_name does not belong to an RVISC entry, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to convert the entry based on the mapping given in [RVISC-M].", 1]],
+                     ["Secondly •29 ◦2 ▪2"]],
       "remark": "Convert a legacy vulnerability ID system name and its text through a known RVISC mapping and report all original and converted values.",
       "asserts": [
         {
@@ -2018,7 +2122,7 @@
     },
     {
       "input": "testcase-38-e-isduba-2026-001.json",
-      "is_testing": [["Secondly •27 ◦2 ▪3", 50]],
+      "is_testing": [["Secondly •29 ◦2 ▪3", 50]],
       "remark": "Preserve a legacy vulnerability ID when its known RVISC mapping cannot convert the text and report the reason. Coverage is 50% because this does not test a successful mapping whose result still fails test 6.2.53.",
       "asserts": [
         {
@@ -2051,7 +2155,7 @@
     },
     {
       "input": "testcase-38-f-isduba-2026-001.json",
-      "is_testing": [["Secondly •27 ◦2 ▪1"]],
+      "is_testing": [["Secondly •29 ◦2 ▪1"]],
       "remark": "Preserve an ID from an unregistered vulnerability system when no RVISC mapping exists and report that no change occurred.",
       "asserts": [
         {
@@ -2082,7 +2186,7 @@
     },
     {
       "input": "testcase-39-isduba-2026-001.json",
-      "is_testing": [["Secondly •19 ◦2"]],
+      "is_testing": [["Secondly •20 ◦2"]],
       "asserts": [
         {
           "type": "warningmsg",
@@ -2109,7 +2213,7 @@
     },
     {
       "input": "isduba-2026-001.json",
-      "is_testing": [["Secondly •22 ◦1"]],
+      "is_testing": [["Secondly •23 ◦1"]],
       "asserts": [
         {
           "type": "jsonpath",
@@ -2131,7 +2235,7 @@
     },
     {
       "input": "testcase-40-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •22 ◦2"]],
+      "is_testing": [["Secondly •23 ◦2"]],
       "asserts": [
         {
           "type": "jsonpath",
@@ -2148,7 +2252,7 @@
     },
     {
       "input": "testcase-40-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •22 ◦3", 50]],
+      "is_testing": [["Secondly •23 ◦3", 50]],
       "requirement_level": "SHOULD",
       "asserts": [
         {
@@ -2166,7 +2270,7 @@
     },
     {
       "input": "testcase-40-b-isduba-2026-001.json",
-      "is_testing": [["Secondly •22 ◦3", 50]],
+      "is_testing": [["Secondly •23 ◦3", 50]],
       "requirement_level": "SHOULD",
       "asserts": [
         {
@@ -2184,7 +2288,7 @@
     },
     {
       "input": "testcase-40-c-isduba-2026-001.json",
-      "is_testing": [["Secondly •22 ◦2", 50]],
+      "is_testing": [["Secondly •23 ◦2", 50]],
       "asserts": [
         {
           "type": "jsonpath",
@@ -2237,7 +2341,8 @@
           "type": "errormsg",
           "substring_matches": [
             "invalid product tree",
-            "upper open ended product version range",
+            "upper open ended",
+            "range",
             "detected",
             "could not be resolved",
             "$.product_tree.branches[0].branches[0].branches[0]",
@@ -2289,6 +2394,8 @@
     {
       "input": "testcase-44-isduba-2026-001.json",
       "is_testing": [["Secondly •5"]],
+      "remark": "The repeated sha512 hash makes the input fail CSAF 2.0 test 6.1.25, so the converter has to be forced to process it.",
+      "converter_options": ["force"],
       "asserts": [
         {
           "type": "jsonpath",
@@ -2309,6 +2416,17 @@
         {
           "type": "success",
           "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-44-isduba-2026-001.json",
+      "is_testing": [["Firstly •3", 50]],
+      "remark": "reject an input that fails CSAF 2.0 mandatory test 6.1.25 (repeated sha512 hash) when the converter is not forced",
+      "asserts": [
+        {
+          "type": "success",
+          "value": false
         }
       ]
     },
@@ -2452,8 +2570,8 @@
     },
     {
       "input": "testcase-52-isduba-2026-001.json",
-      "is_testing": [["Secondly •31 ◦1", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category vendor_fix into the category optional_patch if the product in question is in one of the product status groups \"Not Affected\" or \"Fixed\" for this vulnerability.", 1], 50],
-                     ["Secondly •31 ◦5"]],
+      "is_testing": [["Secondly •33 ◦1", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category vendor_fix into the category optional_patch if the product in question is in one of the product status groups \"Not Affected\" or \"Fixed\" for this vulnerability.", 1], 50],
+                     ["Secondly •33 ◦5"]],
       "asserts": [
         {
           "type": "warningmsg",
@@ -2500,9 +2618,9 @@
     },
     {
       "input": "testcase-53-isduba-2026-001.json",
-      "is_testing": [["Secondly •31 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category none_available into the category fix_planned if the product in question is also listed in a remediation of the category vendor_fix with a date in the future or no date at all.", 1], 50],
-                     ["Secondly •31 ◦2", ["Consequently, the product SHALL be removed from the remediation of the category vendor_fix. If it was the last product in that remediation, the remediation SHALL be removed.", 1]],
-                     ["Secondly •31 ◦5"]],
+      "is_testing": [["Secondly •33 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL convert any remediation with the category none_available into the category fix_planned if the product in question is also listed in a remediation of the category vendor_fix with a date in the future or no date at all.", 1], 50],
+                     ["Secondly •33 ◦2", ["Consequently, the product SHALL be removed from the remediation of the category vendor_fix. If it was the last product in that remediation, the remediation SHALL be removed.", 1]],
+                     ["Secondly •33 ◦5"]],
       "asserts": [
         {
           "type": "jsonpath",
@@ -2716,7 +2834,7 @@
     },
     {
       "input": "testcase-57-isduba-2026-001.json",
-      "is_testing": [["Secondly •19", ["$.document.license_expression: If any $.document.notes item in with category legal_disclaimer contains a valid SPDX license expression, the CSAF 2.0 to CSAF 2.1 Converter SHALL apply the following rules for the list of candidates:", 1]]],
+      "is_testing": [["Secondly •20", ["$.document.license_expression: If any $.document.notes item with category legal_disclaimer contains a valid SPDX license expression, the CSAF 2.0 to CSAF 2.1 Converter SHALL apply the following rules for the list of candidates:", 1]]],
       "asserts": [
         {
           "type": "jsonpath",
@@ -2743,7 +2861,7 @@
     },
     {
       "input": "testcase-58-isduba-2026-001.json",
-      "is_testing": [["Secondly •24", ["$.product_tree.product_paths[*]: For each element in $.product_tree.relationships[*], the CSAF 2.0 to CSAF 2.1 Converter SHALL apply the following rules:", 1]]],
+      "is_testing": [["Secondly •26", ["$.product_tree.product_paths[*]: For each element in $.product_tree.relationships[*], the CSAF 2.0 to CSAF 2.1 Converter SHALL apply the following rules:", 1]]],
       "asserts": [
         {
           "type": "jsonpath",
@@ -2807,9 +2925,9 @@
     },
     {
       "input": "testcase-59-isduba-2026-001.json",
-      "is_testing": [["Secondly •27", ["$.vulnerabilities[*].ids: If an system_name was given, the CSAF 2.0 to CSAF 2.1 Converter SHALL test whether it belongs to a registered vulnerability ID system in RVISC.", 1]],
-                     ["Secondly •27 ◦1", ["If the test fails, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to convert the entry based on the mapping given in [RVISC-M].", 1]],
-                     ["Secondly •27 ◦1", ["The output SHALL include the original values and, if applicable, the converted ones.", 1]]],
+      "is_testing": [["Secondly •29", ["$.vulnerabilities[*].ids: If a system_name was given, the CSAF 2.0 to CSAF 2.1 Converter SHALL test whether it belongs to a registered vulnerability ID system in RVISC.", 1]],
+                     ["Secondly •29 ◦1", ["If the test fails, the CSAF 2.0 to CSAF 2.1 Converter SHALL try to convert the entry based on the mapping given in [RVISC-M].", 1]],
+                     ["Secondly •29 ◦1", ["The output SHALL include the original values and, if applicable, the converted ones.", 1]]],
       "remark": "Based on testcase-38-b; combines existing ID examples. Valid, convertible, unconvertible and unregistered entries must be handled independently, including entries after a failed mapping.",
       "asserts": [
         {
@@ -2897,6 +3015,66 @@
             "https://github.com/oasis-tcs/csaf",
             "#1219",
             "$.vulnerabilities[0].ids[4]"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-61-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦4", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid product tree, it SHALL issue an error that an invalid product tree with an upper open ended product version range in one path was detected and could not be resolved.", 1]]],
+      "remark": "Reject an upper open ended range with more than one version constraint whose last constraint uses >. Ending the range with 2.0 would include the previously excluded version 2.0 and change the inclusion boundaries.",
+      "asserts": [
+        {
+          "type": "errormsg",
+          "substring_matches": [
+            "invalid product tree",
+            "upper open ended",
+            "range",
+            "detected",
+            "could not be resolved",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:intdot/<1.0|>2.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": false
+        }
+      ]
+    },
+    {
+      "input": "testcase-62-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦4 a."]],
+      "remark": "Convert a single strict lower-bound constraint into its boundary version as prescribed by the specification, even though this includes a previously excluded version.",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "upper open ended",
+            "range",
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:intdot/>2.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].category",
+          "expected_result": [
+            "product_version"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].name",
+          "expected_result": [
+            "2.0"
           ]
         },
         {

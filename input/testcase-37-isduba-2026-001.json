@@ -29,7 +29,7 @@
         ],
         "title": "does not integrate Ivanti Endpoint Manager Mobile (EPMM)",
         "tracking": {
-            "current_release_date": "2026-02-12T14:42:00.000Z",
+            "current_release_date": "2026-02-13T14:42:00.000Z",
             "id": "testcase-37-isduba-2026-001",
             "initial_release_date": "2026-02-12T14:42:00.000Z",
             "revision_history": [
@@ -37,82 +37,22 @@
                     "date": "2026-02-12T14:42:00.000Z",
                     "number": "1.0.0",
                     "summary": "Initial revision"
+                },
+                {
+                    "date": "2026-02-13T14:42:00.000Z",
+                    "number": "2.0.0",
+                    "summary": "Withdrawal for converter test data."
                 }
             ],
             "status": "final",
-            "version": "1.0.0"
-        }
-    },
-    "product_tree": {
-        "branches": [
+            "version": "2.0.0"
+        },
+        "notes": [
             {
-                "branches": [
-                    {
-                        "branches": [
-                            {
-                                "category": "product_version_range",
-                                "name": "vers:all/*",
-                                "product": {
-                                    "name": "ISDuBA all versions",
-                                    "product_id": "isduba-all-versions"
-                                }
-                            }
-                        ],
-                        "category": "product_name",
-                        "name": "ISDuBA"
-                    }
-                ],
-                "category": "vendor",
-                "name": "Isduba Development Community"
+                "category": "description",
+                "text": "This document originally stated that ISDuBA does not integrate Ivanti Endpoint Manager Mobile (EPMM). It was withdrawn to create converter test data.",
+                "title": "Reasoning for Withdrawal"
             }
         ]
-    },
-    "vulnerabilities": [
-        {
-            "cve": "CVE-2026-1281",
-            "flags": [
-                {
-                    "label": "component_not_present",
-                    "product_ids": [
-                        "isduba-all-versions"
-                    ]
-                }
-            ],
-            "notes": [
-                {
-                    "category": "description",
-                    "text": "A code injection in Ivanti Endpoint Manager Mobile allowing attackers to achieve unauthenticated remote code execution.",
-                    "title": "CVE description"
-                }
-            ],
-            "product_status": {
-                "known_not_affected": [
-                    "isduba-all-versions"
-                ]
-            }
-        },
-        {
-            "cve": "CVE-2026-1340",
-            "flags": [
-                {
-                    "label": "component_not_present",
-                    "product_ids": [
-                        "isduba-all-versions"
-                    ]
-                }
-            ],
-            "notes": [
-                {
-                    "category": "description",
-                    "text": "A code injection in Ivanti Endpoint Manager Mobile allowing attackers to achieve unauthenticated remote code execution.",
-                    "title": "CVE description"
-                }
-            ],
-            "product_status": {
-                "known_not_affected": [
-                    "isduba-all-versions"
-                ]
-            }
-        }
-    ]
+    }
 }

@@ -51,7 +51,7 @@
                         "branches": [
                             {
                                 "category": "product_version_range",
-                                "name": "vers:all/0.14.0",
+                                "name": "vers:intdot/0.14.0",
                                 "product": {
                                     "name": "ISDuBA all versions",
                                     "product_id": "isduba-all-versions"

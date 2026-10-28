@@ -21,7 +21,13 @@ _tests = ["input/testcase-1-20260311-1512-isduba-2026-001.json",
           "input/testcase-3-20260313-1429-isduba-2026-001.json",
           ]
 
+# the inputs of the hardcoded testcases 1 and 2 are invalid CSAF 2.0
+_tests_options = {_tests[0]: ["force"], _tests[1]: ["force"]}
+
 _CONV_BINARY = "./converter_replacement.py"
+
+_CONV_OPTIONS: dict[str, list[str]] = {}
+
 
 def check_testcase1(csaf_doc, returncode, messages) -> bool:
     d = csaf_doc["document"]
@@ -116,7 +122,8 @@ def check_testcase3(csaf_doc, returncode, messages) -> bool:
     return False
 
 
-def check_all_substrs_in(substrs: list, msgs: list) -> bool:
+def check_all_substrs_in(substrs: list, msgs: list, *,
+                         ignore_case: bool = False) -> bool:
     """Check if all substrings are in one of the messages.
 
     >>> check_all_substrs_in(["b"],["abc"])
@@ -136,9 +143,20 @@ def check_all_substrs_in(substrs: list, msgs: list) -> bool:
     False
     >>> check_all_substrs_in(["a"],None)
     False
+
+    Case is only ignored on request.
+
+    >>> check_all_substrs_in(["B","c"],["abC"])
+    False
+    >>> check_all_substrs_in(["B","c"],["abC"], ignore_case=True)
+    True
     """
     if not substrs or not msgs:
         return False
+
+    if ignore_case:
+        substrs = [s.casefold() for s in substrs]
+        msgs = [m.casefold() for m in msgs]
 
     for msg in msgs:
         missed_a_substring = False
@@ -151,31 +169,34 @@ def check_all_substrs_in(substrs: list, msgs: list) -> bool:
     return False
 
 
+# assert type -> (kind of messages, whether a matching message is expected)
+_MESSAGE_ASSERTS = {
+    "errormsg": ("errors", True),
+    "warningmsg": ("warnings", True),
+    "no_errormsg": ("errors", False),
+    "no_warningmsg": ("warnings", False),
+}
+
+
 def check_json_test(test: dict, csaf_doc, returncode: int, messages) -> bool:
     """Check test result specified in converter-testcases-20-21 format.
     """
 
     # once a single check fails we can directly return False
     for condition in test["asserts"]:
-        if condition["type"] == "errormsg":
-            if "substring_matches" in condition:
-                result = check_all_substrs_in(
-                            condition.get("substring_matches"),
-                            messages.get("errors"))
+        if condition["type"] in _MESSAGE_ASSERTS:
+            kind, expected = _MESSAGE_ASSERTS[condition["type"]]
+            result = check_all_substrs_in(
+                        condition["substring_matches"],
+                        messages.get(kind),
+                        ignore_case=condition.get("case_insensitive", False))
 
-                if not result:
-                    return False
-
-        elif condition["type"] == "warningmsg":
-            if "substring_matches" in condition:
-                result = check_all_substrs_in(
-                            condition.get("substring_matches"),
-                            messages.get("warnings"))
-
-                if not result:
-                    return False
+            if result != expected:
+                return False
 
         elif condition["type"] == "jsonpath":
+            if csaf_doc is None:
+                return False
 
             nodes = jsonpath_rfc9535.find(condition['query'], csaf_doc)
             print(f"jsonpath_rfc9535.find({condition['query']}, csaf_doc) == "
@@ -203,7 +224,10 @@ class RequirementLevel(Enum):
     MAY = 3
 
 
-def run_test(test, resultdir_name) -> (bool, RequirementLevel):
+def run_test(
+    test: dict | str, resultdir_name: str
+) -> tuple[bool | None, RequirementLevel]:
+    """Run a single test, the first result is None if it was skipped."""
     test_from_json = type(test) == dict
     requirement_level = RequirementLevel.MUST  # default for both test types
 
@@ -213,53 +237,53 @@ def run_test(test, resultdir_name) -> (bool, RequirementLevel):
             if orl := getattr(
                     RequirementLevel, test["requirement_level"], None):
                 requirement_level = orl
+        options = test.get("converter_options", [])
     else:
         input_filename = test
+        options = _tests_options.get(test, [])
 
-    output_filename = resultdir_name + "/tmp-out.json"
-    completed_process = run([_CONV_BINARY, input_filename, output_filename],
-                            capture_output=True, universal_newlines=True)
+    missing = [o for o in options if o not in _CONV_OPTIONS]
+    if missing:
+        print(f"skipping {input_filename}, the converter does not "
+              f"provide the option(s): {', '.join(missing)}")
+        return (None, requirement_level)
+    option_args = [arg for o in options for arg in _CONV_OPTIONS[o]]
+
+    output_path = Path(resultdir_name) / "tmp-out.json"
+    output_path.unlink(missing_ok=True)
+    completed_process = run(
+            [_CONV_BINARY, *option_args, input_filename, str(output_path)],
+            capture_output=True, universal_newlines=True)
 
     print(completed_process)
 
-    if len(completed_process.stderr) > 0:
-        messages = json.loads(completed_process.stderr)
+    messages = json.loads(completed_process.stderr) if completed_process.stderr else {}
 
     print(messages)
 
-    with open(output_filename, "rt", encoding="utf-8") as file:
-        output_csaf_doc = json.load(file)
+    output_csaf_doc = None
+    if output_path.is_file():
+        with output_path.open(encoding="utf-8") as file:
+            output_csaf_doc = json.load(file)
+    elif completed_process.returncode == 0 or not test_from_json:
+        print(f"missing converter output: {output_path}")
+        return (False, requirement_level)
 
-    if not test_from_json:
-        if "testcase-1" in test:
-            return (check_testcase1(
-                       output_csaf_doc,
-                       completed_process.returncode,
-                       messages
-                   ), requirement_level)
-
-        if "testcase-2" in test:
-            return (check_testcase2(
-                       output_csaf_doc,
-                       completed_process.returncode,
-                       messages
-                   ), requirement_level)
-
-        if "testcase-3" in test:
-            return (check_testcase3(
-                       output_csaf_doc,
-                       completed_process.returncode,
-                       messages
-                   ), requirement_level)
+    if test_from_json:
+        result = check_json_test(
+            test, output_csaf_doc, completed_process.returncode, messages
+        )
     else:
-        return (check_json_test(
-                    test,
-                    output_csaf_doc,
-                    completed_process.returncode,
-                    messages
-                ), requirement_level)
+        checker = {
+            _tests[0]: check_testcase1,
+            _tests[1]: check_testcase2,
+            _tests[2]: check_testcase3,
+        }.get(test)
+        result = checker is not None and checker(
+            output_csaf_doc, completed_process.returncode, messages
+        )
 
-    return False
+    return (result, requirement_level)
 
 
 def load_tests(filename):
@@ -286,8 +310,10 @@ def main():
     stats = {}
     for result in results:
         r_level = result[1]
-        c = stats.get(r_level, {"PASSED": 0, "FAILED": 0})
-        if result[0]:
+        c = stats.get(r_level, {"PASSED": 0, "FAILED": 0, "SKIPPED": 0})
+        if result[0] is None:
+            c["SKIPPED"] += 1
+        elif result[0]:
             c["PASSED"] += 1
         else:
             c["FAILED"] += 1
