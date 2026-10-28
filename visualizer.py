@@ -311,7 +311,7 @@ class TextSegment:
 class SelectorMatch:
     """A resolved selector and the tree text ranges it covers."""
 
-    element: etree.Element  # <li> elem
+    element: etree.Element  # <li> elem, or block below the ordinal without list items
     text: str
     segments: tuple[TextSegment, ...]
     coverage: int
@@ -517,7 +517,7 @@ class MarkdownSelector:
             list_items.append(list_item)
             cursor = match.end()
 
-        if list_items_text[cursor:] or not list_items:
+        if list_items_text[cursor:] or (not list_items and text_selection is None):
             return None
 
         return ParsedSelector(
@@ -726,6 +726,9 @@ class MarkdownSelector:
         if not search_range:
             return None
 
+        if not locator.list_items:
+            return self._match_text(search_range, parsed_selector)
+
         # Resolve the locator one list level at a time.
         selected: etree.Element | None = None
         siblings = self._top_level_list_items(search_range, locator.list_items[0].kind)
@@ -743,10 +746,9 @@ class MarkdownSelector:
         if selected is None:
             return None
 
-        plain, positions = self._plain_text_with_positions(selected)
-
         # With no text selection, the complete list item is highlighted
         if parsed_selector.text_selection is None:
+            plain, positions = self._plain_text_with_positions(selected)
             return SelectorMatch(
                 element=selected,
                 text=plain,
@@ -754,27 +756,38 @@ class MarkdownSelector:
                 coverage=parsed_selector.coverage if parsed_selector.coverage is not None else self.MAX_COVERAGE,
             )
 
+        return self._match_text((selected,), parsed_selector)
+
+    def _match_text(
+        self,
+        elements: Iterable[etree.Element],
+        parsed_selector: ParsedSelector,
+    ) -> SelectorMatch | None:
+        if parsed_selector.text_selection is None:
+            return None
         needle = self._normalize_plain_text(parsed_selector.text_selection.text)
         if not needle:
             return None
 
         # ``element_number`` is the occurrence (starting at 1) of the requested
         # text. Advancing by the full match length counts distinct occurrences
-        search_from = 0
-        match_index = -1
-        for _ in range(parsed_selector.text_selection.element_number):
-            match_index = plain.find(needle, search_from)
-            if match_index == -1:
-                return None
-            search_from = match_index + len(needle)
+        remaining = parsed_selector.text_selection.element_number
+        for element in elements:
+            plain, positions = self._plain_text_with_positions(element)
+            search_from = 0
+            while (match_index := plain.find(needle, search_from)) != -1:
+                remaining -= 1
+                if remaining == 0:
+                    matched_positions = positions[match_index : match_index + len(needle)]
+                    return SelectorMatch(
+                        element=element,
+                        text=plain[match_index : match_index + len(needle)],
+                        segments=self._merge_segments(matched_positions),
+                        coverage=(parsed_selector.coverage if parsed_selector.coverage is not None else self.MAX_COVERAGE),
+                    )
+                search_from = match_index + len(needle)
 
-        matched_positions = positions[match_index : match_index + len(needle)]
-        return SelectorMatch(
-            element=selected,
-            text=plain[match_index : match_index + len(needle)],
-            segments=self._merge_segments(matched_positions),
-            coverage=parsed_selector.coverage if parsed_selector.coverage is not None else self.MAX_COVERAGE,
-        )
+        return None
 
 
 # https://Markdown.github.io/extensions/api/

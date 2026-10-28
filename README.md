@@ -121,7 +121,7 @@ With `"case_insensitive": true` these asserts ignore case.
 ### pattern for `converter_tests[].is_testing` elements in `converter-testcases-20-21.json`
 
 ```
-<locator> ::= <ordinal> " " <list-item> {" " <list-item>}
+<locator> ::= <ordinal> {" " <list-item>}
 <ordinal> ::= "Firstly" | "Secondly" | ... | "Tenthly"
 <list-item> ::= (<bullet-list-item> | <numbered-list-item>) [<attachment>]
 <bullet-list-item> ::= ("•" | "◦" | "▪") <element-number>
@@ -134,4 +134,5 @@ With `"case_insensitive": true` these asserts ignore case.
 
 The specifiers are applied from left to right, and each specifier is searched for within the range matched by the previous specifier.  
 The `<element-number>` in `<text-selection>` specifies which occurrence of the string it refers to (starting at 1). When referring to the first occurrence this can be dropped.
+A `<locator>` without `<list-item>` refers to the whole block below the ordinal, including content after its list (e.g. tables), and requires a `<text-selection>`.
 In the JSON file the selector is then expressed like this: `[<locator>: string, [<text>: string, <element-number>: integer], <coverage>: integer]`

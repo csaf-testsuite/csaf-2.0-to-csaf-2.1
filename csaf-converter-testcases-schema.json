@@ -104,6 +104,9 @@
     "locator": { "type": "string",
                  "pattern": "^[A-Za-z]+ly(?: (?:[•◦▪][1-9][0-9]*|(?:[1-9][0-9]*|[a-z])\\.)(?:\\([^()]+\\))?)+$" },
 
+    "ordinalLocator": { "type": "string", "pattern": "^[A-Za-z]+ly$",
+                        "description": "Locator without list items. It refers to the whole block below the ordinal, including content after its list, and is therefore only allowed with a text selection." },
+
     "textSelection": {
       "type": "array",
       "prefixItems": [{ "type": "string", "minLength": 1 }, { "type": "integer", "minimum": 1 }],
@@ -117,7 +120,9 @@
         { "type": "array", "prefixItems": [{ "$ref": "#/$defs/locator" }], "minItems": 1, "maxItems": 1, "items": false },
         { "type": "array", "prefixItems": [{ "$ref": "#/$defs/locator" }, { "$ref": "#/$defs/textSelection" }], "minItems": 2, "maxItems": 2, "items": false },
         { "type": "array", "prefixItems": [{ "$ref": "#/$defs/locator" }, { "$ref": "#/$defs/coverage" }], "minItems": 2, "maxItems": 2, "items": false },
-        { "type": "array", "prefixItems": [{ "$ref": "#/$defs/locator" }, { "$ref": "#/$defs/textSelection" }, { "$ref": "#/$defs/coverage" }], "minItems": 3, "maxItems": 3, "items": false }
+        { "type": "array", "prefixItems": [{ "$ref": "#/$defs/locator" }, { "$ref": "#/$defs/textSelection" }, { "$ref": "#/$defs/coverage" }], "minItems": 3, "maxItems": 3, "items": false },
+        { "type": "array", "prefixItems": [{ "$ref": "#/$defs/ordinalLocator" }, { "$ref": "#/$defs/textSelection" }], "minItems": 2, "maxItems": 2, "items": false },
+        { "type": "array", "prefixItems": [{ "$ref": "#/$defs/ordinalLocator" }, { "$ref": "#/$defs/textSelection" }, { "$ref": "#/$defs/coverage" }], "minItems": 3, "maxItems": 3, "items": false }
       ]
     }
   }

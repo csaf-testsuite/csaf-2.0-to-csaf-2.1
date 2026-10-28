@@ -224,6 +224,49 @@ function findAllTextMatches(root, selectedText) {
   return matches;
 }
 
+// Text selection outside of list items, e.g. in a table below a list.
+document.addEventListener("mouseup", () => {
+  const selection = window.getSelection();
+  const selectedText = normalizeLocatorText(selection?.toString() ?? "");
+
+  if (!selectedText || !selection?.rangeCount) {
+    return;
+  }
+
+  const selectedRange = selection.getRangeAt(0);
+  const node = selectedRange.commonAncestorContainer;
+  const ordinalOf = (p) =>
+    ORDINALS.find((item) => p.textContent.trim().startsWith(`${item},`));
+  const ordinalParagraphs = [...document.querySelectorAll("p")].filter(
+    ordinalOf,
+  );
+  const start = ordinalParagraphs.findLast(
+    (p) => p.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_FOLLOWING,
+  );
+
+  const blocks = [];
+  for (
+    let block = start?.nextElementSibling;
+    block && !ordinalParagraphs.includes(block);
+    block = block.nextElementSibling
+  ) {
+    blocks.push(block);
+  }
+
+  if (!blocks.some((block) => block.contains(node))) {
+    return;
+  }
+
+  const index = blocks
+    .flatMap((block) => findAllTextMatches(block, selectedText))
+    .findIndex((range) => rangesEqual(range, selectedRange));
+
+  highlightRange(selectedRange);
+  setLocator(
+    JSON.stringify([ordinalOf(start), [selectedText, index + 1 || 1]]),
+  );
+});
+
 function findTextRange(root, selectedText, occurrence = 1) {
   const matches = findAllTextMatches(root, selectedText);
 
