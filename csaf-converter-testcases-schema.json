@@ -33,6 +33,10 @@
           "requirement_level": { "enum": [ "MUST", "SHOULD", "MAY" ],
                                  "description": "Requirement level of the test case, expressing in three RFC2119 terms. If not given, default is `MUST`."},
 
+          "converter_options": { "type": "array", "minItems": 1, "uniqueItems": true,
+                                 "items": { "enum": [ "force" ] },
+                                 "description": "Non-default options of the converter that the test case requires. `force`: process an invalid input document instead of rejecting it."},
+
           "asserts": { "type": "array", "minItems": 1, "uniqueItems": true,
             "description": "List of conditions that must all be met by the output of a converter run to pass the test. Messages or conversions that are not explicitly tested by a condition, will not be detected. Thus, if negative side effects are suspected, additional conditions can be used, e.g. to test that some properties in the documents stay unmodified.",
             "items": { "oneOf": [
@@ -64,10 +68,20 @@
                   "additionalProperties": false,
                   "properties": {
                       "type": { "enum": [ "warningmsg", "errormsg" ] },
-                      "substring_matches" : {
-                          "type": "array", "minItems": 1, "uniqueItems": true,
-                          "items": { "type": "string", "minLength": 1}
-                      },
+                      "substring_matches" : { "$ref": "#/$defs/substringMatches" },
+                      "case_insensitive": { "$ref": "#/$defs/caseInsensitive" },
+                      "comment": { "type": "string", "minLength": 1 }
+                  },
+                  "required": ["type", "substring_matches"]
+                },
+
+                { "type": "object",
+                  "description": "No single error or warning message of the converter run may contain all `substring_matches`.",
+                  "additionalProperties": false,
+                  "properties": {
+                      "type": { "enum": [ "no_warningmsg", "no_errormsg" ] },
+                      "substring_matches" : { "$ref": "#/$defs/substringMatches" },
+                      "case_insensitive": { "$ref": "#/$defs/caseInsensitive" },
                       "comment": { "type": "string", "minLength": 1 }
                   },
                   "required": ["type", "substring_matches"]
@@ -79,6 +93,14 @@
     }
   },
   "$defs": {
+    "substringMatches": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1}
+    },
+
+    "caseInsensitive": { "type": "boolean",
+                         "description": "Compare `substring_matches` and messages without regard to case. If not given, default is `false`." },
+
     "locator": { "type": "string",
                  "pattern": "^[A-Za-z]+ly(?: (?:[•◦▪][1-9][0-9]*|(?:[1-9][0-9]*|[a-z])\\.)(?:\\([^()]+\\))?)+$" },
 

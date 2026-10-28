@@ -113,6 +113,11 @@ The test runner implementation therefore needs an RFC 9535 compliant library.
 The `requirement_level` of a test is optional to specify if the test
 `MUST`, `SHOULD` or `MAY` succeed; when missing, it MUST.
 
+The `warningmsg` and `errormsg` asserts require that a single message
+contains all `substring_matches`. Their counterparts `no_warningmsg` and
+`no_errormsg` require that no single message contains all of them.
+With `"case_insensitive": true` these asserts ignore case.
+
 ### pattern for `converter_tests[].is_testing` elements in `converter-testcases-20-21.json`
 
 ```
