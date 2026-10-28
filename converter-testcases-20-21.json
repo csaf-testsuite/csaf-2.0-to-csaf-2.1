@@ -2951,6 +2951,66 @@
           "value": true
         }
       ]
+    },
+    {
+      "input": "testcase-61-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦4", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid product tree, it SHALL issue an error that an invalid product tree with an upper open ended product version range in one path was detected and could not be resolved.", 1]]],
+      "remark": "Reject an upper open ended range with more than one version constraint whose last constraint uses >. Ending the range with 2.0 would include the previously excluded version 2.0 and change the inclusion boundaries.",
+      "asserts": [
+        {
+          "type": "errormsg",
+          "substring_matches": [
+            "invalid product tree",
+            "upper open ended",
+            "range",
+            "detected",
+            "could not be resolved",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:intdot/<1.0|>2.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": false
+        }
+      ]
+    },
+    {
+      "input": "testcase-62-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦4 a."]],
+      "remark": "Convert a single strict lower-bound constraint into its boundary version as prescribed by the specification, even though this includes a previously excluded version.",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "upper open ended",
+            "range",
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:intdot/>2.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].category",
+          "expected_result": [
+            "product_version"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].name",
+          "expected_result": [
+            "2.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
     }
   ]
 }
