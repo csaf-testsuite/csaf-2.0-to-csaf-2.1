@@ -31,6 +31,17 @@
       ]
     },
     {
+      "input": "testcase-1-20260311-1512-isduba-2026-001.json",
+      "is_testing": [["Firstly •3", 50]],
+      "remark": "reject an input that fails the CSAF 2.0 schema (additional property) when the converter is not forced",
+      "asserts": [
+        {
+          "type": "success",
+          "value": false
+        }
+      ]
+    },
+    {
       "input": "testcase-60-isduba-2026-001.json",
       "is_testing": [["Secondly •1", ["value type string with format date-time: If the value contains a 60 in the seconds place, the CSAF 2.0 to CSAF 2.1 Converter SHALL replace the seconds and their fractions with 59.999999. In addition, the converter issues a warning that leap seconds are now prohibited in CSAF and the value has been replaced.", 1]]],
       "remark": "leap second replacement and warning. Test only uses three paths as samples to be tested from the 14 paths given in CSAF 2.1-csd04 6.1.37 that can have date-time values. The input only uses the historical leap second 2016-12-31T23:59:60Z and is therefore valid CSAF 2.0.",
@@ -2405,6 +2416,17 @@
         {
           "type": "success",
           "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-44-isduba-2026-001.json",
+      "is_testing": [["Firstly •3", 50]],
+      "remark": "reject an input that fails CSAF 2.0 mandatory test 6.1.25 (repeated sha512 hash) when the converter is not forced",
+      "asserts": [
+        {
+          "type": "success",
+          "value": false
         }
       ]
     },
