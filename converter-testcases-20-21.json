@@ -5,7 +5,8 @@
     {
       "input": "testcase-1-20260311-1512-isduba-2026-001.json",
       "is_testing": [["Firstly •4"]],
-      "remark": "testing the removal of an additional property",
+      "remark": "testing the removal of an additional property. An additional property makes the input invalid CSAF 2.0, so the converter has to be forced to process it.",
+      "converter_options": ["force"],
       "asserts": [
         {
           "type": "warningmsg",
@@ -30,9 +31,9 @@
       ]
     },
     {
-      "input": "testcase-2-20260312-1651-isduba-2025-01.json",
+      "input": "testcase-60-isduba-2026-001.json",
       "is_testing": [["Secondly •1", ["value type string with format date-time: If the value contains a 60 in the seconds place, the CSAF 2.0 to CSAF 2.1 Converter SHALL replace the seconds and their fractions with 59.999999. In addition, the converter issues a warning that leap seconds are now prohibited in CSAF and the value has been replaced.", 1]]],
-      "remark": "leap second replacement and warning. Test only uses three paths as samples to be tested from the 12 paths given in CSAF 2.1-csd02 6.1.37 that can have date-time values.",
+      "remark": "leap second replacement and warning. Test only uses three paths as samples to be tested from the 14 paths given in CSAF 2.1-csd04 6.1.37 that can have date-time values. The input only uses the historical leap second 2016-12-31T23:59:60Z and is therefore valid CSAF 2.0.",
       "asserts": [
         { "type": "warningmsg",
           "substring_matches": [
@@ -57,14 +58,22 @@
           "query": "$..[?search(@.initial_release_date, ':60[Z+-]')].initial_release_date",
           "expected_result": []
         },
+        {
+          "type": "jsonpath",
+          "query": "$.document.tracking.revision_history[0].date",
+          "expected_result": [
+            "2016-12-31T23:59:59.999999Z"
+          ]
+        },
         { "type": "success", "value": true }
       ]
     },
     {
       "input": "testcase-2-20260312-1651-isduba-2025-01.json",
       "is_testing": [["Secondly •1", ["The CSAF 2.0 to CSAF 2.1 Converter SHOULD indicate in such warning message whether the value was a valid leap second or not.", 1]]],
-      "remark": "identify a non-historical leap second as invalid in the replacement warning",
+      "remark": "identify a non-historical leap second as invalid in the replacement warning. The non-historical leap second makes the input invalid CSAF 2.0, so the converter has to be forced to process it.",
       "requirement_level": "SHOULD",
+      "converter_options": ["force"],
       "asserts": [
         {
           "type": "warningmsg",
@@ -181,7 +190,7 @@
       ]
     },
     {
-      "input": "testcase-1-20260311-1512-isduba-2026-001.json",
+      "input": "testcase-3-20260313-1429-isduba-2026-001.json",
       "is_testing": [["Secondly •22", ["$.document.publisher.category: If the value is other, the CSAF 2.0 to CSAF 2.1 Converter SHOULD issue a warning that some parties have been regrouped into the new value multiplier.", 1]]],
       "remark": "Testing SHOULD warning for /document/publisher/category == 'other'",
       "requirement_level": "SHOULD",
@@ -1428,8 +1437,9 @@
     },
     {
       "input": "testcase-30-a-isduba-2026-001.json",
-      "is_testing": [["Secondly •27 ◦1"],
-                     ["Secondly •27 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL determine the CWE specification version the given CWE was selected from by using the latest version that matches the id and name exactly and was published prior to the value of $.document.tracking.current_release_date of the source document.", 1]]],
+      "is_testing": [["Secondly •27 ◦1"]],
+      "remark": "The surrounding white space makes the CWE name fail CSAF 2.0 test 6.1.11, so the converter has to be forced to process the input. testcase-30-c tests the version determination with valid input.",
+      "converter_options": ["force"],
       "asserts": [
         {
           "type": "jsonpath",
@@ -1493,6 +1503,43 @@
           "query": "$.vulnerabilities[0].cwes[0].version",
           "expected_result": [
             "1.12"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-30-c-isduba-2026-001.json",
+      "is_testing": [["Secondly •27 ◦2", ["The CSAF 2.0 to CSAF 2.1 Converter SHALL determine the CWE specification version the given CWE was selected from by using the latest version that matches the id and name exactly and was published prior to the value of $.document.tracking.current_release_date of the source document.", 1]]],
+      "remark": "CWE 4.19.1 (2026-01-21) is the latest version published before the document release date 2026-02-12 and matches both the id and name exactly. CWE 4.20 was published 2026-04-30.",
+      "asserts": [
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwe",
+          "expected_result": []
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwes[0].id",
+          "expected_result": [
+            "CWE-94"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwes[0].name",
+          "expected_result": [
+            "Improper Control of Generation of Code ('Code Injection')"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.vulnerabilities[0].cwes[0].version",
+          "expected_result": [
+            "4.19.1"
           ]
         },
         {
@@ -2336,6 +2383,8 @@
     {
       "input": "testcase-44-isduba-2026-001.json",
       "is_testing": [["Secondly •5"]],
+      "remark": "The repeated sha512 hash makes the input fail CSAF 2.0 test 6.1.25, so the converter has to be forced to process it.",
+      "converter_options": ["force"],
       "asserts": [
         {
           "type": "jsonpath",
