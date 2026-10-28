@@ -282,7 +282,8 @@
         {
           "type": "warningmsg",
           "substring_matches": [
-            "upper open ended product_version_range",
+            "upper open ended",
+            "range",
             "resolved",
             "invalid product tree",
             "detected",
@@ -311,7 +312,8 @@
         {
           "type": "warningmsg",
           "substring_matches": [
-            "upper open ended product_version_range",
+            "upper open ended",
+            "range",
             "resolved"
           ]
         },
@@ -2237,7 +2239,8 @@
           "type": "errormsg",
           "substring_matches": [
             "invalid product tree",
-            "upper open ended product version range",
+            "upper open ended",
+            "range",
             "detected",
             "could not be resolved",
             "$.product_tree.branches[0].branches[0].branches[0]",
