@@ -401,7 +401,32 @@
     {
       "input": "testcase-11-isduba-2026-001.json",
       "is_testing": [["Secondly •3($['$defs'].full_product_name_t..product_identification_helper..cpe)"]],
-      "remark": "ensure removal of a CPE with invalid percent encoding (%zz), which passes the CSAF schema pattern",
+      "remark": "ensure removal of an invalid CPE. The CSAF 2.0 cpe pattern anchors only one of its alternatives, so a prefix before a CPE 2.2 URI passes the CSAF 2.0 schema but not the CSAF 2.1 schema.",
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "invalid CPE",
+            "removed",
+            "PREFIXcpe:/o:isdubadevelopmentcommunity:isduba:1.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..product_identification_helper.cpe",
+          "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-11-b-isduba-2026-001.json",
+      "is_testing": [["Secondly •3($['$defs'].full_product_name_t..product_identification_helper..cpe)"]],
+      "remark": "ensure removal of a CPE with invalid percent encoding (%zz). It passes the cpe pattern of both CSAF 2.0 and CSAF 2.1, so detecting it requires checking the CPE beyond the schema pattern.",
       "requirement_level": "SHOULD",
       "asserts": [
         {
