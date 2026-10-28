@@ -40,6 +40,7 @@ from markdown.treeprocessors import Treeprocessor
 REVISIONS = {
     "2.1-csd02": "https://docs.oasis-open.org/csaf/csaf/v2.1/csd02/csaf-v2.1-csd02.md",
     "2.1-csd03": "https://docs.oasis-open.org/csaf/csaf/v2.1/csd03/csaf-v2.1-csd03.md",
+    "2.1-csd04": "https://docs.oasis-open.org/csaf/csaf/v2.1/csd04/csaf-v2.1-csd04.md",
 }
 
 COMMIT_TAG_PATTERN = re.compile(r"^[0-9a-f]{6,40}$")
@@ -1510,7 +1511,7 @@ def main() -> None:
         type=str,
         help="ID of revision to generate HTML for",
         required=False,
-        default="2.1-csd03",
+        default="2.1-csd04",
     )
     interactive_selection_parser.add_argument(
         "--output",
