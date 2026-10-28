@@ -51,7 +51,7 @@
                   "name": "ISDuBA all versions",
                   "product_id": "isduba-all-versions",
                   "product_identification_helper": {
-                    "cpe": "cpe:/o:isdubadevelopmentcommunity:isduba:1.0"
+                    "cpe": "cpe:/o:isdubadevelopmentcommunity:isduba%zz:1.0"
                   }
                 }
               }
