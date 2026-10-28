@@ -496,7 +496,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.model_numbers",
+          "query": "$.product_tree.branches..product.product_identification_helper.model_numbers",
           "expected_result": [
             [
               "model*"
@@ -526,7 +526,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.serial_numbers",
+          "query": "$.product_tree.branches..product.product_identification_helper.serial_numbers",
           "expected_result": [
             [
               "serial*"
@@ -556,7 +556,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.skus",
+          "query": "$.product_tree.branches..product.product_identification_helper.skus",
           "expected_result": [
             [
               "skus*"
@@ -584,7 +584,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.model_numbers",
+          "query": "$.product_tree.branches..product.product_identification_helper.model_numbers",
           "expected_result": [
             [
               "mo\\\\del*"
@@ -604,7 +604,7 @@
       "asserts": [
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.model_numbers[0]",
+          "query": "$.product_tree.branches..product.product_identification_helper.model_numbers[0]",
           "expected_result": [
             "model\\\\number*"
           ]
@@ -630,7 +630,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.serial_numbers",
+          "query": "$.product_tree.branches..product.product_identification_helper.serial_numbers",
           "expected_result": [
             [
               "ser\\\\ial*"
@@ -650,7 +650,7 @@
       "asserts": [
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.serial_numbers[0]",
+          "query": "$.product_tree.branches..product.product_identification_helper.serial_numbers[0]",
           "expected_result": [
             "serial\\\\number*"
           ]
@@ -676,7 +676,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.skus",
+          "query": "$.product_tree.branches..product.product_identification_helper.skus",
           "expected_result": [
             [
               "sku\\\\s*"
@@ -696,7 +696,7 @@
       "asserts": [
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.skus[0]",
+          "query": "$.product_tree.branches..product.product_identification_helper.skus[0]",
           "expected_result": [
             "sku\\\\number*"
           ]
