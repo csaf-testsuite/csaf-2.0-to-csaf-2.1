@@ -288,7 +288,7 @@
             "invalid product tree",
             "detected",
             "$.product_tree.branches[0].branches[0].branches[0]",
-            "vers:all/>=1.0"
+            "vers:intdot/>=1.0"
           ]
         },
         {
@@ -307,7 +307,7 @@
     {
       "input": "testcase-8-isduba-2026-001.json",
       "is_testing": [["Secondly •2($['$defs'].branches_t) ◦4 b."]],
-      "remark": "resolve upper open ended range with more than one version constraints. The expected new value depends on the interpretation of 'ending with the version of the upper open ended product version' and is not asserted yet.",
+      "remark": "resolve upper open ended range with more than one version constraints. The last constraint >=2.0 becomes 2.0, which keeps the inclusion boundary.",
       "asserts": [
         {
           "type": "warningmsg",
@@ -318,7 +318,8 @@
             "invalid product tree",
             "detected",
             "$.product_tree.branches[0].branches[0].branches[0]",
-            "vers:all/1.0|>=2.0"
+            "vers:intdot/<1.0|>=2.0",
+            "vers:intdot/<1.0|2.0"
           ]
         },
         {
@@ -326,6 +327,13 @@
           "query": "$.product_tree.branches[0].branches[0].branches[0].category",
           "expected_result": [
             "product_version_range"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].name",
+          "expected_result": [
+            "vers:intdot/<1.0|2.0"
           ]
         },
         {
@@ -350,7 +358,7 @@
             "invalid product tree",
             "detected",
             "$.product_tree.branches[0].branches[0].branches[0]",
-            "vers:all/0.14.0"
+            "vers:intdot/0.14.0"
           ]
         },
         {
