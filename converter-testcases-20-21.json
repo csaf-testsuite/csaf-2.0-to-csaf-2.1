@@ -282,12 +282,13 @@
         {
           "type": "warningmsg",
           "substring_matches": [
-            "upper open ended product_version_range",
+            "upper open ended",
+            "range",
             "resolved",
             "invalid product tree",
             "detected",
             "$.product_tree.branches[0].branches[0].branches[0]",
-            "vers:all/>=1.0"
+            "vers:intdot/>=1.0"
           ]
         },
         {
@@ -306,13 +307,33 @@
     {
       "input": "testcase-8-isduba-2026-001.json",
       "is_testing": [["Secondly •2($['$defs'].branches_t) ◦4 b."]],
-      "remark": "resolve upper open ended range with more than one version constraints",
+      "remark": "resolve upper open ended range with more than one version constraints. The last constraint >=2.0 becomes 2.0, which keeps the inclusion boundary.",
       "asserts": [
         {
           "type": "warningmsg",
           "substring_matches": [
-            "upper open ended product_version_range",
-            "resolved"
+            "upper open ended",
+            "range",
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:intdot/<1.0|>=2.0",
+            "vers:intdot/<1.0|2.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].category",
+          "expected_result": [
+            "product_version_range"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].name",
+          "expected_result": [
+            "vers:intdot/<1.0|2.0"
           ]
         },
         {
@@ -337,7 +358,7 @@
             "invalid product tree",
             "detected",
             "$.product_tree.branches[0].branches[0].branches[0]",
-            "vers:all/0.14.0"
+            "vers:intdot/0.14.0"
           ]
         },
         {
@@ -388,7 +409,7 @@
     {
       "input": "testcase-11-isduba-2026-001.json",
       "is_testing": [["Secondly •3($['$defs'].full_product_name_t..product_identification_helper..cpe)"]],
-      "remark": "ensure removal of invalid CPE string",
+      "remark": "ensure removal of an invalid CPE. The CSAF 2.0 cpe pattern anchors only one of its alternatives, so a prefix before a CPE 2.2 URI passes the CSAF 2.0 schema but not the CSAF 2.1 schema.",
       "requirement_level": "SHOULD",
       "asserts": [
         {
@@ -396,7 +417,32 @@
           "substring_matches": [
             "invalid CPE",
             "removed",
-            "cpe:/o:isdubadevelopmentcommunity:isduba:1.0"
+            "PREFIXcpe:/o:isdubadevelopmentcommunity:isduba:1.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$..product_identification_helper.cpe",
+          "expected_result": []
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-11-b-isduba-2026-001.json",
+      "is_testing": [["Secondly •3($['$defs'].full_product_name_t..product_identification_helper..cpe)"]],
+      "remark": "ensure removal of a CPE with invalid percent encoding (%zz). It passes the cpe pattern of both CSAF 2.0 and CSAF 2.1, so detecting it requires checking the CPE beyond the schema pattern.",
+      "requirement_level": "SHOULD",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "invalid CPE",
+            "removed",
+            "cpe:/o:isdubadevelopmentcommunity:isduba%zz:1.0"
           ]
         },
         {
@@ -496,7 +542,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.model_numbers",
+          "query": "$.product_tree.branches..product.product_identification_helper.model_numbers",
           "expected_result": [
             [
               "model*"
@@ -526,7 +572,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.serial_numbers",
+          "query": "$.product_tree.branches..product.product_identification_helper.serial_numbers",
           "expected_result": [
             [
               "serial*"
@@ -556,7 +602,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.skus",
+          "query": "$.product_tree.branches..product.product_identification_helper.skus",
           "expected_result": [
             [
               "skus*"
@@ -584,7 +630,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.model_numbers",
+          "query": "$.product_tree.branches..product.product_identification_helper.model_numbers",
           "expected_result": [
             [
               "mo\\\\del*"
@@ -604,7 +650,7 @@
       "asserts": [
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.model_numbers[0]",
+          "query": "$.product_tree.branches..product.product_identification_helper.model_numbers[0]",
           "expected_result": [
             "model\\\\number*"
           ]
@@ -630,7 +676,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.serial_numbers",
+          "query": "$.product_tree.branches..product.product_identification_helper.serial_numbers",
           "expected_result": [
             [
               "ser\\\\ial*"
@@ -650,7 +696,7 @@
       "asserts": [
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.serial_numbers[0]",
+          "query": "$.product_tree.branches..product.product_identification_helper.serial_numbers[0]",
           "expected_result": [
             "serial\\\\number*"
           ]
@@ -676,7 +722,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.skus",
+          "query": "$.product_tree.branches..product.product_identification_helper.skus",
           "expected_result": [
             [
               "sku\\\\s*"
@@ -696,7 +742,7 @@
       "asserts": [
         {
           "type": "jsonpath",
-          "query": "$.product_tree.branches..product.skus[0]",
+          "query": "$.product_tree.branches..product.product_identification_helper.skus[0]",
           "expected_result": [
             "sku\\\\number*"
           ]
@@ -765,7 +811,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.vulnerabilities[0].remediations[?(@.category=='optional_patch')].products",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='optional_patch')].product_ids",
           "expected_result": [
             [
               "isduba-all-versions"
@@ -2237,7 +2283,8 @@
           "type": "errormsg",
           "substring_matches": [
             "invalid product tree",
-            "upper open ended product version range",
+            "upper open ended",
+            "range",
             "detected",
             "could not be resolved",
             "$.product_tree.branches[0].branches[0].branches[0]",
@@ -2897,6 +2944,66 @@
             "https://github.com/oasis-tcs/csaf",
             "#1219",
             "$.vulnerabilities[0].ids[4]"
+          ]
+        },
+        {
+          "type": "success",
+          "value": true
+        }
+      ]
+    },
+    {
+      "input": "testcase-61-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦4", ["If the CSAF 2.0 to CSAF 2.1 Converter is unable to create a valid product tree, it SHALL issue an error that an invalid product tree with an upper open ended product version range in one path was detected and could not be resolved.", 1]]],
+      "remark": "Reject an upper open ended range with more than one version constraint whose last constraint uses >. Ending the range with 2.0 would include the previously excluded version 2.0 and change the inclusion boundaries.",
+      "asserts": [
+        {
+          "type": "errormsg",
+          "substring_matches": [
+            "invalid product tree",
+            "upper open ended",
+            "range",
+            "detected",
+            "could not be resolved",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:intdot/<1.0|>2.0"
+          ]
+        },
+        {
+          "type": "success",
+          "value": false
+        }
+      ]
+    },
+    {
+      "input": "testcase-62-isduba-2026-001.json",
+      "is_testing": [["Secondly •2 ◦4 a."]],
+      "remark": "Convert a single strict lower-bound constraint into its boundary version as prescribed by the specification, even though this includes a previously excluded version.",
+      "asserts": [
+        {
+          "type": "warningmsg",
+          "substring_matches": [
+            "upper open ended",
+            "range",
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:intdot/>2.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].category",
+          "expected_result": [
+            "product_version"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].name",
+          "expected_result": [
+            "2.0"
           ]
         },
         {
