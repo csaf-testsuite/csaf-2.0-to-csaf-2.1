@@ -765,7 +765,7 @@
         },
         {
           "type": "jsonpath",
-          "query": "$.vulnerabilities[0].remediations[?(@.category=='optional_patch')].products",
+          "query": "$.vulnerabilities[0].remediations[?(@.category=='optional_patch')].product_ids",
           "expected_result": [
             [
               "isduba-all-versions"
