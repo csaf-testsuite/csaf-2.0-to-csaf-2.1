@@ -307,14 +307,25 @@
     {
       "input": "testcase-8-isduba-2026-001.json",
       "is_testing": [["Secondly •2($['$defs'].branches_t) ◦4 b."]],
-      "remark": "resolve upper open ended range with more than one version constraints",
+      "remark": "resolve upper open ended range with more than one version constraints. The expected new value depends on the interpretation of 'ending with the version of the upper open ended product version' and is not asserted yet.",
       "asserts": [
         {
           "type": "warningmsg",
           "substring_matches": [
             "upper open ended",
             "range",
-            "resolved"
+            "resolved",
+            "invalid product tree",
+            "detected",
+            "$.product_tree.branches[0].branches[0].branches[0]",
+            "vers:all/1.0|>=2.0"
+          ]
+        },
+        {
+          "type": "jsonpath",
+          "query": "$.product_tree.branches[0].branches[0].branches[0].category",
+          "expected_result": [
+            "product_version_range"
           ]
         },
         {
