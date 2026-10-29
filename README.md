@@ -10,18 +10,19 @@
 
 
 # csaf-2.0-to-csaf-2.1
-Test data for the CSAF 2.0 to CSAF 2.1 conversion
+Test data for the CSAF 2.0 to CSAF 2.1 conversion,
+see [what it covers](https://csaf-testsuite.github.io/csaf-2.0-to-csaf-2.1/)
 
 Goal: support implementations of "CSAF 2.0 to CSAF 2.1 Converter"
       by making tests available for testing this conformance profile.
 
-**in development**
+**Status beta**, with SHALL coverage >= 80%.
 
-Some experimental tests are specified in `converter-testcases-20-21.json`,
+Tests are specified in `converter-testcases-20-21.json`,
 which draw on input files from `input/`.
 
-Tests come from
-[CSAF v2.1 draft - development version - 9.1.18 Conformance Clause 18](https://github.com/oasis-tcs/csaf/blob/master/csaf_2.1/prose/share/csaf-v2.1-draft.md#conformance-clause-18-csaf-2-0-to-csaf-2-1-converter)
+They follow CSAF 2.1 as indicated in `output_csaf_revision` of the file.
+See [CSAF v2.1 draft - development version - 9.1.18 Conformance Clause 18](https://github.com/oasis-tcs/csaf/blob/master/csaf_2.1/prose/share/csaf-v2.1-draft.md#conformance-clause-18-csaf-2-0-to-csaf-2-1-converter)
 
 `prototype_runtests.py` is an experimental test runner to demonstrate
 how a runner could work.
@@ -68,6 +69,7 @@ A typical run of testing a converter imagined:
    (By using existing validators.)
    If the input file is not a valid 2.0 document,
    a converter will not be required to produce a valid output file.
+   **Note some required conversions work on invalid 2.0 documents.**
 
 2. Run the converter, record return values, messages and files.
 
